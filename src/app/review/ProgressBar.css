@@ -1,0 +1,8 @@
+.ProgressBar {
+  height: 12px;
+}
+
+.ProgressBar-bar {
+  background-color: #1574fb;
+  transition: all 0.2s ease-in-out;
+}

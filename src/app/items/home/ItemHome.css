@@ -1,0 +1,29 @@
+.item-home-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.item-home-panel {
+  align-items: center;
+  display: flex;
+  hyphens: auto;
+  justify-content: center;
+  min-height: 300px;
+  padding: 12px;
+  position: relative;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+.item-home-panel .time-left {
+  position: absolute;
+  right: 16px;
+  top: 12px;
+}
+
+.item-home-panel .panel-face {
+  left: 16px;
+  position: absolute;
+  top: 12px;
+}

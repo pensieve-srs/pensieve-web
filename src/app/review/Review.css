@@ -1,0 +1,27 @@
+.review-container-panel {
+  align-items: center;
+  cursor: pointer;
+  display: flex;
+  hyphens: auto;
+  justify-content: center;
+  min-height: 300px;
+  position: relative;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+.review-container-panel .panel-face {
+  left: 16px;
+  position: absolute;
+  top: 12px;
+}
+
+.review-container-count {
+  color: #777a82;
+  font-style: italic;
+  font-size: 16px;
+}
+
+.review-container .interval {
+  color: #073a83;
+}

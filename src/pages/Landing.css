@@ -1,0 +1,58 @@
+.landing-page .navbar {
+  background: #1574fb !important;
+}
+
+.landing-page .navbar-brand {
+  color: white !important;
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
+}
+
+.landing-page .nav-link {
+  color: white;
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
+}
+
+.landing-hero {
+  background: #1574fb;
+  color: white;
+}
+
+.landing-hero .btn-light {
+  color: #1574fb;
+  padding: 10px 15px;
+}
+
+.landing-hero h1,
+.landing-hero h2 {
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
+}
+
+.landing-copy {
+  max-width: 440px;
+}
+
+.landing-box .border {
+  border-color: #4b4b4b !important;
+}
+
+.landing-box .lead {
+  text-align: center;
+}
+
+.landing-info .btn-primary {
+  padding: 10px 15px;
+}
+
+.landing-info .lead {
+  line-height: 1.8em;
+}
+
+.landing-footer {
+  background: #1574fb;
+  color: white !important;
+}
+
+.landing-footer a {
+  color: white;
+  text-decoration: underline;
+}
