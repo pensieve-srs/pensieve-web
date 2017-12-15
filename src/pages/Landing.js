@@ -1,9 +1,16 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 import "./Landing.css";
 
 class Landing extends Component {
+  componentWillMount() {
+    axios
+      .get("/test")
+      .then(response => console.log("response", response), error => console.log("error", error));
+  }
+
   render() {
     return (
       <div className="landing-page">

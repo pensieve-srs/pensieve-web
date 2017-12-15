@@ -4,8 +4,6 @@ import { Button, Form } from "semantic-ui-react";
 import cookie from "js-cookie";
 import axios from "axios";
 
-import { NavBar, Footer } from "../../components";
-
 class Signup extends Component {
   constructor(props) {
     super(props);
@@ -45,7 +43,6 @@ class Signup extends Component {
   render() {
     return (
       <div className="signup-page">
-        <NavBar />
         <div className="container mt-5">
           <div className="row">
             <div className="col-sm-8 offset-sm-2 col-md-6 offset-md-3">
@@ -94,7 +91,6 @@ class Signup extends Component {
             </div>
           </div>
         </div>
-        <Footer />
       </div>
     );
   }

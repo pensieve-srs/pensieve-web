@@ -4,8 +4,6 @@ import { Button, Form } from "semantic-ui-react";
 import axios from "axios";
 import cookie from "js-cookie";
 
-import { NavBar, Footer } from "../../components";
-
 class Login extends Component {
   constructor(props) {
     super(props);
@@ -45,7 +43,6 @@ class Login extends Component {
   render() {
     return (
       <div className="login-page">
-        <NavBar />
         <div className="container mt-5">
           <div className="row">
             <div className="col-sm-8 offset-sm-2 col-md-6 offset-md-3">
@@ -85,7 +82,6 @@ class Login extends Component {
             </div>
           </div>
         </div>
-        <Footer />
       </div>
     );
   }

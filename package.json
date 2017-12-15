@@ -2,12 +2,16 @@
   "name": "pensieve-client",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://localhost:5000",
+  "proxy": "http://localhost:9000",
   "dependencies": {
     "axios": "^0.17.1",
+    "bcrypt-nodejs": "^0.0.3",
     "classnames": "^2.2.5",
     "js-cookie": "^2.2.0",
+    "jsonwebtoken": "^8.1.0",
     "moment": "^2.19.4",
+    "mongoose": "^4.13.7",
+    "morgan": "^1.9.0",
     "pluralize": "^7.0.0",
     "query-string": "^5.0.1",
     "react": "^16.2.0",
@@ -17,6 +21,7 @@
     "semantic-ui-react": "^0.77.1"
   },
   "scripts": {
+    "server": "node ./server/index.js",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",

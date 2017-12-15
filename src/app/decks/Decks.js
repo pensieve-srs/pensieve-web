@@ -38,6 +38,7 @@ class Decks extends Component {
     const config = { headers: { Authorization: cookie.get("token") } };
     axios.get("/api/decks", config).then(
       response => {
+        console.log("response", response.data);
         this.setState(() => ({ decks: response.data.decks }));
       },
       error => {
