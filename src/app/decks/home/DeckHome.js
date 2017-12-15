@@ -1,27 +1,28 @@
 import React, { Component } from "react";
-import { Button, Popup } from "semantic-ui-react";
+import { Button, Dropdown, Icon, Label, Segment } from "semantic-ui-react";
 import pluralize from "pluralize";
-import moment from "moment";
-import axios from "axios";
-import cookie from "js-cookie";
+
+import * as api from "../deckActions";
+import * as itemApi from "../../items/itemActions";
+
+import {
+  AddItemModal,
+  DeleteDeckModal,
+  EditDeckModal,
+  ResetDeckModal,
+  MODAL_TYPES,
+} from "../modals";
 
 import DeckItem from "./DeckItem";
-import "./DeckHome.css";
-
-const MODAL_TYPES = {
-  ADD_ITEM: "addItem",
-  DELETE_DECK: "deleteDeck",
-  EDIT_DECK: "editDeck",
-  RESET_DECK: "resetDeck",
-};
 
 const EmptyView = ({ title, description, emoji = "✌️" }) => (
-  <div className="empty view text-center ml-auto mr-auto mt-5 mb-5">
+  <div className="text-center ml-auto mr-auto my-5">
     <div className="text-center">
       <div className="row">
         <div className="col-md-6 offset-md-3">
-          <span className="empty-view-icon">{emoji}</span>
-          <h2 className="empty-view-title">{title}</h2>
+          <h2>
+            {emoji} {title}
+          </h2>
           <p className="text-secondary">{description}</p>
         </div>
       </div>
@@ -30,87 +31,161 @@ const EmptyView = ({ title, description, emoji = "✌️" }) => (
 );
 
 class DeckHome extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = { deck: {}, showModal: undefined };
-    this.onAddItem = this.onAddItem.bind(this);
-    this.onDeleteDeck = this.onDeleteDeck.bind(this);
-    this.onResetDeck = this.onResetDeck.bind(this);
-    this.onStudyDeck = this.onStudyDeck.bind(this);
-    this.onShowModal = this.onShowModal.bind(this);
-    this.onCloseModal = this.onCloseModal.bind(this);
-  }
+  state = {
+    deck: {},
+    showModalType: undefined,
+  };
 
   componentWillMount() {
     const { deckId } = this.props.match.params;
 
-    if (deckId) {
-      const config = { headers: { Authorization: cookie.get("token") } };
-
-      axios.get(`/api/decks/${deckId}`, config).then(
-        response => {
-          this.setState(() => ({ deck: response.data.deck }));
-        },
-        error => {
-          console.log("error", error);
-        },
-      );
-    }
+    this.fetchDeck(deckId);
   }
 
-  onShowModal(modalType) {
-    this.setState(() => ({ showModalType: modalType }));
-  }
+  onShowModal = modalType => this.setState({ showModalType: modalType });
 
-  onCloseModal() {
-    this.setState(() => ({ showModalType: undefined }));
-  }
+  onCloseModal = () => this.setState({ showModalType: undefined });
 
-  onAddItem(data) {
+  createItem = item => {
     const deckId = this.state.deck._id;
-    this.props.actions.createItem({
-      deck: deckId,
-      front: data.front,
-      back: data.back,
-    });
-    this.onCloseModal();
-  }
+    const { front, back } = item;
+    itemApi.createItem({ deck: deckId, front, back }).then(
+      response => {
+        this.setState(({ deck }) => {
+          const items = [...deck.items, response.data.item];
+          return { deck: { ...deck, items: items } };
+        });
+        this.onCloseModal();
+      },
+      error => {
+        console.log("error", error);
+      },
+    );
+  };
 
-  onEditDeck(data) {
-    const deckId = this.state.deck._id;
-    this.props.actions.editDeck({ deckId, ...data });
-    this.onCloseModal();
-  }
+  resetItem = itemId => {
+    itemApi.resetItem(itemId).then(
+      response => {
+        const newItem = response.data.item;
+        this.setState(({ deck }) => {
+          const items = deck.items.map(item => (item._id === newItem._id ? newItem : item));
+          return { deck: { ...deck, items: items } };
+        });
+      },
+      error => {
+        console.log("error", error);
+      },
+    );
+  };
 
-  onDeleteDeck() {
-    const deckId = this.state.deck._id;
-    this.props.actions.deleteDeck(deckId);
-    this.onCloseModal();
-  }
+  deleteItem = itemId => {
+    itemApi.deleteItem(itemId).then(
+      response => {
+        this.setState(({ deck }) => {
+          const items = deck.items.filter(item => item._id !== itemId);
+          console.log("items", items);
+          return { deck: { ...deck, items: items } };
+        });
+      },
+      error => {
+        console.log("error", error);
+      },
+    );
+  };
 
-  onResetDeck() {
-    const deckId = this.state.deck._id;
-    this.props.actions.resetDeck(deckId);
-    this.onCloseModal();
-  }
+  fetchDeck = deckId => {
+    api.fetchDeck(deckId).then(
+      response => {
+        this.setState({ deck: response.data.deck });
+      },
+      error => {
+        console.log("error", error);
+      },
+    );
+  };
 
-  onStudyDeck() {
+  editDeck = deck => {
+    api.editDeck(deck).then(
+      response => {
+        this.setState({ deck: response.data.deck });
+        this.onCloseModal();
+      },
+      error => {
+        console.log("error", error.response);
+      },
+    );
+  };
+
+  resetDeck = () => {
     const deckId = this.state.deck._id;
-    this.props.history.push(`/sessions/new?deckId=${deckId}`);
-  }
+    api.resetDeck(deckId).then(
+      response => {
+        this.setState({ deck: response.data.deck });
+        this.onCloseModal();
+      },
+      error => {
+        console.log("error", error);
+      },
+    );
+  };
+
+  studyDeck = () => {
+    const deckId = this.state.deck._id;
+    api.studyDeck(deckId).then(
+      response => {
+        this.props.history.push(`/sessions/${response.data.session._id}`);
+      },
+      error => {
+        console.log("error", error);
+      },
+    );
+  };
+
+  deleteDeck = () => {
+    const deckId = this.state.deck._id;
+    api.deleteDeck(deckId).then(
+      response => {
+        this.props.history.push(`/decks`);
+      },
+      error => {
+        console.log("error", error);
+      },
+    );
+  };
 
   render() {
-    const { deck = {} } = this.state;
+    const { deck = {}, showModalType } = this.state;
     const { items = [] } = deck;
 
     const numNewCards = items.filter(item => !item.nextReviewDate).length;
-    const numDueCards = items.filter(item => moment(item.nextReviewDate).isBefore(moment())).length;
+    const numDueCards = items.filter(item => new Date(item.nextReviewDate) < new Date()).length;
     const numInProgress = items.length - numNewCards - numDueCards;
+    const createdAt = new Date(deck.createdAt);
 
     return (
-      <div className="deck-home pt-5 pb-5">
-        <div className="container mt-3">
+      <div className="deck-home">
+        <AddItemModal
+          open={showModalType === MODAL_TYPES.ADD_ITEM}
+          onClose={this.onCloseModal}
+          onSubmit={this.createItem}
+        />
+        <DeleteDeckModal
+          open={showModalType === MODAL_TYPES.DELETE_DECK}
+          onClose={this.onCloseModal}
+          onSubmit={this.deleteDeck}
+        />
+        <EditDeckModal
+          deck={deck}
+          open={showModalType === MODAL_TYPES.EDIT_DECK}
+          onClose={this.onCloseModal}
+          onSubmit={this.editDeck}
+        />
+        <ResetDeckModal
+          open={showModalType === MODAL_TYPES.RESET_DECK}
+          onClose={this.onCloseModal}
+          onSubmit={this.resetDeck}
+        />
+        <div className="container">
           <div className="row">
             <div className="position-relative col-lg-10 offset-lg-1">
               <h6 className="text-secondary text-uppercase m-0 mt-3">DECK</h6>
@@ -118,12 +193,16 @@ class DeckHome extends Component {
               {deck.description && <p className="text-dark h5 mb-1">{deck.description}</p>}
               <div className="mt-1 mb-3">
                 <small className="text-secondary">
-                  {moment(deck.createdAt).format("MMMM D, YYYY")} &middot;{" "}
-                  {pluralize("card", items.length, true)}
+                  {createdAt.toLocaleDateString("en-US", {
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                  })}{" "}
+                  &middot; {pluralize("card", items.length, true)}
                 </small>
               </div>
               <div className="my-3">
-                <Button onClick={this.onStudyDeck} primary disabled={items.length === 0}>
+                <Button onClick={this.studyDeck} primary disabled={items.length === 0}>
                   Study now
                 </Button>
                 <Button
@@ -133,28 +212,33 @@ class DeckHome extends Component {
                   Add item +
                 </Button>
               </div>
-              <Popup
+              <Dropdown
                 on="click"
-                position="bottom right"
+                icon={false}
+                pointing="top right"
                 trigger={
-                  <Button className="deck-home-overflow position-absolute" basic size="small">
-                    <i className="fa fa-ellipsis-v fa-lg" aria-hidden="true" />
+                  <Button basic size="small">
+                    <Icon name="ellipsis vertical" className="m-0" />
                   </Button>
                 }
-                content={
-                  <Button.Group vertical>
-                    <Button onClick={() => this.onShowModal(MODAL_TYPES.EDIT_DECK)} basic>
-                      Edit Deck
-                    </Button>
-                    <Button onClick={() => this.onShowModal(MODAL_TYPES.RESET_DECK)} basic>
-                      Reset Deck
-                    </Button>
-                    <Button onClick={() => this.onShowModal(MODAL_TYPES.DELETE_DECK)} basic>
-                      Delete Deck
-                    </Button>
-                  </Button.Group>
-                }
-              />
+                style={{
+                  right: "12px",
+                  position: "absolute",
+                  top: "12px",
+                }}
+              >
+                <Dropdown.Menu>
+                  <Dropdown.Item onClick={() => this.onShowModal(MODAL_TYPES.EDIT_DECK)}>
+                    Edit Deck
+                  </Dropdown.Item>
+                  <Dropdown.Item onClick={() => this.onShowModal(MODAL_TYPES.RESET_DECK)}>
+                    Reset Deck
+                  </Dropdown.Item>
+                  <Dropdown.Item onClick={() => this.onShowModal(MODAL_TYPES.DELETE_DECK)}>
+                    Delete Deck
+                  </Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
               <hr />
             </div>
             <div className="col-lg-10 offset-lg-1">
@@ -162,28 +246,33 @@ class DeckHome extends Component {
                 <div>
                   {(numDueCards > 0 || numNewCards > 0 || numInProgress > 0) && (
                     <div className="mb-2 text-right">
-                      {numNewCards > 0 && (
-                        <span className="badge badge-info" style={{ padding: "6px" }}>
-                          {pluralize("new card", numNewCards, true)}
-                        </span>
-                      )}
                       {numDueCards > 0 && (
-                        <span className="badge badge-warning ml-2" style={{ padding: "6px" }}>
-                          {pluralize("due card", numDueCards, true)}
-                        </span>
+                        <Label color="yellow" className="ml-1">
+                          {numDueCards} Due
+                        </Label>
+                      )}
+                      {numNewCards > 0 && (
+                        <Label color="teal" className="ml-1">
+                          {numNewCards} New
+                        </Label>
                       )}
                       {numInProgress > 0 && (
-                        <span className="badge badge-secondary ml-2" style={{ padding: "6px" }}>
-                          {pluralize("later cards", numInProgress, true)}
-                        </span>
+                        <Label color="grey" className="ml-1">
+                          {numInProgress} Learning
+                        </Label>
                       )}
                     </div>
                   )}
-                  <div className="border rounded">
+                  <Segment.Group>
                     {items.map((item, key) => (
-                      <DeckItem key={key} item={item} actions={this.props.actions} />
+                      <DeckItem
+                        key={key}
+                        item={item}
+                        deleteItem={this.deleteItem}
+                        resetItem={this.resetItem}
+                      />
                     ))}
-                  </div>
+                  </Segment.Group>
                 </div>
               ) : (
                 <EmptyView

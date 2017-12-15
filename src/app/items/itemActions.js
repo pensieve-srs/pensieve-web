@@ -13,6 +13,12 @@ export const editItem = item => {
   return axios.put(`/api/items/${item._id}`, item, config);
 };
 
+export const createItem = params => {
+  const config = { headers: { Authorization: cookie.get("token") } };
+
+  return axios.post("/api/items", params, config);
+};
+
 export const deleteItem = itemId => {
   const config = { headers: { Authorization: cookie.get("token") } };
 

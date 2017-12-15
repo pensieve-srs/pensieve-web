@@ -9,14 +9,14 @@
   display: flex;
   hyphens: auto;
   justify-content: center;
-  min-height: 300px;
+  min-height: 350px;
   padding: 12px;
   position: relative;
   white-space: pre-wrap;
   word-wrap: break-word;
 }
 
-.item-home-panel .time-left {
+.item-home-panel .label {
   position: absolute;
   right: 16px;
   top: 12px;

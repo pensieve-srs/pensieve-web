@@ -16,14 +16,11 @@ const getItem = (req, res) => {
 };
 
 const createItem = (req, res) => {
-  const deckId = req.body.deck_id;
-  const userId = req.user._id;
-
   const item = new Item({
-    user: userId,
+    user: req.user._id,
     front: req.body.front,
     back: req.body.back,
-    deck: deckId,
+    deck: req.body.deck,
   });
 
   item.save().then(onSuccess(res), onError(res));
@@ -36,7 +33,9 @@ const editItem = (req, res) => {
 
   Object.keys(update).forEach(key => update[key] === undefined && delete update[key]);
 
-  Item.findOneAndUpdate(query, update, { new: true }).then(onSuccess(res), onError(res));
+  Item.findOneAndUpdate(query, update, { new: true })
+    .populate("deck")
+    .then(onSuccess(res), onError(res));
 };
 
 const deleteItem = (req, res) => {

@@ -1,20 +1,22 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
 import cx from "classnames";
 import pluralize from "pluralize";
-import cookie from "js-cookie";
-import axios from "axios";
+
+import * as api from "./homeActions";
 
 class Home extends Component {
-  constructor(props) {
-    super(props);
+  state = {
+    study: {},
+    learn: {},
+    review: {},
+  };
 
-    this.state = { study: {}, learn: {}, review: {} };
-  }
+  componentWillMount = () => {
+    this.fetchStudyTypes();
+  };
 
-  componentWillMount() {
-    const config = { headers: { Authorization: cookie.get("token") } };
-    axios.get("/api/study_types", config).then(
+  fetchStudyTypes = () => {
+    api.fetchStudyTypes().then(
       response => {
         const { study, learn, review } = response.data;
         this.setState(() => ({ study, learn, review }));
@@ -23,20 +25,31 @@ class Home extends Component {
         console.log("error", error);
       },
     );
-  }
+  };
+
+  createSession = sessionType => {
+    api.createSession(sessionType).then(
+      response => {
+        this.props.history.push(`/sessions/${response.data.session._id}`);
+      },
+      error => {
+        console.log("error", error);
+      },
+    );
+  };
 
   render() {
     const { study, learn, review } = this.state;
 
     return (
       <div className="study-page">
-        <div className="container mt-5">
+        <div className="container">
           <div className="row">
             <div className="col-md-10 offset-md-1 col-lg-8 offset-lg-2">
               <h5 className="mb-3">Choose your study type:</h5>
               <div className="list-group">
-                <Link
-                  to="/sessions/new"
+                <div
+                  onClick={() => this.createSession("study")}
                   className="study-group-item list-group-item list-group-action text-dark"
                 >
                   <div className="d-flex justify-content-between align-items-center">
@@ -61,9 +74,9 @@ class Home extends Component {
                     focuses on expanding your material while maximizing your recall of cards you
                     have already studied. This is good for balancing your learning session.
                   </p>
-                </Link>
-                <Link
-                  to={`/sessions/new/learn`}
+                </div>
+                <div
+                  onClick={() => this.createSession("learn")}
                   className="study-group-item list-group-item list-group-action text-dark"
                 >
                   <div className="d-flex justify-content-between align-items-center">
@@ -90,9 +103,9 @@ class Home extends Component {
                     introducing you to new material and expanding your knowledge base. This is good
                     if you are trying to learn a lot of material in a short time.
                   </p>
-                </Link>
-                <Link
-                  to={`/sessions/new/review`}
+                </div>
+                <div
+                  onClick={() => this.createSession("review")}
                   className="study-group-item list-group-item list-group-action text-dark"
                 >
                   <div className="d-flex justify-content-between align-items-center">
@@ -120,7 +133,7 @@ class Home extends Component {
                     items are due to be reviewed again and will not contain items you have just
                     learned.
                   </p>
-                </Link>
+                </div>
               </div>
             </div>
           </div>

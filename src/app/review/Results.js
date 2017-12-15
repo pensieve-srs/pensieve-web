@@ -5,8 +5,8 @@ class Results extends Component {
   render() {
     const { items } = this.props;
     return (
-      <div className="session-results review-page pt-5 pb-5">
-        <div className="container mt-5">
+      <div className="session-results review-page">
+        <div className="container">
           <div className="row">
             <div className="col-md-8 offset-md-2">
               <h5 className="mb-3">Results</h5>

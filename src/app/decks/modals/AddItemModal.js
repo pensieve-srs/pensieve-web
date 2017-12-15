@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Button, Form, Modal, TextArea } from "semantic-ui-react";
 
-class EditItemModal extends Component {
+class AddItemModal extends Component {
   state = { ...this.props.item };
 
   onChange = e => this.setState({ [e.target.name]: e.target.value });
@@ -14,28 +14,28 @@ class EditItemModal extends Component {
 
     return (
       <Modal open={open} onClose={onClose} size="tiny" className="position-relative">
-        <Modal.Header>Edit Item</Modal.Header>
+        <Modal.Header>Add Card</Modal.Header>
         <Modal.Content>
           <Form>
             <Form.Field required>
               <label htmlFor="front">Front</label>
               <TextArea
-                rows={4}
-                name="front"
                 value={front}
                 onChange={this.onChange}
+                name="front"
                 autoHeight
+                rows={4}
                 placeholder="Add to the card front..."
               />
             </Form.Field>
             <Form.Field>
               <label htmlFor="back">Back</label>
               <TextArea
-                rows={4}
-                name="back"
-                value={back}
                 onChange={this.onChange}
+                value={back}
+                name="back"
                 autoHeight
+                rows={4}
                 placeholder="Add to the card back..."
               />
             </Form.Field>
@@ -52,4 +52,4 @@ class EditItemModal extends Component {
   }
 }
 
-export default EditItemModal;
+export default AddItemModal;

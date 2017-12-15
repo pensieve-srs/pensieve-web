@@ -1,17 +1,19 @@
 import React, { Component } from "react";
-import axios from "axios";
-import cookie from "js-cookie";
 import { Link } from "react-router-dom";
+import { Input, Segment } from "semantic-ui-react";
+
+import * as api from "./deckActions";
 
 import "./Decks.css";
 
 const EmptyView = ({ title, description, emoji = "✌️" }) => (
-  <div className="empty view text-center ml-auto mr-auto mt-5 mb-5">
+  <div className="text-center ml-auto mr-auto my-5">
     <div className="text-center">
       <div className="row">
         <div className="col-md-6 offset-md-3">
-          <span className="empty-view-icon">{emoji}</span>
-          <h2 className="empty-view-title">{title}</h2>
+          <h2>
+            {emoji} {title}
+          </h2>
           <p className="text-secondary">{description}</p>
         </div>
       </div>
@@ -21,38 +23,43 @@ const EmptyView = ({ title, description, emoji = "✌️" }) => (
 
 const DeckCard = ({ deck, className }) => (
   <div className={className}>
-    <Link to={`/decks/${deck._id}`} className="deck-card bg-white mt-4 position-relative">
-      <h4 className="text-dark font-weight-bold h6 m-0">{deck.title}</h4>
+    <Link to={`/decks/${deck._id}`} className="position-relative">
+      <Segment stacked className="deck-card mt-4">
+        <h4 className="text-dark font-weight-bold h6 m-0">{deck.title}</h4>
+      </Segment>
     </Link>
   </div>
 );
 
 class Decks extends Component {
-  constructor(props) {
-    super(props);
+  state = { decks: [], filter: "" };
 
-    this.state = { decks: [] };
-  }
+  componentWillMount = () => {
+    this.fetchDecks();
+  };
 
-  componentWillMount() {
-    const config = { headers: { Authorization: cookie.get("token") } };
-    axios.get("/api/decks", config).then(
+  onSearch = e => this.setState({ filter: e.target.value });
+
+  fetchDecks = () => {
+    api.fetchDecks().then(
       response => {
-        console.log("response", response.data);
-        this.setState(() => ({ decks: response.data.decks }));
+        this.setState({ decks: response.data.decks });
       },
       error => {
         console.log("error", error);
       },
     );
-  }
+  };
 
   render() {
-    const { decks = [] } = this.state;
+    const { decks = [], filter } = this.state;
+
+    const filteredDecks =
+      filter.length > 0 ? decks.filter(deck => deck.title.indexOf(filter) !== -1) : decks;
 
     return (
       <div className="decks-page ">
-        <div className="container mt-5 mb-5">
+        <div className="container">
           <div className="row">
             <div className="col-lg-10 offset-lg-1">
               <div className="decks-container-header">
@@ -62,10 +69,10 @@ class Decks extends Component {
                 </div>
                 <div className="decks-container-actions">
                   {decks.length > 0 && (
-                    <input
-                      onChange={this.onSearchChange}
-                      type="text"
-                      className="decks-container-search form-control"
+                    <Input
+                      className="mr-3"
+                      icon="search"
+                      onChange={this.onSearch}
                       placeholder="Search for decks..."
                     />
                   )}
@@ -75,9 +82,9 @@ class Decks extends Component {
                 </div>
               </div>
               <hr className="mt-2 mb-2" />
-              {decks.length > 0 ? (
+              {filteredDecks.length > 0 ? (
                 <div className="row">
-                  {decks.map((deck, key) => (
+                  {filteredDecks.map((deck, key) => (
                     <DeckCard className="col-xs-6 col-sm-4 col-md-3" deck={deck} key={key} />
                   ))}
                 </div>

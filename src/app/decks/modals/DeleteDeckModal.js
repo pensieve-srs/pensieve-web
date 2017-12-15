@@ -1,25 +1,25 @@
 import React, { Component } from "react";
 import { Button, Modal } from "semantic-ui-react";
 
-class ResetItemModal extends Component {
+class DeleteDeckModal extends Component {
   render() {
     const { open, onClose, onSubmit } = this.props;
     return (
       <Modal open={open} onClose={onClose} size="tiny" className="position-relative">
-        <Modal.Header>Reset Card</Modal.Header>
+        <Modal.Header>Delete Deck</Modal.Header>
         <Modal.Content>
           <p>
             <strong>
-              Resetting a card will remove your study progress with it. This action is irreversible.
+              Deleting a deck will delete all of its cards. This action is irreversible.
             </strong>
             {"  "}
-            Are you sure you want to reset it?
+            Are you certain you want to delete them?
           </p>
         </Modal.Content>
         <Modal.Actions>
           <Button onClick={onClose}>Close</Button>
           <Button onClick={onSubmit} negative>
-            Reset
+            Delete
           </Button>
         </Modal.Actions>
       </Modal>
@@ -27,4 +27,4 @@ class ResetItemModal extends Component {
   }
 }
 
-export default ResetItemModal;
+export default DeleteDeckModal;

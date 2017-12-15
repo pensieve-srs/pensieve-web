@@ -6,11 +6,11 @@ class DeleteItemModal extends Component {
     const { open, onClose, onSubmit } = this.props;
     return (
       <Modal open={open} onClose={onClose} size="tiny" className="position-relative">
-        <Modal.Header>Delete Item</Modal.Header>
+        <Modal.Header>Delete Card</Modal.Header>
         <Modal.Content>
           <p>
             <strong>
-              Deleting a item will remove it permanently. This action is irreversible.
+              Deleting a card will remove it permanently. This action is irreversible.
             </strong>
             {"  "}
             Are you certain you want to delete it?

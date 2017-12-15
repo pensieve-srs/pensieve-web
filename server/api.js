@@ -6,10 +6,6 @@ const DeckController = require("./controllers/decks");
 
 const api = express.Router();
 
-api.get("/test", function(req, res) {
-  return res.status(200).json({ message: "t pain" });
-});
-
 api.post("/users/signup", AuthController.signupUser);
 
 api.post("/users/login", AuthController.loginUser);
@@ -38,12 +34,14 @@ api.put("/api/decks/:deck_id", AuthController.authenticateUser, DeckController.e
 
 api.post("/api/decks/:deck_id/reset", AuthController.authenticateUser, DeckController.resetDeck);
 
+api.post("/api/decks/:deck_id/study", AuthController.authenticateUser, DeckController.studyDeck);
+
 api.delete("/api/decks/:deck_id", AuthController.authenticateUser, DeckController.deleteDeck);
 
 api.get("/api/sessions/:session_id", AuthController.authenticateUser, SessionController.getSession);
 
-// api.post("/api/sessions", AuthController.authenticateUser, SessionController.createSession);
+api.post("/api/sessions", AuthController.authenticateUser, SessionController.createSession);
 
-// api.get("/api/study_types", AuthController.authenticateUser, SessionController.getStudyTypes);
+api.get("/api/study_types", AuthController.authenticateUser, SessionController.getStudyTypes);
 
 module.exports = api;

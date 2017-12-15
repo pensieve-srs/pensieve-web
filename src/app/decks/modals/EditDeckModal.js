@@ -1,42 +1,46 @@
 import React, { Component } from "react";
-import { Button, Form, Modal, TextArea } from "semantic-ui-react";
+import { Button, Form, Modal, Input, TextArea } from "semantic-ui-react";
 
-class EditItemModal extends Component {
-  state = { ...this.props.item };
+class EditDeckModal extends Component {
+  state = { ...this.props.deck };
+
+  componentWillUpdate(nextProps) {
+    if (this.props.deck !== nextProps.deck) {
+      this.setState({ ...nextProps.deck });
+    }
+  }
 
   onChange = e => this.setState({ [e.target.name]: e.target.value });
 
   onSubmit = () => this.props.onSubmit(this.state);
 
   render() {
-    const { front, back } = this.state;
+    const { title, description } = this.state;
     const { open, onClose } = this.props;
 
     return (
       <Modal open={open} onClose={onClose} size="tiny" className="position-relative">
-        <Modal.Header>Edit Item</Modal.Header>
+        <Modal.Header>Edit Deck</Modal.Header>
         <Modal.Content>
           <Form>
             <Form.Field required>
-              <label htmlFor="front">Front</label>
-              <TextArea
-                rows={4}
-                name="front"
-                value={front}
+              <label htmlFor="front">Deck title</label>
+              <Input
                 onChange={this.onChange}
-                autoHeight
-                placeholder="Add to the card front..."
+                value={title}
+                name="title"
+                placeholder="Add a deck title..."
               />
             </Form.Field>
             <Form.Field>
               <label htmlFor="back">Back</label>
               <TextArea
-                rows={4}
-                name="back"
-                value={back}
                 onChange={this.onChange}
+                value={description}
+                name="description"
                 autoHeight
-                placeholder="Add to the card back..."
+                rows={4}
+                placeholder="Add a deck description..."
               />
             </Form.Field>
           </Form>
@@ -52,4 +56,4 @@ class EditItemModal extends Component {
   }
 }
 
-export default EditItemModal;
+export default EditDeckModal;

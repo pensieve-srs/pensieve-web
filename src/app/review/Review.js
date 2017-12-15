@@ -1,28 +1,21 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import { Button } from "semantic-ui-react";
-import axios from "axios";
-import cookie from "js-cookie";
+import { Button, Breadcrumb, Progress } from "semantic-ui-react";
 
-import ProgressBar from "./ProgressBar";
+import * as api from "./reviewActions";
+
 import Results from "./Results";
 
 import "./Review.css";
 
-export const REVIEW_TYPE = {
+const REVIEW_TYPE = {
   EASY: "easy",
   GOOD: "good",
   HARD: "hard",
 };
 
-export const REVIEW_GRADES = {
-  EASY: 0,
-  GOOD: 3,
-  HARD: 5,
-};
-
 const EmptyView = () => (
-  <div className="review-container pt-5 pb-5">
+  <div className="review-container">
     <div className="col-md-8 offset-md-2 text-center">
       <span style={{ fontSize: "80px", fontWeight: "bold" }} role="img" aria-label="jsx-a11y">
         😅
@@ -36,78 +29,70 @@ const EmptyView = () => (
 );
 
 class Review extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = { index: 0, showAnswer: false, showNextOptions: false, session: {} };
-    this.onItemClick = this.onItemClick.bind(this);
-    this.onNextAction = this.onNextAction.bind(this);
-  }
+  state = {
+    index: 0,
+    showFront: true,
+    showNextOptions: false,
+    session: {},
+  };
 
   componentWillMount() {
     const { sessionId } = this.props.match.params;
 
-    if (sessionId) {
-      const config = { headers: { Authorization: cookie.get("token") } };
-
-      axios.get(`/api/sessions/${sessionId}`, config).then(
-        response => {
-          console.log("response", response);
-          this.setState(() => ({ session: response.data.session }));
-        },
-        error => {
-          console.log("error", error);
-        },
-      );
-    }
+    this.fetchSession(sessionId);
   }
 
-  onNextAction(value) {
-    const { index, session } = this.state;
-    const { items } = session;
-
+  onNextAction = value => {
+    const { index, session: { items } } = this.state;
     const item = items[index];
 
-    // Set the response value of the item
-    item.value = value;
-
-    const selectedItem = { ...items[index] };
-    const updatedItems = value === REVIEW_TYPE.HARD ? [...items, selectedItem] : items;
-
-    // Send the review request
-    // this.props.actions.reviewItem({ value, itemId: items[index]._id });
-
-    const itemId = item._id;
-    const config = { headers: { Authorization: cookie.get("token") } };
-
-    axios.post(`/api/items/${item._id}/review`, { value, itemId }, config).then(
-      response => {
-        session.item = response.data.item;
-        this.setState(() => ({ session: session }));
-      },
-      error => {
-        console.log("error", error.response);
-      },
-    );
+    this.reviewItem(item._id, value);
 
     // Update state
     this.setState({
       index: index + 1,
       showNextOptions: false,
-      showAnswer: false,
-      items: updatedItems,
+      showFront: true,
     });
-  }
+  };
 
-  onItemClick() {
-    this.setState({
+  onItemClick = () => {
+    this.setState(({ showFront }) => ({
       showNextOptions: true,
-      showAnswer: !this.state.showAnswer,
-    });
-  }
+      showFront: !showFront,
+    }));
+  };
+
+  fetchSession = sessionId => {
+    api.fetchSession(sessionId).then(
+      response => {
+        this.setState({ session: response.data.session });
+      },
+      error => {
+        console.log("error", error.response);
+      },
+    );
+  };
+
+  reviewItem = (itemId, value) => {
+    api.reviewItem({ itemId, value }).then(
+      response => {
+        const { item } = response.data;
+        this.setState(({ session }) => {
+          const items = session.items.map(el => {
+            return el._id === item._id ? item : el;
+          });
+          return { session: { ...session, items: items } };
+        });
+      },
+      error => {
+        console.log("error", error);
+      },
+    );
+  };
 
   render() {
-    const { index, session, showAnswer, showNextOptions } = this.state;
+    const { index, session, showFront, showNextOptions } = this.state;
     const { items = [] } = session;
 
     if (items.length === 0) {
@@ -119,30 +104,32 @@ class Review extends Component {
     }
 
     const selectedItem = items[index];
-    const itemContent = showAnswer ? selectedItem.back : selectedItem.front;
+    const itemContent = showFront ? selectedItem.front : selectedItem.back;
 
     return (
-      <div className="review-container pt-5 pb-5">
+      <div className="review-container">
         <div className="container mt-3">
           <div className="row">
             <div className="col-md-8 offset-md-2">
-              <div className="review-header d-flex justify-content-between">
-                <div>
-                  <span className="text-uppercase">{session.type}</span>
-                  <span className="m-2">{">"}</span>
-                  <Link to={`/decks/${selectedItem.deck._id}`}>{selectedItem.deck.title}</Link>
-                </div>
+              <div className="review-header d-flex justify-content-between align-items-center mb-2">
+                <Breadcrumb>
+                  <Breadcrumb.Section className="text-uppercase">{session.type}</Breadcrumb.Section>
+                  <Breadcrumb.Divider icon="right angle" />
+                  <Breadcrumb.Section active>
+                    <Link to={`/decks/${selectedItem.deck._id}`}>{selectedItem.deck.title}</Link>
+                  </Breadcrumb.Section>
+                </Breadcrumb>
                 <p className="review-container-count">
-                  <span style={{ fontWeight: "bold" }}>{index + 1}</span> out of {items.length}
+                  <strong>{index + 1}</strong> out of {items.length}
                 </p>
               </div>
-              <ProgressBar progress={index / items.length * 100} />
+              <Progress className="mb-2" value={index} total={items.length} color="blue" />
               <div
                 className="review-container-panel bg-white border rounded mt-3 mb-4"
                 onClick={this.onItemClick}
               >
                 <div className="panel-face font-italic text-secondary">
-                  {!showAnswer ? <span>Front</span> : <span>Back</span>}
+                  {showFront ? <span>Front</span> : <span>Back</span>}
                 </div>
                 <h3 className="text-center my-5">{itemContent}</h3>
               </div>

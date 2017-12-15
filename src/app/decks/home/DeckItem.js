@@ -1,76 +1,59 @@
 import React from "react";
-import moment from "moment";
 import { Link } from "react-router-dom";
-import { Button, Popup } from "semantic-ui-react";
+import { Button, Dropdown, Label, Icon, Segment } from "semantic-ui-react";
 
-import "./DeckItem.css";
-
-const MODAL_TYPES = {
-  RESET_ITEM: "resetItem",
-  DELETE_ITEM: "deleteItem",
-};
-
-const TimeLeft = ({ date }) => {
-  if (!date) {
-    return (
-      <div className="time-left badge badge-info mr-2" style={{ padding: "6px" }}>
-        <span>new card</span>
-      </div>
-    );
-  }
-
-  if (moment(date).isBefore(moment())) {
-    return (
-      <div className="time-left badge badge-warning mr-2" style={{ padding: "6px" }}>
-        <span>review due</span>
-      </div>
-    );
-  }
-
-  return (
-    <div className="time-left badge badge-secondary mr-2" style={{ padding: "6px" }}>
-      <span>review later</span>
-    </div>
-  );
-};
+import { DeleteItemModal, ResetItemModal, MODAL_TYPES } from "../../items/modals";
 
 export default class DeckListItem extends React.Component {
-  constructor(props) {
-    super(props);
+  state = { showModalType: undefined };
 
-    this.state = { showModalType: undefined };
-    this.onShowModal = this.onShowModal.bind(this);
-    this.onCloseModal = this.onCloseModal.bind(this);
-    this.onDelete = this.onDelete.bind(this);
-    this.onReset = this.onReset.bind(this);
-  }
+  onCloseModal = () => this.setState({ showModalType: undefined });
 
-  onShowModal(modalType) {
-    this.setState(() => ({ showModalType: modalType }));
-  }
+  onShowModal = modalType => this.setState({ showModalType: modalType, open: false });
 
-  onCloseModal() {
-    this.setState(() => ({ showModalType: undefined }));
-  }
-
-  onDelete() {
-    const { item } = this.props;
-    this.props.actions.deleteItem(item._id);
+  onReset = () => {
+    const itemId = this.props.item._id;
+    this.props.resetItem(itemId);
     this.onCloseModal();
-  }
+  };
 
-  onReset() {
-    const { item } = this.props;
-    this.props.actions.resetItem(item._id);
+  onDelete = () => {
+    const itemId = this.props.item._id;
+    this.props.deleteItem(itemId);
     this.onCloseModal();
-  }
+  };
+
+  getColor = date => {
+    if (!date) {
+      // new item
+      return "teal";
+    } else if (new Date(date) < new Date()) {
+      // due item
+      return "yellow";
+    } else {
+      // learning item
+      return "grey";
+    }
+  };
 
   render() {
     const { item } = this.props;
+    const { showModalType } = this.state;
+    const color = this.getColor(item.nextReviewDate);
 
     return (
-      <div className="list-item-wrapper bg-white">
-        <Link className="list-item" to={`/items/${item._id}`}>
+      <Segment className="bg-white">
+        <Link className="text-dark" to={`/items/${item._id}`}>
+          <DeleteItemModal
+            open={showModalType === MODAL_TYPES.DELETE_ITEM}
+            onClose={this.onCloseModal}
+            onSubmit={this.onDelete}
+          />
+          <ResetItemModal
+            open={showModalType === MODAL_TYPES.RESET_ITEM}
+            onClose={this.onCloseModal}
+            onSubmit={this.onReset}
+          />
           <div className="row">
             <div className="col-9 col-sm-10">
               <div className="d-flex flex-column flex-md-row">
@@ -81,32 +64,33 @@ export default class DeckListItem extends React.Component {
               </div>
             </div>
             <div className="d-flex justify-content-end align-items-start col-3 col-sm-2">
-              <TimeLeft date={item.nextReviewDate} />
-              <Popup
+              <Label color={color} circular empty className="mr-3 mt-2" />
+              <Dropdown
                 on="click"
-                position="bottom right"
+                icon={false}
+                onClick={e => e.preventDefault()}
+                pointing="top right"
                 trigger={
-                  <Button onClick={e => e.preventDefault()} basic size="mini">
-                    <i className="fa fa-ellipsis-h text-secondary" aria-hidden="true" />
+                  <Button basic size="small">
+                    <Icon name="ellipsis horizontal" className="m-0" />
                   </Button>
                 }
-                content={
-                  <Button.Group vertical className="popover-actions">
-                    {item.nextReviewDate && (
-                      <Button onClick={() => this.onShowModal(MODAL_TYPES.RESET_ITEM)} basic fluid>
-                        Reset Item
-                      </Button>
-                    )}
-                    <Button onClick={() => this.onShowModal(MODAL_TYPES.DELETE_ITEM)} basic fluid>
-                      Delete Item
-                    </Button>
-                  </Button.Group>
-                }
-              />
+              >
+                <Dropdown.Menu>
+                  {item.nextReviewDate && (
+                    <Dropdown.Item onClick={() => this.onShowModal(MODAL_TYPES.RESET_ITEM)}>
+                      Reset Item
+                    </Dropdown.Item>
+                  )}
+                  <Dropdown.Item onClick={() => this.onShowModal(MODAL_TYPES.DELETE_ITEM)}>
+                    Delete Item
+                  </Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
             </div>
           </div>
         </Link>
-      </div>
+      </Segment>
     );
   }
 }
