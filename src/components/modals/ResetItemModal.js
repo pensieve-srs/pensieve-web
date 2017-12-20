@@ -1,25 +1,26 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import { Button, Modal } from "semantic-ui-react";
 
-class DeleteItemModal extends Component {
+class ResetItemModal extends Component {
   render() {
     const { open, onClose, onSubmit } = this.props;
     return (
       <Modal open={open} onClose={onClose} size="tiny" className="position-relative">
-        <Modal.Header>Delete Card</Modal.Header>
+        <Modal.Header>Reset Card</Modal.Header>
         <Modal.Content>
           <p>
             <strong>
-              Deleting a card will remove it permanently. This action is irreversible.
+              Resetting a card will remove your study progress with it. This action is irreversible.
             </strong>
             {"  "}
-            Are you certain you want to delete it?
+            Are you sure you want to reset it?
           </p>
         </Modal.Content>
         <Modal.Actions>
           <Button onClick={onClose}>Close</Button>
           <Button onClick={onSubmit} negative>
-            Delete
+            Reset
           </Button>
         </Modal.Actions>
       </Modal>
@@ -27,4 +28,10 @@ class DeleteItemModal extends Component {
   }
 }
 
-export default DeleteItemModal;
+ResetItemModal.propTypes = {
+  open: PropTypes.bool,
+  onClose: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired,
+};
+
+export default ResetItemModal;

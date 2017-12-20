@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import cookie from "js-cookie";
+import PropTypes from "prop-types";
 
 const ReqAuth = ComposedComponent => {
   class Authentication extends Component {
@@ -16,6 +17,10 @@ const ReqAuth = ComposedComponent => {
   }
 
   return Authentication;
+};
+
+ReqAuth.propTypes = {
+  history: PropTypes.object.isRequired,
 };
 
 export default ReqAuth;

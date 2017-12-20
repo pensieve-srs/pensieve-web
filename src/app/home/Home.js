@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import cx from "classnames";
+import PropTypes from "prop-types";
 import pluralize from "pluralize";
 
 import * as api from "./homeActions";
@@ -17,8 +18,8 @@ class Home extends Component {
 
   fetchStudyTypes = () => {
     api.fetchStudyTypes().then(
-      response => {
-        const { study, learn, review } = response.data;
+      ({ data }) => {
+        const { study, learn, review } = data;
         this.setState(() => ({ study, learn, review }));
       },
       error => {
@@ -57,7 +58,8 @@ class Home extends Component {
                       Daily study{" "}
                       <span className="font-weight-normal text-dark">(Recommended)</span>
                     </h5>
-                    {study.size && (
+                    {study &&
+                    study.size && (
                       <div className="badge badge-secondary">
                         {study.size === study.total ? (
                           <span>{pluralize("card", study.size, true)}</span>
@@ -81,7 +83,8 @@ class Home extends Component {
                 >
                   <div className="d-flex justify-content-between align-items-center">
                     <h5 className="font-weight-bold mb-1">Learn new cards</h5>
-                    {learn.size && (
+                    {learn &&
+                    learn.size && (
                       <div
                         className={cx("badge", {
                           "badge-secondary": learn.size === 0,
@@ -110,7 +113,8 @@ class Home extends Component {
                 >
                   <div className="d-flex justify-content-between align-items-center">
                     <h5 className="font-weight-bold mb-1">Review previous cards</h5>
-                    {review.size && (
+                    {review &&
+                    review.size && (
                       <div
                         className={cx("badge", {
                           "badge-secondary": review.size === 0,
@@ -142,5 +146,9 @@ class Home extends Component {
     );
   }
 }
+
+Home.propTypes = {
+  history: PropTypes.object.isRequired,
+};
 
 export default Home;

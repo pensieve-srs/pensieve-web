@@ -4,16 +4,9 @@ import cookie from "js-cookie";
 import cx from "classnames";
 
 class NavBar extends Component {
-  constructor(props) {
-    super(props);
+  state = { isCollapsed: false };
 
-    this.state = { isCollapsed: false };
-    this.onToggleCollapse = this.onToggleCollapse.bind(this);
-  }
-
-  onToggleCollapse() {
-    this.setState(({ isCollapsed }) => ({ isCollapsed: !isCollapsed }));
-  }
+  onCollapse = () => this.setState(({ isCollapsed }) => ({ isCollapsed: !isCollapsed }));
 
   render() {
     const { isCollapsed } = this.state;
@@ -32,7 +25,7 @@ class NavBar extends Component {
             className="navbar-toggler"
             type="button"
             aria-label="Toggle navigation"
-            onClick={this.onToggleCollapse}
+            onClick={this.onCollapse}
           >
             <span className="navbar-toggler-icon" />
           </button>
@@ -41,12 +34,12 @@ class NavBar extends Component {
             {authenticated && (
               <ul className="navbar-nav mr-auto">
                 <li className="nav-item">
-                  <Link to="/study" className="nav-link" onClick={this.onToggleCollapse}>
+                  <Link to="/study" className="nav-link" onClick={this.onCollapse}>
                     Study
                   </Link>
                 </li>
                 <li className="nav-item">
-                  <Link to="/decks" className="nav-link" onClick={this.onToggleCollapse}>
+                  <Link to="/decks" className="nav-link" onClick={this.onCollapse}>
                     Decks
                   </Link>
                 </li>
@@ -55,7 +48,7 @@ class NavBar extends Component {
             {authenticated ? (
               <ul className="navbar-nav ml-auto">
                 <li className="nav-item">
-                  <Link to="/logout" className="nav-link" onClick={this.onToggleCollapse}>
+                  <Link to="/logout" className="nav-link" onClick={this.onCollapse}>
                     Logout
                   </Link>
                 </li>
@@ -63,7 +56,7 @@ class NavBar extends Component {
             ) : (
               <ul className="navbar-nav ml-auto">
                 <li className="nav-item">
-                  <Link to="/login" className="nav-link" onClick={this.onToggleCollapse}>
+                  <Link to="/login" className="nav-link" onClick={this.onCollapse}>
                     Login
                   </Link>
                 </li>

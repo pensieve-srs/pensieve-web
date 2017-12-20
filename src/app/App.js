@@ -1,16 +1,14 @@
 import React, { Component } from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 
-import { Landing } from "./pages";
-import { Signup, Login, Logout, ReqAuth } from "./app/auth";
-import { Decks, DeckHome, DeckNew } from "./app/decks";
-import Home from "./app/home/Home";
-import ItemHome from "./app/items/home/ItemHome";
-import Review from "./app/review/Review";
+import { Landing } from "../pages/landing";
+import { Signup, Login, Logout, ReqAuth } from "./auth";
+import { Decks, DeckHome, DeckNew } from "./decks";
+import Home from "./home/Home";
+import ItemHome from "./items/home/ItemHome";
+import Review from "./review/Review";
 
-import { NavBar, Footer } from "./components";
-
-import "./App.css";
+import { NavBar, Footer } from "../components";
 
 class App extends Component {
   render() {

@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import { Button, Modal } from "semantic-ui-react";
 
 class DeleteDeckModal extends Component {
@@ -26,5 +27,11 @@ class DeleteDeckModal extends Component {
     );
   }
 }
+
+DeleteDeckModal.propTypes = {
+  open: PropTypes.bool,
+  onClose: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired,
+};
 
 export default DeleteDeckModal;

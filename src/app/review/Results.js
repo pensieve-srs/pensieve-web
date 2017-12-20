@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import PropTypes from "prop-types";
 
 class Results extends Component {
   render() {
@@ -12,7 +13,7 @@ class Results extends Component {
               <h5 className="mb-3">Results</h5>
               <ul className="list-group">
                 {items.map((item, key) => (
-                  <li className="list-group-item" key={key}>
+                  <li className="list-group-item" key={item._id}>
                     {item.front}
                   </li>
                 ))}
@@ -29,5 +30,9 @@ class Results extends Component {
     );
   }
 }
+
+Results.propTypes = {
+  items: PropTypes.array.isRequired,
+};
 
 export default Results;

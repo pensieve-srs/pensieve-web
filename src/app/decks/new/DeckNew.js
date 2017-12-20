@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import { Button, Form, Input, TextArea } from "semantic-ui-react";
 
 import * as api from "../deckActions";
@@ -70,5 +71,9 @@ class DeckNew extends Component {
     );
   }
 }
+
+DeckNew.propTypes = {
+  history: PropTypes.object.isRequired,
+};
 
 export default DeckNew;

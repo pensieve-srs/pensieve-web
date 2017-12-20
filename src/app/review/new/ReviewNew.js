@@ -1,6 +1,7 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 
-import * as api from "../home/homeActions";
+import * as api from "../../home/homeActions";
 
 class ReviewNew extends Component {
   componentWillMount() {
@@ -9,8 +10,8 @@ class ReviewNew extends Component {
 
   createSession = sessionType => {
     api.createSession(sessionType).then(
-      response => {
-        this.props.history.push(`/sessions/${response.data.session._id}`);
+      ({ data }) => {
+        this.props.history.push(`/sessions/${data.session._id}`);
       },
       error => {
         console.log("error", error);
@@ -28,5 +29,9 @@ class ReviewNew extends Component {
     );
   }
 }
+
+ReviewNew.propTypes = {
+  history: PropTypes.object.isRequired,
+};
 
 export default ReviewNew;

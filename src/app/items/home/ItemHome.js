@@ -1,10 +1,16 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { Button, Breadcrumb, Icon, Dropdown, Label } from "semantic-ui-react";
 
 import * as api from "../itemActions";
 
-import { DeleteItemModal, EditItemModal, ResetItemModal, MODAL_TYPES } from "../modals";
+import {
+  DeleteItemModal,
+  EditItemModal,
+  ResetItemModal,
+  MODAL_TYPES,
+} from "../../../components/modals";
 
 import "./ItemHome.css";
 
@@ -62,7 +68,9 @@ class ItemHome extends Component {
   componentWillMount() {
     const { itemId } = this.props.match.params;
 
-    this.fetchItem(itemId);
+    if (itemId) {
+      this.fetchItem(itemId);
+    }
   }
 
   onClick = () => this.setState({ showFront: !this.state.showFront });
@@ -203,5 +211,10 @@ class ItemHome extends Component {
     );
   }
 }
+
+ItemHome.propTypes = {
+  match: PropTypes.object.isRequired,
+  history: PropTypes.object.isRequired,
+};
 
 export default ItemHome;

@@ -1,9 +1,7 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import { Button, Dropdown, Icon, Label, Segment } from "semantic-ui-react";
 import pluralize from "pluralize";
-
-import * as api from "../deckActions";
-import * as itemApi from "../../items/itemActions";
 
 import {
   AddItemModal,
@@ -11,7 +9,10 @@ import {
   EditDeckModal,
   ResetDeckModal,
   MODAL_TYPES,
-} from "../modals";
+} from "../../../components/modals";
+
+import * as api from "../deckActions";
+import * as itemApi from "../../items/itemActions";
 
 import DeckItem from "./DeckItem";
 
@@ -39,7 +40,9 @@ class DeckHome extends Component {
   componentWillMount() {
     const { deckId } = this.props.match.params;
 
-    this.fetchDeck(deckId);
+    if (deckId) {
+      this.fetchDeck(deckId);
+    }
   }
 
   onShowModal = modalType => this.setState({ showModalType: modalType });
@@ -287,5 +290,9 @@ class DeckHome extends Component {
     );
   }
 }
+
+DeckHome.propTypes = {
+  match: PropTypes.object.isRequired,
+};
 
 export default DeckHome;

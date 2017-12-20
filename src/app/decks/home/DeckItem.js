@@ -1,10 +1,11 @@
-import React from "react";
+import React, { Component } from "react";
+import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { Button, Dropdown, Label, Icon, Segment } from "semantic-ui-react";
 
-import { DeleteItemModal, ResetItemModal, MODAL_TYPES } from "../../items/modals";
+import { DeleteItemModal, ResetItemModal, MODAL_TYPES } from "../../../components/modals";
 
-export default class DeckListItem extends React.Component {
+class DeckItem extends Component {
   state = { showModalType: undefined };
 
   onCloseModal = () => this.setState({ showModalType: undefined });
@@ -94,3 +95,9 @@ export default class DeckListItem extends React.Component {
     );
   }
 }
+
+DeckItem.propTypes = {
+  item: PropTypes.object.isRequired,
+};
+
+export default DeckItem;

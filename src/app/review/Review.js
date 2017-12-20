@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { Button, Breadcrumb, Progress } from "semantic-ui-react";
 
@@ -39,7 +40,9 @@ class Review extends Component {
   componentWillMount() {
     const { sessionId } = this.props.match.params;
 
-    this.fetchSession(sessionId);
+    if (sessionId) {
+      this.fetchSession(sessionId);
+    }
   }
 
   onNextAction = value => {
@@ -171,5 +174,9 @@ class Review extends Component {
     );
   }
 }
+
+Review.propTypes = {
+  match: PropTypes.object.isRequired,
+};
 
 export default Review;
