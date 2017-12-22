@@ -5,7 +5,7 @@ const morgan = require("morgan");
 const bodyParser = require("body-parser");
 
 const db = require("../db");
-const api = require("./api");
+const routes = require("./routes");
 
 const app = express();
 const port = process.env.SERVER_PORT || 9000;
@@ -23,9 +23,9 @@ app.get("/", function(req, res) {
   res.sendFile(path.join(__dirname, "..", "build", "index.html"));
 });
 
-app.use("/", api);
+app.use("/", routes);
 
-app.listen(port, err => {
+var server = app.listen(port, err => {
   if (err) {
     console.error(err);
   } else {
@@ -34,3 +34,5 @@ app.listen(port, err => {
     }
   }
 });
+
+module.exports = server;

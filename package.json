@@ -21,13 +21,18 @@
     "react-router-dom": "^4.2.2",
     "react-scripts": "1.0.17",
     "react-test-renderer": "^16.2.0",
-    "semantic-ui-react": "^0.77.1"
+    "semantic-ui-react": "^0.77.1",
+    "supertest": "^3.0.0"
   },
   "scripts": {
     "server": "node ./server/index.js",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
+    "test:server": "mocha ./server/index.test.js",
     "eject": "react-scripts eject"
+  },
+  "devDependencies": {
+    "mocha": "^4.0.1"
   }
 }
