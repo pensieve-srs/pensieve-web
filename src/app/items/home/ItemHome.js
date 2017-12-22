@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
-import { Button, Breadcrumb, Icon, Dropdown, Label } from "semantic-ui-react";
+import { Icon, Dropdown, Header, Label, Segment } from "semantic-ui-react";
 
 import * as api from "../itemActions";
 
@@ -32,7 +32,7 @@ const getColor = date => {
   if (!date) {
     // new item
     return "teal";
-  } else if (date < new Date()) {
+  } else if (new Date(date) < new Date()) {
     // due item
     return "yellow";
   } else {
@@ -45,7 +45,7 @@ const getLabel = date => {
   if (!date) {
     return "New Card";
   } else if (new Date(date) < new Date()) {
-    return "Due Card";
+    return "Needs Review";
   } else {
     return "Learning";
   }
@@ -55,7 +55,11 @@ const ItemLabel = ({ date }) => {
   const color = getColor(date);
   const label = getLabel(date);
 
-  return <Label color={color}>{label}</Label>;
+  return (
+    <Label className="item-label" color={color}>
+      {label}
+    </Label>
+  );
 };
 
 class ItemHome extends Component {
@@ -77,7 +81,9 @@ class ItemHome extends Component {
 
   onCloseModal = () => this.setState({ showModalType: undefined });
 
-  onShowModal = modalType => this.setState({ showModalType: modalType });
+  onShowModal = (event, data) => this.setState({ showModalType: data.value });
+
+  onGoto = (event, data) => this.props.history.push(data.value);
 
   fetchItem = itemId => {
     api.fetchItem(itemId).then(
@@ -159,51 +165,41 @@ class ItemHome extends Component {
           <div className="row">
             <div className="col-md-10 offset-md-1 col-lg-8 offset-lg-2">
               <div className="item-home-header d-flex">
-                <Breadcrumb>
-                  <Breadcrumb.Section link>
-                    <Link to={`/decks/${deck._id}`}>{deck.title}</Link>
-                  </Breadcrumb.Section>
-                  <Breadcrumb.Divider icon="right angle" />
-                  <Breadcrumb.Section active>Item</Breadcrumb.Section>
-                </Breadcrumb>
+                <Header as="h3" className="text-uppercase m-0">
+                  Item
+                </Header>
                 <Dropdown
                   on="click"
                   icon={false}
                   pointing="top right"
                   trigger={
-                    <Button basic size="small">
-                      <Icon name="ellipsis vertical" className="m-0" />
-                    </Button>
+                    <Icon name="ellipsis vertical" size="large" className="text-secondary mx-2" />
                   }
-                  style={{
-                    right: "12px",
-                    position: "absolute",
-                    top: "12px",
-                  }}
                 >
                   <Dropdown.Menu>
-                    <Dropdown.Item onClick={() => this.onShowModal(MODAL_TYPES.EDIT_ITEM)}>
+                    <Dropdown.Item onClick={this.onShowModal} value={MODAL_TYPES.EDIT_ITEM}>
                       Edit Item
                     </Dropdown.Item>
                     {item.nextReviewDate && (
-                      <Dropdown.Item onClick={() => this.onShowModal(MODAL_TYPES.RESET_ITEM)}>
+                      <Dropdown.Item onClick={this.onShowModal} value={MODAL_TYPES.RESET_ITEM}>
                         Reset Item
                       </Dropdown.Item>
                     )}
-                    <Dropdown.Item onClick={() => this.onShowModal(MODAL_TYPES.DELETE_ITEM)}>
+                    <Dropdown.Item onClick={this.onShowModal} value={MODAL_TYPES.DELETE_ITEM}>
                       Delete Item
                     </Dropdown.Item>
                   </Dropdown.Menu>
                 </Dropdown>
               </div>
-              <hr />
-              <div className="item-home-panel bg-white border rounded mb-2" onClick={this.onClick}>
-                <div className="panel-face font-italic text-secondary">
-                  {showFront ? <span>Front</span> : <span>Back</span>}
-                </div>
+              <hr className="my-2" />
+              <Segment className="item-home-panel mb-2" padded onClick={this.onClick}>
+                <Label attached="bottom" onClick={this.onGoto} value={`/decks/${deck._id}`} as="a">
+                  {deck.title}
+                </Label>
+                <Label attached="bottom right">{showFront ? "Front" : "Back"}</Label>
                 <ItemLabel date={item.nextReviewDate} />
                 <h3 className="text-center my-5">{itemContent}</h3>
-              </div>
+              </Segment>
             </div>
           </div>
         </div>

@@ -45,7 +45,7 @@ class DeckHome extends Component {
     }
   }
 
-  onShowModal = modalType => this.setState({ showModalType: modalType });
+  onShowModal = (event, data) => this.setState({ showModalType: data.value });
 
   onCloseModal = () => this.setState({ showModalType: undefined });
 
@@ -86,7 +86,6 @@ class DeckHome extends Component {
       response => {
         this.setState(({ deck }) => {
           const items = deck.items.filter(item => item._id !== itemId);
-          console.log("items", items);
           return { deck: { ...deck, items: items } };
         });
       },
@@ -209,8 +208,9 @@ class DeckHome extends Component {
                   Study now
                 </Button>
                 <Button
+                  onClick={this.onShowModal}
+                  value={MODAL_TYPES.ADD_ITEM}
                   className="btn-default ml-2"
-                  onClick={() => this.onShowModal(MODAL_TYPES.ADD_ITEM)}
                 >
                   Add item +
                 </Button>
@@ -220,9 +220,7 @@ class DeckHome extends Component {
                 icon={false}
                 pointing="top right"
                 trigger={
-                  <Button basic size="small">
-                    <Icon name="ellipsis vertical" className="m-0" />
-                  </Button>
+                  <Icon name="ellipsis vertical" size="large" className="text-secondary m-2" />
                 }
                 style={{
                   right: "12px",
@@ -231,13 +229,13 @@ class DeckHome extends Component {
                 }}
               >
                 <Dropdown.Menu>
-                  <Dropdown.Item onClick={() => this.onShowModal(MODAL_TYPES.EDIT_DECK)}>
+                  <Dropdown.Item onClick={this.onShowModal} value={MODAL_TYPES.EDIT_DECK}>
                     Edit Deck
                   </Dropdown.Item>
-                  <Dropdown.Item onClick={() => this.onShowModal(MODAL_TYPES.RESET_DECK)}>
+                  <Dropdown.Item onClick={this.onShowModal} value={MODAL_TYPES.RESET_DECK}>
                     Reset Deck
                   </Dropdown.Item>
-                  <Dropdown.Item onClick={() => this.onShowModal(MODAL_TYPES.DELETE_DECK)}>
+                  <Dropdown.Item onClick={this.onShowModal} value={MODAL_TYPES.DELETE_DECK}>
                     Delete Deck
                   </Dropdown.Item>
                 </Dropdown.Menu>
@@ -251,7 +249,7 @@ class DeckHome extends Component {
                     <div className="mb-2 text-right">
                       {numDueCards > 0 && (
                         <Label color="yellow" className="ml-1">
-                          {numDueCards} Due
+                          {numDueCards} To Review
                         </Label>
                       )}
                       {numNewCards > 0 && (

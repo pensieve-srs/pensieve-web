@@ -9,21 +9,15 @@
   display: flex;
   hyphens: auto;
   justify-content: center;
-  min-height: 350px;
+  min-height: 375px;
   padding: 12px;
   position: relative;
   white-space: pre-wrap;
   word-wrap: break-word;
 }
 
-.item-home-panel .label {
+.item-home-panel .item-label {
   position: absolute;
   right: 16px;
-  top: 12px;
-}
-
-.item-home-panel .panel-face {
-  left: 16px;
-  position: absolute;
   top: 12px;
 }

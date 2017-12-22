@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
-import { Button, Dropdown, Label, Icon, Segment } from "semantic-ui-react";
+import { withRouter } from "react-router";
+
+import { Dropdown, Label, Icon, Segment } from "semantic-ui-react";
 
 import { DeleteItemModal, ResetItemModal, MODAL_TYPES } from "../../../components/modals";
 
@@ -10,17 +11,17 @@ class DeckItem extends Component {
 
   onCloseModal = () => this.setState({ showModalType: undefined });
 
-  onShowModal = modalType => this.setState({ showModalType: modalType, open: false });
+  onShowModal = (event, data) => this.setState({ showModalType: data.value, open: false });
+
+  onGoto = () => this.props.history.push(`/items/${this.props.item._id}`);
 
   onReset = () => {
-    const itemId = this.props.item._id;
-    this.props.resetItem(itemId);
+    this.props.resetItem(this.props.item._id);
     this.onCloseModal();
   };
 
   onDelete = () => {
-    const itemId = this.props.item._id;
-    this.props.deleteItem(itemId);
+    this.props.deleteItem(this.props.item._id);
     this.onCloseModal();
   };
 
@@ -43,54 +44,56 @@ class DeckItem extends Component {
     const color = this.getColor(item.nextReviewDate);
 
     return (
-      <Segment className="bg-white">
-        <Link className="text-dark" to={`/items/${item._id}`}>
-          <DeleteItemModal
-            open={showModalType === MODAL_TYPES.DELETE_ITEM}
-            onClose={this.onCloseModal}
-            onSubmit={this.onDelete}
-          />
-          <ResetItemModal
-            open={showModalType === MODAL_TYPES.RESET_ITEM}
-            onClose={this.onCloseModal}
-            onSubmit={this.onReset}
-          />
-          <div className="row">
-            <div className="col-9 col-sm-10">
-              <div className="d-flex flex-column flex-md-row">
-                <span className="col-md-5">{item.front}</span>
-                <span className="d-none d-sm-block font-weight-bold col-md-7 mt-2 mt-md-0">
-                  {item.back}
-                </span>
-              </div>
+      <Segment className="bg-white" onClick={this.onGoto} style={{ cursor: "pointer" }}>
+        <DeleteItemModal
+          open={showModalType === MODAL_TYPES.DELETE_ITEM}
+          onClose={this.onCloseModal}
+          onSubmit={this.onDelete}
+        />
+        <ResetItemModal
+          open={showModalType === MODAL_TYPES.RESET_ITEM}
+          onClose={this.onCloseModal}
+          onSubmit={this.onReset}
+        />
+        <div className="row">
+          <div className="col-9 col-sm-10">
+            <div className="d-flex flex-column flex-md-row">
+              <span className="col-md-5">{item.front}</span>
+              <span className="d-none d-sm-block font-weight-bold col-md-7 mt-2 mt-md-0">
+                {item.back}
+              </span>
             </div>
-            <div className="d-flex justify-content-end align-items-start col-3 col-sm-2">
-              <Label color={color} circular empty className="mr-3 mt-2" />
+          </div>
+          <div className="col-3 col-sm-2">
+            <div className="d-flex justify-content-end align-items-center">
+              <Label color={color} circular empty className="mr-2" />
               <Dropdown
                 on="click"
                 icon={false}
                 onClick={e => e.preventDefault()}
                 pointing="top right"
                 trigger={
-                  <Button basic size="small">
-                    <Icon name="ellipsis horizontal" className="m-0" />
-                  </Button>
+                  <Icon
+                    name="ellipsis horizontal"
+                    size="large"
+                    className="text-secondary mx-2 my-1"
+                  />
                 }
               >
                 <Dropdown.Menu>
                   {item.nextReviewDate && (
-                    <Dropdown.Item onClick={() => this.onShowModal(MODAL_TYPES.RESET_ITEM)}>
+                    <Dropdown.Item onClick={this.onShowModal} value={MODAL_TYPES.RESET_ITEM}>
                       Reset Item
                     </Dropdown.Item>
                   )}
-                  <Dropdown.Item onClick={() => this.onShowModal(MODAL_TYPES.DELETE_ITEM)}>
+                  <Dropdown.Item onClick={this.onShowModal} value={MODAL_TYPES.DELETE_ITEM}>
                     Delete Item
                   </Dropdown.Item>
                 </Dropdown.Menu>
               </Dropdown>
             </div>
           </div>
-        </Link>
+        </div>
       </Segment>
     );
   }
@@ -98,6 +101,7 @@ class DeckItem extends Component {
 
 DeckItem.propTypes = {
   item: PropTypes.object.isRequired,
+  history: PropTypes.object.isRequired,
 };
 
-export default DeckItem;
+export default withRouter(DeckItem);

@@ -1,13 +1,16 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
-import { Button, Breadcrumb, Progress } from "semantic-ui-react";
+import { Button, Dropdown, Icon, Header, Label, Progress, Segment } from "semantic-ui-react";
 
 import * as api from "./reviewActions";
+import * as itemApi from "../items/itemActions";
 
 import Results from "./Results";
 
 import "./Review.css";
+
+import { DeleteItemModal, EditItemModal, MODAL_TYPES } from "../../components/modals";
 
 const REVIEW_TYPE = {
   EASY: "easy",
@@ -33,35 +36,36 @@ class Review extends Component {
   state = {
     index: 0,
     showFront: true,
-    showNextOptions: false,
+    showAnswers: false,
     session: {},
+    showModalType: undefined,
   };
 
-  componentWillMount() {
+  componentWillMount = () => {
     const { sessionId } = this.props.match.params;
 
     if (sessionId) {
       this.fetchSession(sessionId);
     }
-  }
+  };
 
-  onNextAction = value => {
+  onCloseModal = () => this.setState({ showModalType: undefined });
+
+  onShowModal = (event, data) => this.setState({ showModalType: data.value });
+
+  onGoto = (event, data) => this.props.history.push(data.value);
+
+  onReview = (event, data) => {
+    const { value } = data;
     const { index, session: { items } } = this.state;
     const item = items[index];
 
     this.reviewItem(item._id, value);
-
-    // Update state
-    this.setState({
-      index: index + 1,
-      showNextOptions: false,
-      showFront: true,
-    });
   };
 
-  onItemClick = () => {
+  onReveal = () => {
     this.setState(({ showFront }) => ({
-      showNextOptions: true,
+      showAnswers: true,
       showFront: !showFront,
     }));
   };
@@ -81,11 +85,16 @@ class Review extends Component {
     api.reviewItem({ itemId, value }).then(
       response => {
         const { item } = response.data;
-        this.setState(({ session }) => {
+        this.setState(({ session, index }) => {
           const items = session.items.map(el => {
             return el._id === item._id ? item : el;
           });
-          return { session: { ...session, items: items } };
+          return {
+            session: { ...session, items: items },
+            index: index + 1,
+            showAnswers: false,
+            showFront: true,
+          };
         });
       },
       error => {
@@ -94,8 +103,45 @@ class Review extends Component {
     );
   };
 
+  editItem = item => {
+    itemApi.editItem(item).then(
+      response => {
+        this.setState(({ session }) => {
+          const items = session.items.map(el => {
+            return el._id === item._id ? item : el;
+          });
+          return { session: { ...session, items: items } };
+        });
+        this.onCloseModal();
+      },
+      error => {
+        console.log("error", error);
+      },
+    );
+  };
+
+  deleteItem = () => {
+    const { index, session: { items } } = this.state;
+    const item = items[index];
+
+    itemApi.deleteItem(item._id).then(
+      response => {
+        const newItems = items.filter(el => el._id !== item._id);
+        this.setState(({ session }) => ({
+          session: { ...session, items: newItems },
+          showAnswers: false,
+          showFront: true,
+        }));
+        this.onCloseModal();
+      },
+      error => {
+        console.log("error", error);
+      },
+    );
+  };
+
   render() {
-    const { index, session, showFront, showNextOptions } = this.state;
+    const { index, session, showFront, showAnswers, showModalType } = this.state;
     const { items = [] } = session;
 
     if (items.length === 0) {
@@ -106,63 +152,95 @@ class Review extends Component {
       return <Results items={items} />;
     }
 
-    const selectedItem = items[index];
-    const itemContent = showFront ? selectedItem.front : selectedItem.back;
+    const item = items[index];
+    const { deck } = item;
+    const itemContent = showFront ? item.front : item.back;
 
     return (
       <div className="review-container">
+        <DeleteItemModal
+          open={showModalType === MODAL_TYPES.DELETE_ITEM}
+          onClose={this.onCloseModal}
+          onSubmit={this.deleteItem}
+        />
+        <EditItemModal
+          item={item}
+          open={showModalType === MODAL_TYPES.EDIT_ITEM}
+          onClose={this.onCloseModal}
+          onSubmit={this.editItem}
+        />
         <div className="container mt-3">
           <div className="row">
             <div className="col-md-8 offset-md-2">
-              <div className="review-header d-flex justify-content-between align-items-center mb-2">
-                <Breadcrumb>
-                  <Breadcrumb.Section className="text-uppercase">{session.type}</Breadcrumb.Section>
-                  <Breadcrumb.Divider icon="right angle" />
-                  <Breadcrumb.Section active>
-                    <Link to={`/decks/${selectedItem.deck._id}`}>{selectedItem.deck.title}</Link>
-                  </Breadcrumb.Section>
-                </Breadcrumb>
-                <p className="review-container-count">
+              <div className="review-header d-flex justify-content-between align-items-end">
+                <Header as="h3" className="text-uppercase m-0">
+                  {session.type}
+                </Header>
+                <p className="text-secondary font-italic">
                   <strong>{index + 1}</strong> out of {items.length}
                 </p>
               </div>
-              <Progress className="mb-2" value={index} total={items.length} color="blue" />
-              <div
-                className="review-container-panel bg-white border rounded mt-3 mb-4"
-                onClick={this.onItemClick}
-              >
-                <div className="panel-face font-italic text-secondary">
-                  {showFront ? <span>Front</span> : <span>Back</span>}
-                </div>
-                <h3 className="text-center my-5">{itemContent}</h3>
-              </div>
+              <Segment className="review-container-panel mt-2 mb-4" onClick={this.onReveal}>
+                <Dropdown
+                  on="click"
+                  icon={false}
+                  pointing="top right"
+                  trigger={
+                    <Icon name="ellipsis vertical" size="large" className="text-secondary m-2" />
+                  }
+                  style={{ position: "absolute", right: "16px", top: "12px" }}
+                >
+                  <Dropdown.Menu>
+                    <Dropdown.Item onClick={this.onShowModal} value={MODAL_TYPES.EDIT_ITEM}>
+                      Edit Item
+                    </Dropdown.Item>
+                    <Dropdown.Item onClick={this.onShowModal} value={MODAL_TYPES.DELETE_ITEM}>
+                      Delete Item
+                    </Dropdown.Item>
+                  </Dropdown.Menu>
+                </Dropdown>
+                <Progress attached="top" value={index} total={items.length} color="blue" />
+                <Label attached="bottom" onClick={this.onGoto} value={`/decks/${deck._id}`} as="a">
+                  {deck.title}
+                </Label>
+                <Label attached="bottom right">{showFront ? "Front" : "Back"}</Label>
+                <Header as="h2" className="text-center my-5">
+                  {itemContent}
+                </Header>
+              </Segment>
               <div className="review-actions">
-                {showNextOptions ? (
+                {showAnswers ? (
                   <div className="d-flex justify-content-between">
                     <Button
-                      className="w-100"
-                      onClick={() => this.onNextAction(REVIEW_TYPE.HARD)}
+                      onClick={this.onReview}
+                      value={REVIEW_TYPE.HARD}
+                      size="large"
                       primary
+                      fluid
                     >
                       Again
                     </Button>
                     <Button
-                      className="w-100 ml-3"
-                      onClick={() => this.onNextAction(REVIEW_TYPE.GOOD)}
+                      onClick={this.onReview}
+                      value={REVIEW_TYPE.GOOD}
+                      size="large"
                       primary
+                      fluid
                     >
                       Good
                     </Button>
                     <Button
-                      className="w-100 ml-3"
-                      onClick={() => this.onNextAction(REVIEW_TYPE.EASY)}
+                      onClick={this.onReview}
+                      value={REVIEW_TYPE.EASY}
+                      size="large"
                       primary
+                      fluid
                     >
                       Easy
                     </Button>
                   </div>
                 ) : (
-                  <Button onClick={this.onItemClick} primary fluid>
+                  <Button onClick={this.onReveal} size="large" primary fluid>
                     Show Answer
                   </Button>
                 )}
