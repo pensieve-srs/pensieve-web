@@ -3,11 +3,16 @@ import PropTypes from "prop-types";
 import { Button, Form, Modal, TextArea } from "semantic-ui-react";
 
 class AddItemModal extends Component {
-  state = { front: "", back: "" };
+  initState = { front: "", back: "" };
+
+  state = this.initState;
 
   onChange = e => this.setState({ [e.target.name]: e.target.value });
 
-  onSubmit = () => this.props.onSubmit(this.state);
+  onSubmit = () => {
+    this.props.onSubmit(this.state);
+    this.setState(this.initState);
+  };
 
   render() {
     const { front, back } = this.state;

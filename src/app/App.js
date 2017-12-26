@@ -4,6 +4,7 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { Landing } from "../pages/landing";
 import { Signup, Login, Logout, ReqAuth } from "./auth";
 import { Decks, DeckHome, DeckNew } from "./decks";
+import Account from "./account/Account";
 import Home from "./home/Home";
 import ItemHome from "./items/home/ItemHome";
 import Review from "./review/Review";
@@ -24,6 +25,7 @@ class App extends Component {
               <Route path="/signup" component={Signup} />
               <Route path="/study" component={ReqAuth(Home)} />
 
+              <Route path="/account" component={ReqAuth(Account)} />
               <Route exact path="/decks" component={ReqAuth(Decks)} />
               <Route exact path="/decks/new" component={ReqAuth(DeckNew)} />
               <Route exact path="/decks/:deckId" component={ReqAuth(DeckHome)} />

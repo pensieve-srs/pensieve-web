@@ -59,7 +59,7 @@ class Home extends Component {
                       <span className="font-weight-normal text-dark">(Recommended)</span>
                     </h5>
                     {study &&
-                    study.size && (
+                    study.size > 0 && (
                       <div className="badge badge-secondary">
                         {study.size === study.total ? (
                           <span>{pluralize("card", study.size, true)}</span>
@@ -84,7 +84,7 @@ class Home extends Component {
                   <div className="d-flex justify-content-between align-items-center">
                     <h5 className="font-weight-bold mb-1">Learn new cards</h5>
                     {learn &&
-                    learn.size && (
+                    learn.size > 0 && (
                       <div
                         className={cx("badge", {
                           "badge-secondary": learn.size === 0,
@@ -114,7 +114,7 @@ class Home extends Component {
                   <div className="d-flex justify-content-between align-items-center">
                     <h5 className="font-weight-bold mb-1">Review previous cards</h5>
                     {review &&
-                    review.size && (
+                    review.size > 0 && (
                       <div
                         className={cx("badge", {
                           "badge-secondary": review.size === 0,

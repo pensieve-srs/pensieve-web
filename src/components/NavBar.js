@@ -48,6 +48,11 @@ class NavBar extends Component {
             {authenticated ? (
               <ul className="navbar-nav ml-auto">
                 <li className="nav-item">
+                  <Link to="/account" className="nav-link" onClick={this.onCollapse}>
+                    Account
+                  </Link>
+                </li>
+                <li className="nav-item">
                   <Link to="/logout" className="nav-link" onClick={this.onCollapse}>
                     Logout
                   </Link>
