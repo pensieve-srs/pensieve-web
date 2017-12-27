@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { Button, Form } from "semantic-ui-react";
-import axios from "axios";
 import cookie from "js-cookie";
+
+import * as api from "./authActions";
 
 class Login extends Component {
   constructor(props) {
@@ -27,7 +28,7 @@ class Login extends Component {
   onSubmit(event) {
     event.preventDefault();
     const { email, password } = this.state;
-    axios.post("/users/login", { email, password }).then(
+    api.loginUser(email, password).then(
       response => {
         cookie.set("token", response.data.token);
         cookie.set("user", response.data.user);
