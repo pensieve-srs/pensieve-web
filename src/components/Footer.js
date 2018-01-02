@@ -16,7 +16,9 @@ class Footer extends Component {
         </small>
         &middot;
         <small className="d-inline m-2">
-          <a href="https://github.com/nlaz/pensieve">Contribute</a>
+          <a href="https://github.com/pensieve-srs" target="_blank" rel="noopener noreferrer">
+            Contribute
+          </a>
         </small>
       </div>
     );

@@ -208,9 +208,11 @@ class DeckHome extends Component {
                   Study now
                 </Button>
                 <Button
+                  basic
+                  color="blue"
                   onClick={this.onShowModal}
                   value={MODAL_TYPES.ADD_ITEM}
-                  className="btn-default ml-2"
+                  className="ml-2"
                 >
                   Add item +
                 </Button>
@@ -248,8 +250,8 @@ class DeckHome extends Component {
                   {(numDueCards > 0 || numNewCards > 0 || numInProgress > 0) && (
                     <div className="mb-2 text-right">
                       {numDueCards > 0 && (
-                        <Label color="yellow" className="ml-1">
-                          {numDueCards} To Review
+                        <Label color="orange" className="ml-1">
+                          {numDueCards} Weak
                         </Label>
                       )}
                       {numNewCards > 0 && (

@@ -31,7 +31,7 @@ class DeckItem extends Component {
       return "teal";
     } else if (new Date(date) < new Date()) {
       // due item
-      return "yellow";
+      return "orange";
     } else {
       // learning item
       return "grey";

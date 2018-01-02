@@ -34,7 +34,7 @@ const getColor = date => {
     return "teal";
   } else if (new Date(date) < new Date()) {
     // due item
-    return "yellow";
+    return "orange";
   } else {
     // learning item
     return "grey";
@@ -45,7 +45,7 @@ const getLabel = date => {
   if (!date) {
     return "New Card";
   } else if (new Date(date) < new Date()) {
-    return "Needs Review";
+    return "Weak Card";
   } else {
     return "Learning";
   }
