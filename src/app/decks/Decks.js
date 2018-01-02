@@ -1,6 +1,5 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
-import { Input } from "semantic-ui-react";
+import { Button, Input } from "semantic-ui-react";
 
 import * as api from "./deckActions";
 
@@ -29,6 +28,8 @@ class Decks extends Component {
   componentWillMount = () => {
     this.fetchDecks();
   };
+
+  onGoto = (event, data) => this.props.history.push(data.value);
 
   onSearch = e => this.setState({ filter: e.target.value });
 
@@ -68,9 +69,9 @@ class Decks extends Component {
                       placeholder="Search for decks..."
                     />
                   )}
-                  <Link to="decks/new" className="btn btn-primary">
+                  <Button onClick={this.onGoto} value="decks/new" primary>
                     Create Deck +
-                  </Link>
+                  </Button>
                 </div>
               </div>
               <hr className="mt-2 mb-2" />
