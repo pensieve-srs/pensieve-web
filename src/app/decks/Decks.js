@@ -1,8 +1,10 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import { Input, Segment } from "semantic-ui-react";
+import { Input } from "semantic-ui-react";
 
 import * as api from "./deckActions";
+
+import DeckCard from "./DeckCard";
 
 import "./Decks.css";
 
@@ -18,16 +20,6 @@ const EmptyView = ({ title, description, emoji = "✌️" }) => (
         </div>
       </div>
     </div>
-  </div>
-);
-
-const DeckCard = ({ deck, className }) => (
-  <div className={className}>
-    <Link to={`/decks/${deck._id}`} className="position-relative">
-      <Segment stacked className="deck-card mt-4">
-        <h4 className="text-dark font-weight-bold h6 m-0">{deck.title}</h4>
-      </Segment>
-    </Link>
   </div>
 );
 
