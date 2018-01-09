@@ -35,8 +35,8 @@ class Decks extends Component {
 
   fetchDecks = () => {
     api.fetchDecks().then(
-      ({ data }) => {
-        this.setState({ decks: data.decks });
+      response => {
+        this.setState({ decks: response.data });
       },
       error => {
         console.log("error", error);
