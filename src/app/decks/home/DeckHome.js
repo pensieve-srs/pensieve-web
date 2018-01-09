@@ -142,7 +142,7 @@ class DeckHome extends Component {
     const deckId = this.state.deck._id;
     api.studyDeck(deckId).then(
       response => {
-        this.props.history.push(`/sessions/${response.data.session._id}`);
+        this.props.history.push(`/sessions/${response.data._id}`);
       },
       error => {
         console.log("error", error);

@@ -34,5 +34,5 @@ export const deleteItem = itemId => {
 export const resetItem = itemId => {
   const config = { headers: { Authorization: cookie.get("token") } };
 
-  return axios.post(`/api/cards/${itemId}/reset`, {}, config);
+  return axios.delete(`/api/cards/${itemId}/review`, config);
 };

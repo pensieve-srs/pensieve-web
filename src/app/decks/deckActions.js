@@ -36,7 +36,7 @@ export const resetDeck = deckId => {
 export const studyDeck = deckId => {
   const config = { headers: { Authorization: cookie.get("token") } };
 
-  return axios.post(`/api/decks/${deckId}/study`, {}, config);
+  return axios.post(`/api/sessions`, { deck: deckId, type: "deck" }, config);
 };
 
 export const deleteDeck = deckId => {
