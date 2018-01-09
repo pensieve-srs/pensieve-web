@@ -116,7 +116,7 @@ class DeckHome extends Component {
   editDeck = deck => {
     api.editDeck(deck).then(
       response => {
-        this.setState({ deck: response.data.deck });
+        this.setState({ deck: response.data });
         this.onCloseModal();
       },
       error => {
@@ -129,7 +129,7 @@ class DeckHome extends Component {
     const deckId = this.state.deck._id;
     api.resetDeck(deckId).then(
       response => {
-        this.setState({ deck: response.data.deck });
+        this.setState({ deck: response.data });
         this.onCloseModal();
       },
       error => {

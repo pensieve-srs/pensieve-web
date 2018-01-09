@@ -20,7 +20,7 @@ class DeckNew extends Component {
     const { title, description } = this.state;
     api.createDeck({ title, description }).then(
       response => {
-        this.props.history.push(`/decks/${response.data.deck._id}`);
+        this.props.history.push(`/decks/${response.data._id}`);
       },
       error => {
         console.log("error", error);
@@ -34,7 +34,7 @@ class DeckNew extends Component {
     return (
       <div className="container">
         <div className="row">
-          <div className="col-sm-8 offset-sm-2 col-md-6 offset-md-3">
+          <div className="col-sm-8 offset-sm-2 col-md-8 offset-md-2">
             <h1 className="h4 mb-3 text-center">Create a new study deck</h1>
             <Form>
               <Form.Field required>
