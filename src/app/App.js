@@ -29,7 +29,7 @@ class App extends Component {
               <Route exact path="/decks" component={ReqAuth(Decks)} />
               <Route exact path="/decks/new" component={ReqAuth(DeckNew)} />
               <Route exact path="/decks/:deckId" component={ReqAuth(DeckHome)} />
-              <Route exact path="/items/:itemId" component={ReqAuth(ItemHome)} />
+              <Route exact path="/cards/:cardId" component={ReqAuth(ItemHome)} />
               <Route exact path="/sessions/:sessionId" component={ReqAuth(Review)} />
             </Switch>
           </div>

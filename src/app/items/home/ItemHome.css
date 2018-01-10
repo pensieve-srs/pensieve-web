@@ -1,10 +1,10 @@
-.item-home-header {
+.card-home-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.item-home-panel {
+.card-home-panel {
   align-items: center;
   display: flex;
   hyphens: auto;
@@ -16,7 +16,7 @@
   word-wrap: break-word;
 }
 
-.item-home-panel .item-label {
+.card-home-panel .card-label {
   position: absolute;
   right: 16px;
   top: 12px;

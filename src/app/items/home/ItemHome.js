@@ -20,7 +20,7 @@ const EmptyView = () => (
       <span style={{ fontSize: "80px", fontWeight: "bold" }} role="img" aria-label="jsx-a11y">
         😅
       </span>
-      <h3 style={{ marginBottom: "40px" }}>Oops, that item does not seem to exist.</h3>
+      <h3 style={{ marginBottom: "40px" }}>Oops, that card does not seem to exist.</h3>
       <Link to="/" className="btn btn-primary">
         Go Home
       </Link>
@@ -30,13 +30,13 @@ const EmptyView = () => (
 
 const getColor = date => {
   if (!date) {
-    // new item
+    // new card
     return "teal";
   } else if (new Date(date) < new Date()) {
-    // due item
+    // due card
     return "orange";
   } else {
-    // learning item
+    // learning card
     return "grey";
   }
 };
@@ -56,7 +56,7 @@ const ItemLabel = ({ date }) => {
   const label = getLabel(date);
 
   return (
-    <Label className="item-label" color={color}>
+    <Label className="card-label" color={color}>
       {label}
     </Label>
   );
@@ -64,16 +64,16 @@ const ItemLabel = ({ date }) => {
 
 class ItemHome extends Component {
   state = {
-    item: {},
+    card: {},
     showFront: false,
     showModalType: undefined,
   };
 
   componentWillMount() {
-    const { itemId } = this.props.match.params;
+    const { cardId } = this.props.match.params;
 
-    if (itemId) {
-      this.fetchItem(itemId);
+    if (cardId) {
+      this.fetchItem(cardId);
     }
   }
 
@@ -85,10 +85,10 @@ class ItemHome extends Component {
 
   onGoto = (event, data) => this.props.history.push(data.value);
 
-  fetchItem = itemId => {
-    api.fetchItem(itemId).then(
+  fetchItem = cardId => {
+    api.fetchItem(cardId).then(
       response => {
-        this.setState(() => ({ item: response.data.item }));
+        this.setState(() => ({ card: response.data }));
       },
       error => {
         console.log("error", error);
@@ -96,10 +96,10 @@ class ItemHome extends Component {
     );
   };
 
-  editItem = item => {
-    api.editItem(item).then(
+  editItem = card => {
+    api.editItem(card).then(
       response => {
-        this.setState({ item: response.data.item });
+        this.setState({ card: response.data });
         this.onCloseModal();
       },
       error => {
@@ -109,8 +109,8 @@ class ItemHome extends Component {
   };
 
   deleteItem = () => {
-    const { item } = this.state;
-    api.deleteItem(item._id).then(
+    const { card } = this.state;
+    api.deleteItem(card._id).then(
       response => {
         this.props.history.go(-1);
       },
@@ -121,10 +121,10 @@ class ItemHome extends Component {
   };
 
   resetItem = () => {
-    const { item } = this.state;
-    api.resetItem(item._id).then(
+    const { card } = this.state;
+    api.resetItem(card._id).then(
       response => {
-        this.setState({ item: response.data.item });
+        this.setState({ card: response.data });
         this.onCloseModal();
       },
       error => {
@@ -134,24 +134,24 @@ class ItemHome extends Component {
   };
 
   render() {
-    const { item, showFront, showModalType } = this.state;
-    const { deck } = item;
+    const { card, showFront, showModalType } = this.state;
+    const { deck } = card;
 
-    if (!item || Object.keys(item).length === 0) {
+    if (!card || Object.keys(card).length === 0) {
       return <EmptyView />;
     }
 
-    const itemContent = showFront ? item.front : item.back;
+    const cardContent = showFront ? card.front : card.back;
 
     return (
-      <div className="item-home">
+      <div className="card-home">
         <DeleteItemModal
           open={showModalType === MODAL_TYPES.DELETE_ITEM}
           onClose={this.onCloseModal}
           onSubmit={this.deleteItem}
         />
         <EditItemModal
-          item={item}
+          item={card}
           open={showModalType === MODAL_TYPES.EDIT_ITEM}
           onClose={this.onCloseModal}
           onSubmit={this.editItem}
@@ -164,7 +164,7 @@ class ItemHome extends Component {
         <div className="container">
           <div className="row">
             <div className="col-md-10 offset-md-1 col-lg-8 offset-lg-2">
-              <div className="item-home-header d-flex">
+              <div className="card-home-header d-flex">
                 <Header as="h3" className="text-uppercase m-0">
                   Item
                 </Header>
@@ -180,7 +180,7 @@ class ItemHome extends Component {
                     <Dropdown.Item onClick={this.onShowModal} value={MODAL_TYPES.EDIT_ITEM}>
                       Edit Item
                     </Dropdown.Item>
-                    {item.nextReviewDate && (
+                    {card.nextReviewDate && (
                       <Dropdown.Item onClick={this.onShowModal} value={MODAL_TYPES.RESET_ITEM}>
                         Reset Item
                       </Dropdown.Item>
@@ -192,13 +192,13 @@ class ItemHome extends Component {
                 </Dropdown>
               </div>
               <hr className="my-2" />
-              <Segment className="item-home-panel mb-2" padded onClick={this.onClick}>
+              <Segment className="card-home-panel mb-2" padded onClick={this.onClick}>
                 <Label attached="bottom" onClick={this.onGoto} value={`/decks/${deck._id}`} as="a">
                   {deck.title}
                 </Label>
                 <Label attached="bottom right">{showFront ? "Front" : "Back"}</Label>
-                <ItemLabel date={item.nextReviewDate} />
-                <h3 className="text-center my-5">{itemContent}</h3>
+                <ItemLabel date={card.nextReviewDate} />
+                <h3 className="text-center my-5">{cardContent}</h3>
               </Segment>
             </div>
           </div>

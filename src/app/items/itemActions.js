@@ -7,16 +7,16 @@ export const fetchItems = deckId => {
   return axios.get(`/api/cards?deck=${deckId}`, config);
 };
 
-export const fetchItem = itemId => {
+export const fetchItem = cardId => {
   const config = { headers: { Authorization: cookie.get("token") } };
 
-  return axios.get(`/api/cards/${itemId}`, config);
+  return axios.get(`/api/cards/${cardId}`, config);
 };
 
-export const editItem = item => {
+export const editItem = card => {
   const config = { headers: { Authorization: cookie.get("token") } };
 
-  return axios.put(`/api/cards/${item._id}`, item, config);
+  return axios.put(`/api/cards/${card._id}`, card, config);
 };
 
 export const createItem = params => {
@@ -25,14 +25,14 @@ export const createItem = params => {
   return axios.post("/api/cards", params, config);
 };
 
-export const deleteItem = itemId => {
+export const deleteItem = cardId => {
   const config = { headers: { Authorization: cookie.get("token") } };
 
-  return axios.delete(`/api/cards/${itemId}`, config);
+  return axios.delete(`/api/cards/${cardId}`, config);
 };
 
-export const resetItem = itemId => {
+export const resetItem = cardId => {
   const config = { headers: { Authorization: cookie.get("token") } };
 
-  return axios.delete(`/api/cards/${itemId}/review`, config);
+  return axios.delete(`/api/cards/${cardId}/review`, config);
 };
