@@ -13,7 +13,7 @@ class DeckItem extends Component {
 
   onShowModal = (event, data) => this.setState({ showModalType: data.value, open: false });
 
-  onGoto = () => this.props.history.push(`/items/${this.props.item._id}`);
+  onGoto = () => this.props.history.push(`/cards/${this.props.item._id}`);
 
   onReset = () => {
     this.props.resetItem(this.props.item._id);
@@ -31,7 +31,7 @@ class DeckItem extends Component {
       return "teal";
     } else if (new Date(date) < new Date()) {
       // due item
-      return "yellow";
+      return "orange";
     } else {
       // learning item
       return "grey";

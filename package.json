@@ -7,6 +7,7 @@
     "classnames": "^2.2.5",
     "enzyme": "^3.2.0",
     "enzyme-adapter-react-16": "^1.1.1",
+    "flow-bin": "^0.63.1",
     "js-cookie": "^2.2.0",
     "moment": "^2.19.4",
     "pluralize": "^7.0.0",
@@ -16,12 +17,14 @@
     "react-router-dom": "^4.2.2",
     "react-scripts": "1.0.17",
     "react-test-renderer": "^16.2.0",
+    "recharts": "^1.0.0-beta.7",
     "semantic-ui-react": "^0.77.1"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+	"flow": "flow"
   }
 }

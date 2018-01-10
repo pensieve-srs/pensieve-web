@@ -10,5 +10,5 @@ export const fetchSession = sessionId => {
 export const reviewItem = ({ itemId, value }) => {
   const config = { headers: { Authorization: cookie.get("token") } };
 
-  return axios.post(`/api/items/${itemId}/review`, { itemId, value }, config);
+  return axios.post(`/api/cards/${itemId}/review`, { itemId, value }, config);
 };

@@ -19,7 +19,7 @@ class Results extends Component {
                 ))}
               </ul>
               <div className="text-right mt-3">
-                <Link to="/" className="btn btn-primary">
+                <Link to="/decks" className="btn btn-primary">
                   Back
                 </Link>
               </div>

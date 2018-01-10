@@ -4,7 +4,7 @@ import cookie from "js-cookie";
 axios.defaults.baseURL = process.env.REACT_APP_SERVER_URL;
 
 export const fetchDecks = () => {
-  const config = { headers: { Authorization: cookie.get("token") } };
+  const config: Headers = { headers: { Authorization: cookie.get("token") } };
 
   return axios.get("/api/decks", config);
 };
@@ -36,7 +36,7 @@ export const resetDeck = deckId => {
 export const studyDeck = deckId => {
   const config = { headers: { Authorization: cookie.get("token") } };
 
-  return axios.post(`/api/decks/${deckId}/study`, {}, config);
+  return axios.post(`/api/sessions`, { deck: deckId, type: "deck" }, config);
 };
 
 export const deleteDeck = deckId => {

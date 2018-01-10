@@ -57,10 +57,10 @@ class Review extends Component {
 
   onReview = (event, data) => {
     const { value } = data;
-    const { index, session: { items } } = this.state;
-    const item = items[index];
+    const { index, session: { cards } } = this.state;
+    const card = cards[index];
 
-    this.reviewItem(item._id, value);
+    this.reviewItem(card._id, value);
   };
 
   onReveal = () => {
@@ -73,7 +73,7 @@ class Review extends Component {
   fetchSession = sessionId => {
     api.fetchSession(sessionId).then(
       response => {
-        this.setState({ session: response.data.session });
+        this.setState({ session: response.data });
       },
       error => {
         console.log("error", error.response);
@@ -84,13 +84,13 @@ class Review extends Component {
   reviewItem = (itemId, value) => {
     api.reviewItem({ itemId, value }).then(
       response => {
-        const { item } = response.data;
+        const card = response.data;
         this.setState(({ session, index }) => {
-          const items = session.items.map(el => {
-            return el._id === item._id ? item : el;
+          const cards = session.cards.map(el => {
+            return el._id === card._id ? card : el;
           });
           return {
-            session: { ...session, items: items },
+            session: { ...session, cards: cards },
             index: index + 1,
             showAnswers: false,
             showFront: true,
@@ -142,17 +142,17 @@ class Review extends Component {
 
   render() {
     const { index, session, showFront, showAnswers, showModalType } = this.state;
-    const { items = [] } = session;
+    const { cards = [] } = session;
 
-    if (items.length === 0) {
+    if (cards.length === 0) {
       return <EmptyView />;
     }
 
-    if (index > items.length - 1) {
-      return <Results items={items} />;
+    if (index > cards.length - 1) {
+      return <Results items={cards} />;
     }
 
-    const item = items[index];
+    const item = cards[index];
     const { deck } = item;
     const itemContent = showFront ? item.front : item.back;
 
@@ -171,13 +171,13 @@ class Review extends Component {
         />
         <div className="container mt-3">
           <div className="row">
-            <div className="col-md-8 offset-md-2">
+            <div className="col-md-10 offset-md-1">
               <div className="review-header d-flex justify-content-between align-items-end">
                 <Header as="h3" className="text-uppercase m-0">
                   {session.type}
                 </Header>
                 <p className="text-secondary font-italic">
-                  <strong>{index + 1}</strong> out of {items.length}
+                  <strong>{index + 1}</strong> out of {cards.length}
                 </p>
               </div>
               <Segment className="review-container-panel mt-2 mb-4" onClick={this.onReveal}>
@@ -199,7 +199,7 @@ class Review extends Component {
                     </Dropdown.Item>
                   </Dropdown.Menu>
                 </Dropdown>
-                <Progress attached="top" value={index} total={items.length} color="blue" />
+                <Progress attached="top" value={index} total={cards.length} color="blue" />
                 <Label attached="bottom" onClick={this.onGoto} value={`/decks/${deck._id}`} as="a">
                   {deck.title}
                 </Label>

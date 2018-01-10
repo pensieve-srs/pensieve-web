@@ -34,6 +34,7 @@ const EmptyView = ({ title, description, emoji = "✌️" }) => (
 class DeckHome extends Component {
   state = {
     deck: {},
+    cards: [],
     showModalType: undefined,
   };
 
@@ -42,6 +43,7 @@ class DeckHome extends Component {
 
     if (deckId) {
       this.fetchDeck(deckId);
+      this.fetchItems(deckId);
     }
   }
 
@@ -54,10 +56,7 @@ class DeckHome extends Component {
     const { front, back } = item;
     itemApi.createItem({ deck: deckId, front, back }).then(
       response => {
-        this.setState(({ deck }) => {
-          const items = [...deck.items, response.data.item];
-          return { deck: { ...deck, items: items } };
-        });
+        this.setState(({ cards }) => ({ cards: [...cards, response.data] }));
         this.onCloseModal();
       },
       error => {
@@ -69,11 +68,9 @@ class DeckHome extends Component {
   resetItem = itemId => {
     itemApi.resetItem(itemId).then(
       response => {
-        const newItem = response.data.item;
-        this.setState(({ deck }) => {
-          const items = deck.items.map(item => (item._id === newItem._id ? newItem : item));
-          return { deck: { ...deck, items: items } };
-        });
+        const newCard = response.data;
+        const cards = this.state.cards.map(card => (card._id === newCard._id ? newCard : card));
+        this.setState(() => ({ cards: cards }));
       },
       error => {
         console.log("error", error);
@@ -84,9 +81,8 @@ class DeckHome extends Component {
   deleteItem = itemId => {
     itemApi.deleteItem(itemId).then(
       response => {
-        this.setState(({ deck }) => {
-          const items = deck.items.filter(item => item._id !== itemId);
-          return { deck: { ...deck, items: items } };
+        this.setState(({ cards }) => {
+          return { cards: cards.filter(card => card._id !== itemId) };
         });
       },
       error => {
@@ -98,7 +94,18 @@ class DeckHome extends Component {
   fetchDeck = deckId => {
     api.fetchDeck(deckId).then(
       response => {
-        this.setState({ deck: response.data.deck });
+        this.setState({ deck: response.data });
+      },
+      error => {
+        console.log("error", error);
+      },
+    );
+  };
+
+  fetchItems = deckId => {
+    itemApi.fetchItems(deckId).then(
+      response => {
+        this.setState({ cards: response.data });
       },
       error => {
         console.log("error", error);
@@ -109,7 +116,7 @@ class DeckHome extends Component {
   editDeck = deck => {
     api.editDeck(deck).then(
       response => {
-        this.setState({ deck: response.data.deck });
+        this.setState({ deck: response.data });
         this.onCloseModal();
       },
       error => {
@@ -122,7 +129,7 @@ class DeckHome extends Component {
     const deckId = this.state.deck._id;
     api.resetDeck(deckId).then(
       response => {
-        this.setState({ deck: response.data.deck });
+        this.setState({ deck: response.data });
         this.onCloseModal();
       },
       error => {
@@ -135,7 +142,7 @@ class DeckHome extends Component {
     const deckId = this.state.deck._id;
     api.studyDeck(deckId).then(
       response => {
-        this.props.history.push(`/sessions/${response.data.session._id}`);
+        this.props.history.push(`/sessions/${response.data._id}`);
       },
       error => {
         console.log("error", error);
@@ -156,12 +163,11 @@ class DeckHome extends Component {
   };
 
   render() {
-    const { deck = {}, showModalType } = this.state;
-    const { items = [] } = deck;
+    const { deck, cards, showModalType } = this.state;
 
-    const numNewCards = items.filter(item => !item.nextReviewDate).length;
-    const numDueCards = items.filter(item => new Date(item.nextReviewDate) < new Date()).length;
-    const numInProgress = items.length - numNewCards - numDueCards;
+    const numNewCards = cards.filter(item => !item.nextReviewDate).length;
+    const numDueCards = cards.filter(item => new Date(item.nextReviewDate) < new Date()).length;
+    const numInProgress = cards.length - numNewCards - numDueCards;
     const createdAt = new Date(deck.createdAt);
 
     return (
@@ -200,17 +206,19 @@ class DeckHome extends Component {
                     month: "long",
                     day: "numeric",
                   })}{" "}
-                  &middot; {pluralize("card", items.length, true)}
+                  &middot; {pluralize("card", cards.length, true)}
                 </small>
               </div>
               <div className="my-3">
-                <Button onClick={this.studyDeck} primary disabled={items.length === 0}>
+                <Button onClick={this.studyDeck} primary disabled={cards.length === 0}>
                   Study now
                 </Button>
                 <Button
+                  basic
+                  color="blue"
                   onClick={this.onShowModal}
                   value={MODAL_TYPES.ADD_ITEM}
-                  className="btn-default ml-2"
+                  className="ml-2"
                 >
                   Add item +
                 </Button>
@@ -243,13 +251,13 @@ class DeckHome extends Component {
               <hr />
             </div>
             <div className="col-lg-10 offset-lg-1">
-              {items.length > 0 ? (
+              {cards.length > 0 ? (
                 <div>
                   {(numDueCards > 0 || numNewCards > 0 || numInProgress > 0) && (
                     <div className="mb-2 text-right">
                       {numDueCards > 0 && (
-                        <Label color="yellow" className="ml-1">
-                          {numDueCards} To Review
+                        <Label color="orange" className="ml-1">
+                          {numDueCards} Weak
                         </Label>
                       )}
                       {numNewCards > 0 && (
@@ -265,7 +273,7 @@ class DeckHome extends Component {
                     </div>
                   )}
                   <Segment.Group>
-                    {items.map((item, key) => (
+                    {cards.map((item, key) => (
                       <DeckItem
                         key={key}
                         item={item}
