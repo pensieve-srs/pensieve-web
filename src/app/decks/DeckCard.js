@@ -1,8 +1,16 @@
+// @flow
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { Segment } from "semantic-ui-react";
 
-class DeckCard extends Component {
+import { Deck } from "../../types";
+
+type Props = {
+  deck: Deck,
+  className: string,
+};
+
+class DeckCard extends Component<Props> {
   render() {
     const { deck, className } = this.props;
     return (

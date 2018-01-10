@@ -1,5 +1,7 @@
+// @flow
 import React, { Component } from "react";
 import { Button, Input } from "semantic-ui-react";
+import type { Deck } from "../../types";
 
 import * as api from "./deckActions";
 
@@ -7,7 +9,15 @@ import DeckCard from "./DeckCard";
 
 import "./Decks.css";
 
-const EmptyView = ({ title, description, emoji = "✌️" }) => (
+const EmptyView = ({
+  title,
+  description,
+  emoji = "✌️",
+}: {
+  title: string,
+  description: string,
+  emoji?: string,
+}) => (
   <div className="text-center ml-auto mr-auto my-5">
     <div className="text-center">
       <div className="row">
@@ -22,16 +32,25 @@ const EmptyView = ({ title, description, emoji = "✌️" }) => (
   </div>
 );
 
-class Decks extends Component {
+type Props = {
+  history: any,
+};
+
+type State = {
+  decks: Array<Deck>,
+  filter: string,
+};
+
+class Decks extends Component<Props, State> {
   state = { decks: [], filter: "" };
 
   componentWillMount = () => {
     this.fetchDecks();
   };
 
-  onGoto = (event, data) => this.props.history.push(data.value);
+  onGoto = (event: Event, data: any) => this.props.history.push(data.value);
 
-  onSearch = e => this.setState({ filter: e.target.value });
+  onSearch = ({ target }: { target: HTMLInputElement }) => this.setState({ filter: target.value });
 
   fetchDecks = () => {
     api.fetchDecks().then(
