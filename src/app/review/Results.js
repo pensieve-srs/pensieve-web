@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 
 class Results extends Component {
   render() {
-    const { items } = this.props;
+    const { cards } = this.props;
     return (
       <div className="session-results review-page">
         <div className="container">
@@ -12,9 +12,9 @@ class Results extends Component {
             <div className="col-md-8 offset-md-2">
               <h5 className="mb-3">Results</h5>
               <ul className="list-group">
-                {items.map((item, key) => (
-                  <li className="list-group-item" key={item._id}>
-                    {item.front}
+                {cards.map((card, key) => (
+                  <li className="list-group-item" key={card._id}>
+                    {card.front}
                   </li>
                 ))}
               </ul>
@@ -32,7 +32,7 @@ class Results extends Component {
 }
 
 Results.propTypes = {
-  items: PropTypes.array.isRequired,
+  cards: PropTypes.array.isRequired,
 };
 
 export default Results;

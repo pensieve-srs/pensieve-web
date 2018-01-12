@@ -6,7 +6,7 @@ import { Signup, Login, Logout, ReqAuth } from "./auth";
 import { Decks, DeckHome, DeckNew } from "./decks";
 import Account from "./account/Account";
 import Home from "./home/Home";
-import ItemHome from "./items/home/ItemHome";
+import CardHome from "./cards/home/CardHome";
 import Review from "./review/Review";
 
 import { NavBar, Footer } from "../components";
@@ -29,7 +29,7 @@ class App extends Component {
               <Route exact path="/decks" component={ReqAuth(Decks)} />
               <Route exact path="/decks/new" component={ReqAuth(DeckNew)} />
               <Route exact path="/decks/:deckId" component={ReqAuth(DeckHome)} />
-              <Route exact path="/cards/:cardId" component={ReqAuth(ItemHome)} />
+              <Route exact path="/cards/:cardId" component={ReqAuth(CardHome)} />
               <Route exact path="/sessions/:sessionId" component={ReqAuth(Review)} />
             </Switch>
           </div>

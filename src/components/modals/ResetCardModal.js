@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Button, Modal } from "semantic-ui-react";
 
-class ResetItemModal extends Component {
+class ResetCardModal extends Component {
   render() {
     const { open, onClose, onSubmit } = this.props;
     return (
@@ -28,10 +28,10 @@ class ResetItemModal extends Component {
   }
 }
 
-ResetItemModal.propTypes = {
+ResetCardModal.propTypes = {
   open: PropTypes.bool,
   onClose: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
 };
 
-export default ResetItemModal;
+export default ResetCardModal;

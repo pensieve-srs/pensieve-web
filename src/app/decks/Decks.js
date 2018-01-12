@@ -103,7 +103,7 @@ class Decks extends Component<Props, State> {
               ) : (
                 <EmptyView
                   title="No decks in your collection yet"
-                  description="Decks are groups of related items for organizing your notes. Haven't created a deck yet? No problem. Click 'Create Deck +' to get started."
+                  description="Decks are groups of related cards for organizing your notes. Haven't created a deck yet? No problem. Click 'Create Deck +' to get started."
                 />
               )}
             </div>

@@ -7,8 +7,8 @@ export const fetchSession = sessionId => {
   return axios.get(`/api/sessions/${sessionId}`, config);
 };
 
-export const reviewItem = ({ itemId, value }) => {
+export const reviewCard = ({ cardId, value }) => {
   const config = { headers: { Authorization: cookie.get("token") } };
 
-  return axios.post(`/api/cards/${itemId}/review`, { itemId, value }, config);
+  return axios.post(`/api/cards/${cardId}/review`, { cardId, value }, config);
 };

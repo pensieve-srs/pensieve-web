@@ -100,7 +100,7 @@ class Home extends Component {
                     <p className="text-secondary">
                       This session only contains cards you have already seen and need to review
                       again. It focuses on improving your recall of material you have already
-                      learned. These items are due to be reviewed again and will not contain items
+                      learned. These cards are due to be reviewed again and will not contain cards
                       you have just learned.
                     </p>
                     {review && (
