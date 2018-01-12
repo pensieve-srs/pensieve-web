@@ -73,7 +73,7 @@ class CardHome extends Component {
     const { cardId } = this.props.match.params;
 
     if (cardId) {
-      this.fetchItem(cardId);
+      this.fetchCard(cardId);
     }
   }
 

@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Button, Form, Modal, TextArea } from "semantic-ui-react";
 
-class EditItemModal extends Component {
+class EditCardModal extends Component {
   state = { ...this.props.card };
 
   onChange = e => this.setState({ [e.target.name]: e.target.value });
@@ -53,11 +53,11 @@ class EditItemModal extends Component {
   }
 }
 
-EditItemModal.propTypes = {
+EditCardModal.propTypes = {
   open: PropTypes.bool,
   card: PropTypes.object.isRequired,
   onClose: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
 };
 
-export default EditItemModal;
+export default EditCardModal;

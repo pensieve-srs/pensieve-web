@@ -60,7 +60,7 @@ class Review extends Component {
     const { index, session: { cards } } = this.state;
     const card = cards[index];
 
-    this.reviewItem(card._id, value);
+    this.reviewCard(card._id, value);
   };
 
   onReveal = () => {
@@ -126,9 +126,9 @@ class Review extends Component {
 
     cardApi.deleteCard(card._id).then(
       response => {
-        const newItems = cards.filter(el => el._id !== card._id);
+        const newCards = cards.filter(el => el._id !== card._id);
         this.setState(({ session }) => ({
-          session: { ...session, cards: newItems },
+          session: { ...session, cards: newCards },
           showAnswers: false,
           showFront: true,
         }));
