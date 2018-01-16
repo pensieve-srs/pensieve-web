@@ -220,7 +220,7 @@ class DeckHome extends Component {
                   value={MODAL_TYPES.ADD_ITEM}
                   className="ml-2"
                 >
-                  Add  +
+                  Add Card +
                 </Button>
               </div>
               <Dropdown
