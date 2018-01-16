@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import cookie from "js-cookie";
 import PropTypes from "prop-types";
 import pluralize from "pluralize";
 import { Grid, Header, Icon, Label, Popup, Segment } from "semantic-ui-react";
@@ -52,6 +53,9 @@ class Home extends Component {
   render() {
     const { dueCards, newCards } = this.state;
 
+    const user = JSON.parse(cookie.get("user"));
+    const { sessionSize } = user.prefs;
+
     return (
       <div className="study-page">
         <div className="container">
@@ -63,9 +67,9 @@ class Home extends Component {
                   Choose your study type:
                 </Header>
                 <Header.Subheader className="text-secondary">
-                  Session size is 30 cards{" "}
+                  Session size is {pluralize("card", sessionSize, true)}{" "}
                   <Popup inverted position="top right" trigger={<Icon name="help circle" />}>
-                    Session size is limited for study convenience. You can change this in your
+                    Session size is limited to keep daily reviews small. You can change this in your
                     settings.
                   </Popup>
                 </Header.Subheader>
