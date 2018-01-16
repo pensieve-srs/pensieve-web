@@ -4,7 +4,7 @@ import { withRouter } from "react-router";
 
 import { Dropdown, Label, Icon, Segment } from "semantic-ui-react";
 
-import { DeleteItemModal, ResetItemModal, MODAL_TYPES } from "../../../components/modals";
+import { DeleteCardModal, ResetCardModal, MODAL_TYPES } from "../../../components/modals";
 
 class DeckItem extends Component {
   state = { showModalType: undefined };
@@ -13,44 +13,44 @@ class DeckItem extends Component {
 
   onShowModal = (event, data) => this.setState({ showModalType: data.value, open: false });
 
-  onGoto = () => this.props.history.push(`/cards/${this.props.item._id}`);
+  onGoto = () => this.props.history.push(`/cards/${this.props.card._id}`);
 
   onReset = () => {
-    this.props.resetItem(this.props.item._id);
+    this.props.resetCard(this.props.card._id);
     this.onCloseModal();
   };
 
   onDelete = () => {
-    this.props.deleteItem(this.props.item._id);
+    this.props.deleteCard(this.props.card._id);
     this.onCloseModal();
   };
 
   getColor = date => {
     if (!date) {
-      // new item
+      // new card
       return "teal";
     } else if (new Date(date) < new Date()) {
-      // due item
+      // due card
       return "orange";
     } else {
-      // learning item
+      // learning card
       return "grey";
     }
   };
 
   render() {
-    const { item } = this.props;
+    const { card } = this.props;
     const { showModalType } = this.state;
-    const color = this.getColor(item.nextReviewDate);
+    const color = this.getColor(card.nextReviewDate);
 
     return (
       <Segment className="bg-white" onClick={this.onGoto} style={{ cursor: "pointer" }}>
-        <DeleteItemModal
+        <DeleteCardModal
           open={showModalType === MODAL_TYPES.DELETE_ITEM}
           onClose={this.onCloseModal}
           onSubmit={this.onDelete}
         />
-        <ResetItemModal
+        <ResetCardModal
           open={showModalType === MODAL_TYPES.RESET_ITEM}
           onClose={this.onCloseModal}
           onSubmit={this.onReset}
@@ -58,9 +58,9 @@ class DeckItem extends Component {
         <div className="row">
           <div className="col-9 col-sm-10">
             <div className="d-flex flex-column flex-md-row">
-              <span className="col-md-5">{item.front}</span>
+              <span className="col-md-5">{card.front}</span>
               <span className="d-none d-sm-block font-weight-bold col-md-7 mt-2 mt-md-0">
-                {item.back}
+                {card.back}
               </span>
             </div>
           </div>
@@ -81,13 +81,13 @@ class DeckItem extends Component {
                 }
               >
                 <Dropdown.Menu>
-                  {item.nextReviewDate && (
+                  {card.nextReviewDate && (
                     <Dropdown.Item onClick={this.onShowModal} value={MODAL_TYPES.RESET_ITEM}>
-                      Reset Item
+                      Reset Card
                     </Dropdown.Item>
                   )}
                   <Dropdown.Item onClick={this.onShowModal} value={MODAL_TYPES.DELETE_ITEM}>
-                    Delete Item
+                    Delete Card
                   </Dropdown.Item>
                 </Dropdown.Menu>
               </Dropdown>
@@ -100,7 +100,7 @@ class DeckItem extends Component {
 }
 
 DeckItem.propTypes = {
-  item: PropTypes.object.isRequired,
+  card: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
 };
 

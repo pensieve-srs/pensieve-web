@@ -1,9 +1,9 @@
 import React from "react";
 import { shallow } from "enzyme";
-import DeleteItemModal from "./DeleteItemModal";
+import AddCardModal from "./AddCardModal";
 
 it("renders without crashing", () => {
   const defaultProps = { onClose: jest.fn(), onSubmit: jest.fn() };
-  const wrapper = shallow(<DeleteItemModal {...defaultProps} />);
+  const wrapper = shallow(<AddCardModal {...defaultProps} />);
   expect(wrapper).toHaveLength(1);
 });

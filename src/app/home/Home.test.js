@@ -3,7 +3,8 @@ import { shallow } from "enzyme";
 import Home from "./Home";
 
 jest.mock("./homeActions", () => ({
-  fetchStudyTypes: () => Promise.resolve({ data: {} }),
+  fetchDueCards: () => Promise.resolve({ data: {} }),
+  fetchNewCards: () => Promise.resolve({ data: {} }),
 }));
 
 it("renders without crashing", () => {

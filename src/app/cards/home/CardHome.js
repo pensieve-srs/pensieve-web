@@ -3,19 +3,19 @@ import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { Icon, Dropdown, Header, Label, Segment } from "semantic-ui-react";
 
-import * as api from "../itemActions";
+import * as api from "../cardActions";
 
 import {
-  DeleteItemModal,
-  EditItemModal,
-  ResetItemModal,
+  DeleteCardModal,
+  EditCardModal,
+  ResetCardModal,
   MODAL_TYPES,
 } from "../../../components/modals";
 
-import "./ItemHome.css";
+import "./CardHome.css";
 
 const EmptyView = () => (
-  <div className="item-home">
+  <div className="card-home">
     <div className="col-md-8 offset-md-2 text-center">
       <span style={{ fontSize: "80px", fontWeight: "bold" }} role="img" aria-label="jsx-a11y">
         😅
@@ -51,7 +51,7 @@ const getLabel = date => {
   }
 };
 
-const ItemLabel = ({ date }) => {
+const CardLabel = ({ date }) => {
   const color = getColor(date);
   const label = getLabel(date);
 
@@ -62,7 +62,7 @@ const ItemLabel = ({ date }) => {
   );
 };
 
-class ItemHome extends Component {
+class CardHome extends Component {
   state = {
     card: {},
     showFront: false,
@@ -73,7 +73,7 @@ class ItemHome extends Component {
     const { cardId } = this.props.match.params;
 
     if (cardId) {
-      this.fetchItem(cardId);
+      this.fetchCard(cardId);
     }
   }
 
@@ -85,8 +85,8 @@ class ItemHome extends Component {
 
   onGoto = (event, data) => this.props.history.push(data.value);
 
-  fetchItem = cardId => {
-    api.fetchItem(cardId).then(
+  fetchCard = cardId => {
+    api.fetchCard(cardId).then(
       response => {
         this.setState(() => ({ card: response.data }));
       },
@@ -96,8 +96,8 @@ class ItemHome extends Component {
     );
   };
 
-  editItem = card => {
-    api.editItem(card).then(
+  editCard = card => {
+    api.editCard(card).then(
       response => {
         this.setState({ card: response.data });
         this.onCloseModal();
@@ -108,9 +108,9 @@ class ItemHome extends Component {
     );
   };
 
-  deleteItem = () => {
+  deleteCard = () => {
     const { card } = this.state;
-    api.deleteItem(card._id).then(
+    api.deleteCard(card._id).then(
       response => {
         this.props.history.go(-1);
       },
@@ -120,9 +120,9 @@ class ItemHome extends Component {
     );
   };
 
-  resetItem = () => {
+  resetCard = () => {
     const { card } = this.state;
-    api.resetItem(card._id).then(
+    api.resetCard(card._id).then(
       response => {
         this.setState({ card: response.data });
         this.onCloseModal();
@@ -145,28 +145,28 @@ class ItemHome extends Component {
 
     return (
       <div className="card-home">
-        <DeleteItemModal
+        <DeleteCardModal
           open={showModalType === MODAL_TYPES.DELETE_ITEM}
           onClose={this.onCloseModal}
-          onSubmit={this.deleteItem}
+          onSubmit={this.deleteCard}
         />
-        <EditItemModal
-          item={card}
+        <EditCardModal
+          card={card}
           open={showModalType === MODAL_TYPES.EDIT_ITEM}
           onClose={this.onCloseModal}
-          onSubmit={this.editItem}
+          onSubmit={this.editCard}
         />
-        <ResetItemModal
+        <ResetCardModal
           open={showModalType === MODAL_TYPES.RESET_ITEM}
           onClose={this.onCloseModal}
-          onSubmit={this.resetItem}
+          onSubmit={this.resetCard}
         />
         <div className="container">
           <div className="row">
             <div className="col-md-10 offset-md-1 col-lg-8 offset-lg-2">
               <div className="card-home-header d-flex">
                 <Header as="h3" className="text-uppercase m-0">
-                  Item
+                  Card
                 </Header>
                 <Dropdown
                   on="click"
@@ -178,15 +178,15 @@ class ItemHome extends Component {
                 >
                   <Dropdown.Menu>
                     <Dropdown.Item onClick={this.onShowModal} value={MODAL_TYPES.EDIT_ITEM}>
-                      Edit Item
+                      Edit Card
                     </Dropdown.Item>
                     {card.nextReviewDate && (
                       <Dropdown.Item onClick={this.onShowModal} value={MODAL_TYPES.RESET_ITEM}>
-                        Reset Item
+                        Reset Card
                       </Dropdown.Item>
                     )}
                     <Dropdown.Item onClick={this.onShowModal} value={MODAL_TYPES.DELETE_ITEM}>
-                      Delete Item
+                      Delete Card
                     </Dropdown.Item>
                   </Dropdown.Menu>
                 </Dropdown>
@@ -197,7 +197,7 @@ class ItemHome extends Component {
                   {deck.title}
                 </Label>
                 <Label attached="bottom right">{showFront ? "Front" : "Back"}</Label>
-                <ItemLabel date={card.nextReviewDate} />
+                <CardLabel date={card.nextReviewDate} />
                 <h3 className="text-center my-5">{cardContent}</h3>
               </Segment>
             </div>
@@ -208,9 +208,9 @@ class ItemHome extends Component {
   }
 }
 
-ItemHome.propTypes = {
+CardHome.propTypes = {
   match: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
 };
 
-export default ItemHome;
+export default CardHome;

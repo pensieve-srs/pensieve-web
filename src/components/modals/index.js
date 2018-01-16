@@ -1,10 +1,10 @@
-import AddItemModal from "./AddItemModal";
+import AddCardModal from "./AddCardModal";
 import DeleteDeckModal from "./DeleteDeckModal";
-import DeleteItemModal from "./DeleteItemModal";
+import DeleteCardModal from "./DeleteCardModal";
 import DeleteUserModal from "./DeleteUserModal";
 import EditDeckModal from "./EditDeckModal";
-import EditItemModal from "./EditItemModal";
-import ResetItemModal from "./ResetItemModal";
+import EditCardModal from "./EditCardModal";
+import ResetCardModal from "./ResetCardModal";
 import ResetDeckModal from "./ResetDeckModal";
 
 export const MODAL_TYPES = {
@@ -19,12 +19,12 @@ export const MODAL_TYPES = {
 };
 
 export {
-  AddItemModal,
+  AddCardModal,
   DeleteDeckModal,
-  DeleteItemModal,
+  DeleteCardModal,
   DeleteUserModal,
   EditDeckModal,
-  EditItemModal,
+  EditCardModal,
   ResetDeckModal,
-  ResetItemModal,
+  ResetCardModal,
 };

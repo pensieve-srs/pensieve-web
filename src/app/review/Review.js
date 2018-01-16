@@ -4,13 +4,13 @@ import { Link } from "react-router-dom";
 import { Button, Dropdown, Icon, Header, Label, Progress, Segment } from "semantic-ui-react";
 
 import * as api from "./reviewActions";
-import * as itemApi from "../items/itemActions";
+import * as cardApi from "../cards/cardActions";
 
 import Results from "./Results";
 
 import "./Review.css";
 
-import { DeleteItemModal, EditItemModal, MODAL_TYPES } from "../../components/modals";
+import { DeleteCardModal, EditCardModal, MODAL_TYPES } from "../../components/modals";
 
 const REVIEW_TYPE = {
   EASY: "easy",
@@ -60,7 +60,7 @@ class Review extends Component {
     const { index, session: { cards } } = this.state;
     const card = cards[index];
 
-    this.reviewItem(card._id, value);
+    this.reviewCard(card._id, value);
   };
 
   onReveal = () => {
@@ -81,8 +81,8 @@ class Review extends Component {
     );
   };
 
-  reviewItem = (itemId, value) => {
-    api.reviewItem({ itemId, value }).then(
+  reviewCard = (cardId, value) => {
+    api.reviewCard({ cardId, value }).then(
       response => {
         const card = response.data;
         this.setState(({ session, index }) => {
@@ -103,14 +103,14 @@ class Review extends Component {
     );
   };
 
-  editItem = item => {
-    itemApi.editItem(item).then(
+  editCard = card => {
+    cardApi.editCard(card).then(
       response => {
         this.setState(({ session }) => {
-          const items = session.items.map(el => {
-            return el._id === item._id ? item : el;
+          const cards = session.cards.map(el => {
+            return el._id === card._id ? card : el;
           });
-          return { session: { ...session, items: items } };
+          return { session: { ...session, cards: cards } };
         });
         this.onCloseModal();
       },
@@ -120,15 +120,15 @@ class Review extends Component {
     );
   };
 
-  deleteItem = () => {
-    const { index, session: { items } } = this.state;
-    const item = items[index];
+  deleteCard = () => {
+    const { index, session: { cards } } = this.state;
+    const card = cards[index];
 
-    itemApi.deleteItem(item._id).then(
+    cardApi.deleteCard(card._id).then(
       response => {
-        const newItems = items.filter(el => el._id !== item._id);
+        const newCards = cards.filter(el => el._id !== card._id);
         this.setState(({ session }) => ({
-          session: { ...session, items: newItems },
+          session: { ...session, cards: newCards },
           showAnswers: false,
           showFront: true,
         }));
@@ -149,25 +149,25 @@ class Review extends Component {
     }
 
     if (index > cards.length - 1) {
-      return <Results items={cards} />;
+      return <Results cards={cards} />;
     }
 
-    const item = cards[index];
-    const { deck } = item;
-    const itemContent = showFront ? item.front : item.back;
+    const card = cards[index];
+    const { deck } = card;
+    const cardContent = showFront ? card.front : card.back;
 
     return (
       <div className="review-container">
-        <DeleteItemModal
+        <DeleteCardModal
           open={showModalType === MODAL_TYPES.DELETE_ITEM}
           onClose={this.onCloseModal}
-          onSubmit={this.deleteItem}
+          onSubmit={this.deleteCard}
         />
-        <EditItemModal
-          item={item}
+        <EditCardModal
+          card={card}
           open={showModalType === MODAL_TYPES.EDIT_ITEM}
           onClose={this.onCloseModal}
-          onSubmit={this.editItem}
+          onSubmit={this.editCard}
         />
         <div className="container mt-3">
           <div className="row">
@@ -192,10 +192,10 @@ class Review extends Component {
                 >
                   <Dropdown.Menu>
                     <Dropdown.Item onClick={this.onShowModal} value={MODAL_TYPES.EDIT_ITEM}>
-                      Edit Item
+                      Edit Card
                     </Dropdown.Item>
                     <Dropdown.Item onClick={this.onShowModal} value={MODAL_TYPES.DELETE_ITEM}>
-                      Delete Item
+                      Delete Card
                     </Dropdown.Item>
                   </Dropdown.Menu>
                 </Dropdown>
@@ -205,7 +205,7 @@ class Review extends Component {
                 </Label>
                 <Label attached="bottom right">{showFront ? "Front" : "Back"}</Label>
                 <Header as="h2" className="text-center my-5">
-                  {itemContent}
+                  {cardContent}
                 </Header>
               </Segment>
               <div className="review-actions">

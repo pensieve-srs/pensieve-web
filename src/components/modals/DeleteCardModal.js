@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Button, Modal } from "semantic-ui-react";
 
-class DeleteItemModal extends Component {
+class DeleteCardModal extends Component {
   render() {
     const { open, onClose, onSubmit } = this.props;
     return (
@@ -28,10 +28,10 @@ class DeleteItemModal extends Component {
   }
 }
 
-DeleteItemModal.propTypes = {
+DeleteCardModal.propTypes = {
   open: PropTypes.bool,
   onClose: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
 };
 
-export default DeleteItemModal;
+export default DeleteCardModal;

@@ -4,7 +4,7 @@ import { Button, Dropdown, Icon, Label, Segment } from "semantic-ui-react";
 import pluralize from "pluralize";
 
 import {
-  AddItemModal,
+  AddCardModal,
   DeleteDeckModal,
   EditDeckModal,
   ResetDeckModal,
@@ -12,7 +12,7 @@ import {
 } from "../../../components/modals";
 
 import * as api from "../deckActions";
-import * as itemApi from "../../items/itemActions";
+import * as cardApi from "../../cards/cardActions";
 
 import DeckItem from "./DeckItem";
 
@@ -43,7 +43,7 @@ class DeckHome extends Component {
 
     if (deckId) {
       this.fetchDeck(deckId);
-      this.fetchItems(deckId);
+      this.fetchCards(deckId);
     }
   }
 
@@ -51,10 +51,10 @@ class DeckHome extends Component {
 
   onCloseModal = () => this.setState({ showModalType: undefined });
 
-  createItem = item => {
+  createCard = card => {
     const deckId = this.state.deck._id;
-    const { front, back } = item;
-    itemApi.createItem({ deck: deckId, front, back }).then(
+    const { front, back } = card;
+    cardApi.createCard({ deck: deckId, front, back }).then(
       response => {
         this.setState(({ cards }) => ({ cards: [...cards, response.data] }));
         this.onCloseModal();
@@ -65,8 +65,8 @@ class DeckHome extends Component {
     );
   };
 
-  resetItem = itemId => {
-    itemApi.resetItem(itemId).then(
+  resetCard = cardId => {
+    cardApi.resetCard(cardId).then(
       response => {
         const newCard = response.data;
         const cards = this.state.cards.map(card => (card._id === newCard._id ? newCard : card));
@@ -78,11 +78,11 @@ class DeckHome extends Component {
     );
   };
 
-  deleteItem = itemId => {
-    itemApi.deleteItem(itemId).then(
+  deleteCard = cardId => {
+    cardApi.deleteCard(cardId).then(
       response => {
         this.setState(({ cards }) => {
-          return { cards: cards.filter(card => card._id !== itemId) };
+          return { cards: cards.filter(card => card._id !== cardId) };
         });
       },
       error => {
@@ -102,8 +102,8 @@ class DeckHome extends Component {
     );
   };
 
-  fetchItems = deckId => {
-    itemApi.fetchItems(deckId).then(
+  fetchCards = deckId => {
+    cardApi.fetchCards(deckId).then(
       response => {
         this.setState({ cards: response.data });
       },
@@ -165,17 +165,17 @@ class DeckHome extends Component {
   render() {
     const { deck, cards, showModalType } = this.state;
 
-    const numNewCards = cards.filter(item => !item.nextReviewDate).length;
-    const numDueCards = cards.filter(item => new Date(item.nextReviewDate) < new Date()).length;
+    const numNewCards = cards.filter(card => !card.nextReviewDate).length;
+    const numDueCards = cards.filter(card => new Date(card.nextReviewDate) < new Date()).length;
     const numInProgress = cards.length - numNewCards - numDueCards;
     const createdAt = new Date(deck.createdAt);
 
     return (
       <div className="deck-home">
-        <AddItemModal
+        <AddCardModal
           open={showModalType === MODAL_TYPES.ADD_ITEM}
           onClose={this.onCloseModal}
-          onSubmit={this.createItem}
+          onSubmit={this.createCard}
         />
         <DeleteDeckModal
           open={showModalType === MODAL_TYPES.DELETE_DECK}
@@ -220,7 +220,7 @@ class DeckHome extends Component {
                   value={MODAL_TYPES.ADD_ITEM}
                   className="ml-2"
                 >
-                  Add item +
+                  Add  +
                 </Button>
               </div>
               <Dropdown
@@ -273,12 +273,12 @@ class DeckHome extends Component {
                     </div>
                   )}
                   <Segment.Group>
-                    {cards.map((item, key) => (
+                    {cards.map((card, key) => (
                       <DeckItem
                         key={key}
-                        item={item}
-                        deleteItem={this.deleteItem}
-                        resetItem={this.resetItem}
+                        card={card}
+                        deleteCard={this.deleteCard}
+                        resetCard={this.resetCard}
                       />
                     ))}
                   </Segment.Group>

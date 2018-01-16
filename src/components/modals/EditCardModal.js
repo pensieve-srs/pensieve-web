@@ -2,8 +2,8 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Button, Form, Modal, TextArea } from "semantic-ui-react";
 
-class EditItemModal extends Component {
-  state = { ...this.props.item };
+class EditCardModal extends Component {
+  state = { ...this.props.card };
 
   onChange = e => this.setState({ [e.target.name]: e.target.value });
 
@@ -15,7 +15,7 @@ class EditItemModal extends Component {
 
     return (
       <Modal open={open} onClose={onClose} size="tiny" className="position-relative">
-        <Modal.Header>Edit Item</Modal.Header>
+        <Modal.Header>Edit Card</Modal.Header>
         <Modal.Content>
           <Form>
             <Form.Field required>
@@ -53,11 +53,11 @@ class EditItemModal extends Component {
   }
 }
 
-EditItemModal.propTypes = {
+EditCardModal.propTypes = {
   open: PropTypes.bool,
-  item: PropTypes.object.isRequired,
+  card: PropTypes.object.isRequired,
   onClose: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
 };
 
-export default EditItemModal;
+export default EditCardModal;
