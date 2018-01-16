@@ -15,6 +15,12 @@ export const fetchNewCards = () => {
   return axios.get(`${path}/api/cards?type=learn`, config);
 };
 
+export const fetchReviews = range => {
+  const config = { headers: { Authorization: cookie.get("token") } };
+
+  return axios.get(`${path}/api/reviews?range=${range}`, config);
+};
+
 export const createSession = sessionType => {
   const config = { headers: { Authorization: cookie.get("token") } };
 

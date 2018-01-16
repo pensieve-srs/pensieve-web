@@ -9,10 +9,7 @@ import ActivityOverview from "./ActivityOverview";
 import RecentActivity from "./RecentActivity";
 
 class Home extends Component {
-  state = {
-    dueCards: [],
-    newCards: [],
-  };
+  state = { dueCards: [], newCards: [] };
 
   componentWillMount = () => {
     this.fetchDueCards();
