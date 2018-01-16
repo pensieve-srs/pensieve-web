@@ -10,19 +10,30 @@ import RecentActivity from "./RecentActivity";
 
 class Home extends Component {
   state = {
-    learn: {},
-    review: {},
+    dueCards: [],
+    newCards: [],
   };
 
   componentWillMount = () => {
-    this.fetchStudyTypes();
+    this.fetchDueCards();
+    this.fetchNewCards();
   };
 
-  fetchStudyTypes = () => {
-    api.fetchStudyTypes().then(
+  fetchDueCards = () => {
+    api.fetchDueCards().then(
       ({ data }) => {
-        const { learn, review } = data;
-        this.setState(() => ({ learn, review }));
+        this.setState({ dueCards: data });
+      },
+      error => {
+        console.log("error", error);
+      },
+    );
+  };
+
+  fetchNewCards = () => {
+    api.fetchNewCards().then(
+      ({ data }) => {
+        this.setState({ newCards: data });
       },
       error => {
         console.log("error", error);
@@ -33,7 +44,7 @@ class Home extends Component {
   createSession = sessionType => {
     api.createSession(sessionType).then(
       response => {
-        this.props.history.push(`/sessions/${response.data.session._id}`);
+        this.props.history.push(`/sessions/${response.data._id}`);
       },
       error => {
         console.log("error", error);
@@ -42,7 +53,7 @@ class Home extends Component {
   };
 
   render() {
-    const { learn, review } = this.state;
+    const { dueCards, newCards } = this.state;
 
     return (
       <div className="study-page">
@@ -68,7 +79,7 @@ class Home extends Component {
                     color="teal"
                     as="button"
                     onClick={() => this.createSession("learn")}
-                    style={{ cursor: "pointer" }}
+                    style={{ cursor: "pointer", height: "100%" }}
                     className="text-left"
                   >
                     <Header>
@@ -79,9 +90,9 @@ class Home extends Component {
                       introducing you to new material and expanding your knowledge base. This is
                       good if you are trying to learn a lot of material in a short time.
                     </p>
-                    {learn && (
+                    {newCards && (
                       <Label attached="top right" color="teal">
-                        {pluralize("card", learn.total, true)}
+                        {pluralize("card", newCards.length, true)}
                       </Label>
                     )}
                   </Segment>
@@ -91,7 +102,7 @@ class Home extends Component {
                     color="orange"
                     as="button"
                     onClick={() => this.createSession("review")}
-                    style={{ cursor: "pointer" }}
+                    style={{ cursor: "pointer", height: "100%" }}
                     className="text-left"
                   >
                     <Header>
@@ -103,9 +114,9 @@ class Home extends Component {
                       learned. These cards are due to be reviewed again and will not contain cards
                       you have just learned.
                     </p>
-                    {review && (
+                    {dueCards && (
                       <Label attached="top right" color="orange">
-                        {pluralize("card", review.total, true)}
+                        {pluralize("card", dueCards.length, true)}
                       </Label>
                     )}
                   </Segment>
