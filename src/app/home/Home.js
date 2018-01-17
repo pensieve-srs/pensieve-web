@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import cookie from "js-cookie";
 import PropTypes from "prop-types";
 import pluralize from "pluralize";
 import { Grid, Header, Icon, Label, Popup, Segment } from "semantic-ui-react";
@@ -10,11 +9,23 @@ import ActivityOverview from "./ActivityOverview";
 import RecentActivity from "./RecentActivity";
 
 class Home extends Component {
-  state = { dueCards: [], newCards: [] };
+  state = { user: { prefs: {}, counts: {} }, dueCards: [], newCards: [] };
 
   componentWillMount = () => {
     this.fetchDueCards();
     this.fetchNewCards();
+    this.fetchUserCounts();
+  };
+
+  fetchUserCounts = () => {
+    api.fetchUserCounts().then(
+      ({ data }) => {
+        this.setState({ user: data });
+      },
+      error => {
+        console.log("error", error);
+      },
+    );
   };
 
   fetchDueCards = () => {
@@ -51,17 +62,15 @@ class Home extends Component {
   };
 
   render() {
-    const { dueCards, newCards } = this.state;
-
-    const user = JSON.parse(cookie.get("user"));
-    const { sessionSize } = user.prefs;
+    const { user, dueCards, newCards } = this.state;
+    const { counts, prefs: { sessionSize } } = user;
 
     return (
       <div className="study-page">
         <div className="container">
           <div className="row">
             <div className="col-md-10 offset-md-1 col-lg-8 offset-lg-2">
-              <ActivityOverview />
+              <ActivityOverview counts={counts} />
               <div className="d-flex justify-content-between align-items-end mb-2">
                 <Header as="h3" className="m-0">
                   Choose your study type:
