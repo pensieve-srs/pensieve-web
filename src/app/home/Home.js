@@ -9,11 +9,9 @@ import ActivityOverview from "./ActivityOverview";
 import RecentActivity from "./RecentActivity";
 
 class Home extends Component {
-  state = { user: { prefs: {}, counts: {} }, dueCards: [], newCards: [] };
+  state = { user: { prefs: {}, counts: {} } };
 
   componentWillMount = () => {
-    this.fetchDueCards();
-    this.fetchNewCards();
     this.fetchUserCounts();
   };
 
@@ -21,28 +19,6 @@ class Home extends Component {
     api.fetchUserCounts().then(
       ({ data }) => {
         this.setState({ user: data });
-      },
-      error => {
-        console.log("error", error);
-      },
-    );
-  };
-
-  fetchDueCards = () => {
-    api.fetchDueCards().then(
-      ({ data }) => {
-        this.setState({ dueCards: data });
-      },
-      error => {
-        console.log("error", error);
-      },
-    );
-  };
-
-  fetchNewCards = () => {
-    api.fetchNewCards().then(
-      ({ data }) => {
-        this.setState({ newCards: data });
       },
       error => {
         console.log("error", error);
@@ -62,7 +38,7 @@ class Home extends Component {
   };
 
   render() {
-    const { user, dueCards, newCards } = this.state;
+    const { user } = this.state;
     const { counts, prefs: { sessionSize } } = user;
 
     return (
@@ -100,9 +76,10 @@ class Home extends Component {
                       introducing you to new material and expanding your knowledge base. This is
                       good if you are trying to learn a lot of material in a short time.
                     </p>
-                    {newCards && (
+                    {counts.cards &&
+                    counts.cards.new >= 0 && (
                       <Label attached="top right" color="teal">
-                        {pluralize("card", newCards.length, true)}
+                        {pluralize("card", counts.cards.new, true)}
                       </Label>
                     )}
                   </Segment>
@@ -124,9 +101,10 @@ class Home extends Component {
                       learned. These cards are due to be reviewed again and will not contain cards
                       you have just learned.
                     </p>
-                    {dueCards && (
+                    {counts.cards &&
+                    counts.cards.due >= 0 && (
                       <Label attached="top right" color="orange">
-                        {pluralize("card", dueCards.length, true)}
+                        {pluralize("card", counts.cards.due, true)}
                       </Label>
                     )}
                   </Segment>

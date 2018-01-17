@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import cookie from "js-cookie";
 import { Button, Header, Form, Checkbox, Input, Segment } from "semantic-ui-react";
 
 import * as api from "./userActions";
@@ -44,7 +43,6 @@ class Account extends Component {
     api.editUser(user).then(
       ({ data }) => {
         const { name, email, prefs } = data;
-        cookie.set("user", data);
         this.setState({ user: { name, email, prefs } });
       },
       error => {

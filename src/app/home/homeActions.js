@@ -3,18 +3,6 @@ import cookie from "js-cookie";
 
 axios.defaults.baseURL = process.env.REACT_APP_SERVER_URL;
 
-export const fetchDueCards = () => {
-  const config = { headers: { Authorization: cookie.get("token") } };
-
-  return axios.get("/api/cards?type=due", config);
-};
-
-export const fetchNewCards = () => {
-  const config = { headers: { Authorization: cookie.get("token") } };
-
-  return axios.get("/api/cards?type=learn", config);
-};
-
 export const fetchReviews = range => {
   const config = { headers: { Authorization: cookie.get("token") } };
 
