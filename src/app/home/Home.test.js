@@ -5,6 +5,7 @@ import Home from "./Home";
 jest.mock("./homeActions", () => ({
   fetchDueCards: () => Promise.resolve({ data: {} }),
   fetchNewCards: () => Promise.resolve({ data: {} }),
+  fetchUserCounts: () => Promise.resolve({ data: {} }),
 }));
 
 it("renders without crashing", () => {
