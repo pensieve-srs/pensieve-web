@@ -1,24 +1,18 @@
 import axios from "axios";
 import cookie from "js-cookie";
 
-const path = process.env.REACT_APP_SERVER_URL;
-
-export const fetchDueCards = () => {
-  const config = { headers: { Authorization: cookie.get("token") } };
-
-  return axios.get(`${path}/api/cards?type=due`, config);
-};
-
-export const fetchNewCards = () => {
-  const config = { headers: { Authorization: cookie.get("token") } };
-
-  return axios.get(`${path}/api/cards?type=learn`, config);
-};
+axios.defaults.baseURL = process.env.REACT_APP_SERVER_URL;
 
 export const fetchReviews = range => {
   const config = { headers: { Authorization: cookie.get("token") } };
 
-  return axios.get(`${path}/api/reviews?range=${range}`, config);
+  return axios.get(`/api/reviews?range=${range}`, config);
+};
+
+export const fetchUserCounts = () => {
+  const config = { headers: { Authorization: cookie.get("token") } };
+
+  return axios.get("/api/users/profile?fields=counts", config);
 };
 
 export const createSession = sessionType => {
