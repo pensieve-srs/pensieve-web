@@ -36,7 +36,11 @@ class Login extends Component {
         this.props.history.push("/decks");
       },
       error => {
-        this.props.onError("Oops, looks like this username and password is invalid.");
+        if (error.response.status === 400) {
+          this.props.onError("Oops, it does not look like that is a valid username or password.");
+        } else {
+          this.props.onError("Oops, looks like something went wrong.");
+        }
       },
     );
   }

@@ -36,7 +36,11 @@ class Signup extends Component {
         this.props.history.push("/decks");
       },
       error => {
-        console.log("error", error);
+        if (error.response.status === 400) {
+          this.props.onError("Oops, it does not look like that is a valid sign up");
+        } else {
+          this.props.onError("Oops, looks like something went wrong.");
+        }
       },
     );
   }

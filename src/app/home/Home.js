@@ -21,7 +21,7 @@ class Home extends Component {
         this.setState({ user: data });
       },
       error => {
-        console.log("error", error);
+        this.props.onError("Oops, looks like something went wrong.");
       },
     );
   };
@@ -32,7 +32,7 @@ class Home extends Component {
         this.props.history.push(`/sessions/${response.data._id}`);
       },
       error => {
-        console.log("error", error);
+        this.props.onError("Oops, looks like something went wrong.");
       },
     );
   };
@@ -43,7 +43,7 @@ class Home extends Component {
 
     return (
       <div className="study-page">
-        <div className="container">
+        <div className="container mt-3">
           <div className="row">
             <div className="col-md-10 offset-md-1 col-lg-8 offset-lg-2">
               <ActivityOverview counts={counts} />

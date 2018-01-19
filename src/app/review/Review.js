@@ -76,7 +76,7 @@ class Review extends Component {
         this.setState({ session: response.data });
       },
       error => {
-        console.log("error", error.response);
+        this.props.onError("Oops! Something went wrong.");
       },
     );
   };
@@ -98,7 +98,7 @@ class Review extends Component {
         });
       },
       error => {
-        console.log("error", error);
+        this.props.onError("Oops! Something went wrong.");
       },
     );
   };
@@ -115,7 +115,7 @@ class Review extends Component {
         this.onCloseModal();
       },
       error => {
-        console.log("error", error);
+        this.props.onError("Oops! Something went wrong.");
       },
     );
   };
@@ -135,7 +135,7 @@ class Review extends Component {
         this.onCloseModal();
       },
       error => {
-        console.log("error", error);
+        this.props.onError("Oops! Something went wrong.");
       },
     );
   };

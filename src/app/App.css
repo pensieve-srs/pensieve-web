@@ -8,3 +8,7 @@
   flex-grow: 1;
   position: relative;
 }
+
+.App-navbar {
+  z-index: 1;
+}

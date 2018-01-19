@@ -23,7 +23,7 @@ class DeckNew extends Component {
         this.props.history.push(`/decks/${response.data._id}`);
       },
       error => {
-        console.log("error", error);
+        this.props.onError("Oops! Something went wrong.");
       },
     );
   };

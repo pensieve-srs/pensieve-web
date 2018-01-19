@@ -33,7 +33,7 @@ class Account extends Component {
         this.setState({ user: { name, email, prefs } });
       },
       error => {
-        console.log("error", error);
+        this.props.onError("Oops! Something went wrong.");
       },
     );
   };
@@ -46,7 +46,7 @@ class Account extends Component {
         this.setState({ user: { name, email, prefs } });
       },
       error => {
-        console.log("error", error);
+        this.props.onError("Oops! Something went wrong.");
       },
     );
   };
@@ -57,7 +57,7 @@ class Account extends Component {
         this.props.history.push("/logout");
       },
       error => {
-        console.log("error", error);
+        this.props.onError("Oops! Something went wrong.");
       },
     );
   };

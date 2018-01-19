@@ -14,7 +14,7 @@ class ReviewNew extends Component {
         this.props.history.push(`/sessions/${data.session._id}`);
       },
       error => {
-        console.log("error", error);
+        this.props.onError("Oops! Something went wrong.");
       },
     );
   };
