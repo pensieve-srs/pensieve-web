@@ -9,7 +9,7 @@ import Home from "./home/Home";
 import CardHome from "./cards/home/CardHome";
 import Review from "./review/Review";
 
-import { NavBar, Footer, FlashMessage } from "../components";
+import { NavBar, Footer, ErrorHandler } from "../components";
 
 import "./App.css";
 
@@ -19,11 +19,10 @@ class App extends Component {
       <BrowserRouter>
         <div className="App">
           <NavBar className="App-navbar" />
-          <FlashMessage className="App-flashMessage" />
-          <div className="App-content my-5">
+          <div className="App-content py-5">
             <Switch>
               <Route exact path="/" component={Landing} />
-              <Route path="/login" component={Login} />
+              <Route path="/login" component={ErrorHandler(Login)} />
               <Route path="/logout" component={Logout} />
               <Route path="/signup" component={Signup} />
               <Route path="/study" component={ReqAuth(Home)} />

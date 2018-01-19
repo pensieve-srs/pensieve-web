@@ -3,25 +3,22 @@ import React, { Component } from "react";
 import { Message, Icon } from "semantic-ui-react";
 import cx from "classnames";
 
+import "./FlashMessage.css";
+
 type Props = {
   onDismiss: () => any,
   className: string,
 };
 
 class FlashMessage extends Component<Props> {
-  onDismiss = () => {
-    console.log("Flash dismissed!");
-    this.props.onDismiss();
-  };
-
   render() {
-    const { className } = this.props;
+    const { className, message } = this.props;
     return (
       <div className={cx(className, "FlashMessage")}>
-        <Message negative>
+        <Message negative className="rounded-0">
           <div className="container">
-            <span>This is an error message</span>
-            <Icon onClick={this.onDismiss} name="close" />
+            <span>{message}</span>
+            <Icon onClick={this.props.onDismiss} name="close" />
           </div>
         </Message>
       </div>
