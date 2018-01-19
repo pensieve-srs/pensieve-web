@@ -129,7 +129,7 @@ class DeckHome extends Component {
     const deckId = this.state.deck._id;
     api.resetDeck(deckId).then(
       response => {
-        this.setState({ deck: response.data });
+        this.setState({ cards: response.data });
         this.onCloseModal();
       },
       error => {
