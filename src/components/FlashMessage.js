@@ -8,6 +8,7 @@ import "./FlashMessage.css";
 type Props = {
   onDismiss: () => any,
   className: string,
+  message: string,
 };
 
 class FlashMessage extends Component<Props> {
