@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 
-import { Landing } from "../pages/landing";
+import { Landing, NotFound } from "../pages";
 import { Signup, Login, Logout, ReqAuth } from "./auth";
 import { Decks, DeckHome, DeckNew } from "./decks";
 import Account from "./account/Account";
@@ -11,13 +11,15 @@ import Review from "./review/Review";
 
 import { NavBar, Footer } from "../components";
 
+import "./App.css";
+
 class App extends Component {
   render() {
     return (
       <BrowserRouter>
-        <div>
-          <NavBar />
-          <div className="py-5 my-5">
+        <div className="App">
+          <NavBar className="App-navbar" />
+          <div className="App-content my-5">
             <Switch>
               <Route exact path="/" component={Landing} />
               <Route path="/login" component={Login} />
@@ -31,9 +33,10 @@ class App extends Component {
               <Route exact path="/decks/:deckId" component={ReqAuth(DeckHome)} />
               <Route exact path="/cards/:cardId" component={ReqAuth(CardHome)} />
               <Route exact path="/sessions/:sessionId" component={ReqAuth(Review)} />
+              <Route exact path="*" component={NotFound} />
             </Switch>
           </div>
-          <Footer />
+          <Footer className="App-footer" />
         </div>
       </BrowserRouter>
     );

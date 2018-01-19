@@ -1,9 +1,11 @@
 import React, { Component } from "react";
+import cx from "classnames";
 
 class Footer extends Component {
   render() {
+    const { className } = this.props;
     return (
-      <div className="footer text-center text-secondary mt-5 mb-3">
+      <div className={cx(className, "footer text-center text-secondary mt-5 mb-3")}>
         <small className="d-inline m-2">
           <span>Pensieve &copy; 2017</span>
         </small>
