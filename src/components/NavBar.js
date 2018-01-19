@@ -9,12 +9,13 @@ class NavBar extends Component {
   onCollapse = () => this.setState(({ isCollapsed }) => ({ isCollapsed: !isCollapsed }));
 
   render() {
+    const { className } = this.props;
     const { isCollapsed } = this.state;
     const authenticated = Boolean(cookie.get("token"));
 
     return (
       <nav
-        className="navbar navbar-expand-lg navbar-light"
+        className={cx(className, "navbar navbar-expand-lg navbar-light")}
         style={{ background: "#fff", boxShadow: "0 1px 2px rgba(178, 178, 178, 0.5)" }}
       >
         <div className="container">

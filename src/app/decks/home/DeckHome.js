@@ -60,7 +60,7 @@ class DeckHome extends Component {
         this.onCloseModal();
       },
       error => {
-        console.log("error", error);
+        this.props.onError("Oops! Something went wrong.");
       },
     );
   };
@@ -73,7 +73,7 @@ class DeckHome extends Component {
         this.setState(() => ({ cards: cards }));
       },
       error => {
-        console.log("error", error);
+        this.props.onError("Oops! Something went wrong.");
       },
     );
   };
@@ -86,7 +86,7 @@ class DeckHome extends Component {
         });
       },
       error => {
-        console.log("error", error);
+        this.props.onError("Oops! Something went wrong.");
       },
     );
   };
@@ -97,7 +97,7 @@ class DeckHome extends Component {
         this.setState({ deck: response.data });
       },
       error => {
-        console.log("error", error);
+        this.props.onError("Oops! Something went wrong.");
       },
     );
   };
@@ -108,7 +108,7 @@ class DeckHome extends Component {
         this.setState({ cards: response.data });
       },
       error => {
-        console.log("error", error);
+        this.props.onError("Oops! Something went wrong.");
       },
     );
   };
@@ -120,7 +120,7 @@ class DeckHome extends Component {
         this.onCloseModal();
       },
       error => {
-        console.log("error", error.response);
+        this.props.onError("Oops! Something went wrong.");
       },
     );
   };
@@ -129,11 +129,11 @@ class DeckHome extends Component {
     const deckId = this.state.deck._id;
     api.resetDeck(deckId).then(
       response => {
-        this.setState({ deck: response.data });
+        this.setState({ cards: response.data });
         this.onCloseModal();
       },
       error => {
-        console.log("error", error);
+        this.props.onError("Oops! Something went wrong.");
       },
     );
   };
@@ -145,7 +145,7 @@ class DeckHome extends Component {
         this.props.history.push(`/sessions/${response.data._id}`);
       },
       error => {
-        console.log("error", error);
+        this.props.onError("Oops! Something went wrong.");
       },
     );
   };
@@ -157,7 +157,7 @@ class DeckHome extends Component {
         this.props.history.push(`/decks`);
       },
       error => {
-        console.log("error", error);
+        this.props.onError("Oops! Something went wrong.");
       },
     );
   };

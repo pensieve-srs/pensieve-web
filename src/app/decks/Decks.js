@@ -34,6 +34,7 @@ const EmptyView = ({
 
 type Props = {
   history: any,
+  onError: any,
 };
 
 type State = {
@@ -58,7 +59,7 @@ class Decks extends Component<Props, State> {
         this.setState({ decks: response.data });
       },
       error => {
-        console.log("error", error);
+        this.props.onError("Oops! Something went wrong.");
       },
     );
   };

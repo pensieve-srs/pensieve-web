@@ -30,7 +30,7 @@ export const createDeck = params => {
 export const resetDeck = deckId => {
   const config = { headers: { Authorization: cookie.get("token") } };
 
-  return axios.post(`/api/decks/${deckId}/reset`, {}, config);
+  return axios.delete(`/api/decks/${deckId}/review`, config);
 };
 
 export const studyDeck = deckId => {

@@ -36,7 +36,11 @@ class Login extends Component {
         this.props.history.push("/decks");
       },
       error => {
-        console.log("error", error);
+        if (error.response.status === 400) {
+          this.props.onError("Oops, it does not look like that is a valid username or password.");
+        } else {
+          this.props.onError("Oops, looks like something went wrong.");
+        }
       },
     );
   }
@@ -56,6 +60,7 @@ class Login extends Component {
                     name="email"
                     type="email"
                     placeholder="you@your-domain.com"
+                    autoComplete="username"
                   />
                 </Form.Field>
                 <Form.Field>
@@ -65,6 +70,7 @@ class Login extends Component {
                     name="password"
                     type="password"
                     placeholder="Shh! Keep this a secret."
+                    autoComplete="current-password"
                   />
                 </Form.Field>
                 <Button onClick={this.onSubmit} type="submit" primary fluid>

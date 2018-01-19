@@ -36,7 +36,11 @@ class Signup extends Component {
         this.props.history.push("/decks");
       },
       error => {
-        console.log("error", error);
+        if (error.response.status === 400) {
+          this.props.onError("Oops, it does not look like that is a valid sign up");
+        } else {
+          this.props.onError("Oops, looks like something went wrong.");
+        }
       },
     );
   }
@@ -65,6 +69,7 @@ class Signup extends Component {
                     name="email"
                     type="email"
                     placeholder="you@your-domain.com"
+                    autoComplete="username"
                   />
                 </Form.Field>
                 <Form.Field>
@@ -74,6 +79,7 @@ class Signup extends Component {
                     name="password"
                     type="password"
                     placeholder="Shh! Keep this a secret."
+                    autoComplete="current-password"
                   />
                 </Form.Field>
                 <Button className="mt-4" onClick={this.onSubmit} type="submit" primary fluid>

@@ -9,6 +9,11 @@ class AddItemModal extends Component {
 
   onChange = e => this.setState({ [e.target.name]: e.target.value });
 
+  onClose = () => {
+    this.props.onClose();
+    this.setState(this.initState);
+  };
+
   onSubmit = () => {
     this.props.onSubmit(this.state);
     this.setState(this.initState);
@@ -16,10 +21,10 @@ class AddItemModal extends Component {
 
   render() {
     const { front, back } = this.state;
-    const { open, onClose } = this.props;
+    const { open } = this.props;
 
     return (
-      <Modal open={open} onClose={onClose} size="tiny" className="position-relative">
+      <Modal open={open} onClose={this.onClose} size="tiny" className="position-relative">
         <Modal.Header>Add Card</Modal.Header>
         <Modal.Content>
           <Form>
@@ -48,7 +53,7 @@ class AddItemModal extends Component {
           </Form>
         </Modal.Content>
         <Modal.Actions>
-          <Button onClick={onClose}>Close</Button>
+          <Button onClick={this.onClose}>Close</Button>
           <Button onClick={this.onSubmit} primary>
             Save
           </Button>

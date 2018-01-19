@@ -91,7 +91,7 @@ class CardHome extends Component {
         this.setState(() => ({ card: response.data }));
       },
       error => {
-        console.log("error", error);
+        this.props.onError("Oops! Something went wrong.");
       },
     );
   };
@@ -103,7 +103,7 @@ class CardHome extends Component {
         this.onCloseModal();
       },
       error => {
-        console.log("error", error);
+        this.props.onError("Oops! Something went wrong.");
       },
     );
   };
@@ -115,7 +115,7 @@ class CardHome extends Component {
         this.props.history.go(-1);
       },
       error => {
-        console.log("error", error);
+        this.props.onError("Oops! Something went wrong.");
       },
     );
   };
@@ -128,7 +128,7 @@ class CardHome extends Component {
         this.onCloseModal();
       },
       error => {
-        console.log("error", error);
+        this.props.onError("Oops! Something went wrong.");
       },
     );
   };

@@ -1,0 +1,14 @@
+.App {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.App-content {
+  flex-grow: 1;
+  position: relative;
+}
+
+.App-navbar {
+  z-index: 1;
+}

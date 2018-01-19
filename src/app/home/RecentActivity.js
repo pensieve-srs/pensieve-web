@@ -44,7 +44,7 @@ class RecentActivity extends Component {
         this.setState({ activity: this.formatToObject(data) });
       },
       error => {
-        console.log("error", error);
+        this.props.onError("Oops! Something went wrong.");
       },
     );
   };
