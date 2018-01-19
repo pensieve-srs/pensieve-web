@@ -69,6 +69,7 @@ class Signup extends Component {
                     name="email"
                     type="email"
                     placeholder="you@your-domain.com"
+                    autoComplete="username"
                   />
                 </Form.Field>
                 <Form.Field>
@@ -78,6 +79,7 @@ class Signup extends Component {
                     name="password"
                     type="password"
                     placeholder="Shh! Keep this a secret."
+                    autoComplete="current-password"
                   />
                 </Form.Field>
                 <Button className="mt-4" onClick={this.onSubmit} type="submit" primary fluid>
