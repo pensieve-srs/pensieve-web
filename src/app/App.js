@@ -8,6 +8,7 @@ import Account from "./account/Account";
 import Home from "./home/Home";
 import CardHome from "./cards/home/CardHome";
 import Review from "./review/Review";
+import ReviewNew from "./review/new/ReviewNew";
 
 import { NavBar, Footer, ErrorHandler } from "../components";
 import GoogleAnalytics from "../helpers/GoogleAnalytics";
@@ -34,6 +35,7 @@ class App extends Component {
               <Route exact path="/decks/new" component={ReqAuth(ErrorHandler(DeckNew))} />
               <Route exact path="/decks/:deckId" component={ReqAuth(ErrorHandler(DeckHome))} />
               <Route exact path="/cards/:cardId" component={ReqAuth(ErrorHandler(CardHome))} />
+              <Route exact path="/sessions/new" component={ReqAuth(ErrorHandler(ReviewNew))} />
               <Route exact path="/sessions/:sessionId" component={ReqAuth(ErrorHandler(Review))} />
               <Route exact path="*" component={NotFound} />
             </Switch>

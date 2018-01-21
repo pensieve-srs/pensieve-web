@@ -5,13 +5,13 @@ import * as api from "../../home/homeActions";
 
 class ReviewNew extends Component {
   componentWillMount() {
-    this.createSession("study");
+    this.createSession("review");
   }
 
   createSession = sessionType => {
     api.createSession(sessionType).then(
       ({ data }) => {
-        this.props.history.push(`/sessions/${data.session._id}`);
+        this.props.history.push(`/sessions/${data._id}`);
       },
       error => {
         this.props.onError("Oops! Something went wrong.");

@@ -56,7 +56,15 @@ class RecentActivity extends Component {
     return (
       <Segment className="mt-4">
         <Header>Recent Activity</Header>
-        <div className="border bg-light rounded p-2">
+        <div className="border bg-light rounded p-2 position-relative">
+          {Object.keys(activity).length === 0 && (
+            <div
+              className="position-absolute text-center d-flex align-items-center justify-content-center"
+              style={{ right: 0, left: 0, top: 0, bottom: 0 }}
+            >
+              <span className="font-weight-bold text-secondary">No recent activity</span>
+            </div>
+          )}
           <ResponsiveContainer height={200} width="100%">
             <BarChart data={chartData} padding={{ top: 10, bottom: 0, left: 0, right: 0 }}>
               <Bar dataKey="value" fill="#00b5ad" barSize={40} shape={<Rectangle radius={3} />} />
