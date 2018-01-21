@@ -5,6 +5,8 @@ import cookie from "js-cookie";
 
 import * as api from "./authActions";
 
+import { logSignupEvent } from "../../helpers/GoogleAnalytics";
+
 class Signup extends Component {
   constructor(props) {
     super(props);
@@ -30,6 +32,7 @@ class Signup extends Component {
     const { email, password, name } = this.state;
     api.signupUser(email, password, name).then(
       response => {
+        logSignupEvent(response.data.user._id);
         cookie.set("token", response.data.token);
         cookie.set("user", response.data.user);
 

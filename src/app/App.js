@@ -10,8 +10,7 @@ import CardHome from "./cards/home/CardHome";
 import Review from "./review/Review";
 
 import { NavBar, Footer, ErrorHandler } from "../components";
-// import { logPageView } from "analytics";
-import GoogleAnalytics from "../components/GoogleAnalytics";
+import GoogleAnalytics from "../helpers/GoogleAnalytics";
 
 import "./App.css";
 
