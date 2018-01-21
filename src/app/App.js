@@ -10,6 +10,7 @@ import CardHome from "./cards/home/CardHome";
 import Review from "./review/Review";
 
 import { NavBar, Footer, ErrorHandler } from "../components";
+import GoogleAnalytics from "../helpers/GoogleAnalytics";
 
 import "./App.css";
 
@@ -20,6 +21,7 @@ class App extends Component {
         <div className="App">
           <NavBar className="App-navbar" />
           <div className="App-content py-5">
+            <Route path="/" component={GoogleAnalytics} />
             <Switch>
               <Route exact path="/" component={Landing} />
               <Route path="/login" component={ErrorHandler(Login)} />

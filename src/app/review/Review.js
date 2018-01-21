@@ -171,7 +171,7 @@ class Review extends Component {
         />
         <div className="container mt-3">
           <div className="row">
-            <div className="col-md-10 offset-md-1">
+            <div className="col-md-10 offset-md-1 col-lg-8 offset-lg-2">
               <div className="review-header d-flex justify-content-between align-items-end">
                 <Header as="h3" className="text-uppercase m-0">
                   {session.type}

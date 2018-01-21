@@ -71,7 +71,7 @@ class Decks extends Component<Props, State> {
       filter.length > 0 ? decks.filter(deck => deck.title.indexOf(filter) !== -1) : decks;
 
     return (
-      <div className="decks-page ">
+      <div className="decks-page mt-3">
         <div className="container">
           <div className="row">
             <div className="col-lg-10 offset-lg-1">
