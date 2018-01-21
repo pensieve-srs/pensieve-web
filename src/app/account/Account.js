@@ -17,9 +17,14 @@ class Account extends Component {
     this.setState(({ user }) => ({ user: { ...user, [name]: value } }));
   };
 
-  onPrefChange = e => {
-    const { name, value } = e.target;
+  onPrefChange = (e, data) => {
+    const { name, value } = data;
     this.setState(({ user }) => ({ user: { ...user, prefs: { ...user.prefs, [name]: value } } }));
+  };
+
+  onPrefToggle = (e, data) => {
+    const { name, checked } = data;
+    this.setState(({ user }) => ({ user: { ...user, prefs: { ...user.prefs, [name]: checked } } }));
   };
 
   onCloseModal = () => this.setState({ showModalType: undefined });
@@ -112,9 +117,10 @@ class Account extends Component {
                   <Form.Field>
                     <label>Email reminders</label>
                     <Checkbox
+                      onClick={this.onPrefToggle}
                       checked={prefs.emailNotifs}
+                      name="emailNotifs"
                       label="Send me notifications when cards need to be reviewed"
-                      disabled
                       toggle
                     />
                   </Form.Field>

@@ -36,7 +36,7 @@ class Login extends Component {
         this.props.history.push("/decks");
       },
       error => {
-        if (error.response.status === 400) {
+        if (error.response && error.response.status === 400) {
           this.props.onError("Oops, it does not look like that is a valid username or password.");
         } else {
           this.props.onError("Oops, looks like something went wrong.");
