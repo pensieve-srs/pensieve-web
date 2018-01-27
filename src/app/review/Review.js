@@ -19,7 +19,7 @@ const REVIEW_TYPE = {
 };
 
 const EmptyView = () => (
-  <div className="review-container">
+  <div className="review-container mt-5 pt-3">
     <div className="col-md-8 offset-md-2 text-center">
       <span style={{ fontSize: "80px", fontWeight: "bold" }} role="img" aria-label="jsx-a11y">
         😅
