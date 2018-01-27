@@ -121,7 +121,6 @@ class Account extends Component {
                       checked={prefs.emailNotifs}
                       name="emailNotifs"
                       label="Send me notifications when cards need to be reviewed"
-                      toggle
                     />
                   </Form.Field>
                   <Form.Field className="mt-4">
