@@ -1,17 +1,17 @@
 .decks-container-header {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
   align-items: center;
+  display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
 }
 
 .decks-container-actions {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
   margin: 0;
   width: auto;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
 }
 
 .decks-container-search {
