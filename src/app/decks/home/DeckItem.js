@@ -2,9 +2,10 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { withRouter } from "react-router";
 
-import { Dropdown, Label, Icon, Segment } from "semantic-ui-react";
+import { Dropdown, Icon, Segment } from "semantic-ui-react";
 
 import { DeleteCardModal, ResetCardModal, MODAL_TYPES } from "../../../components/modals";
+import { ProgressBar } from "../../../components";
 
 class DeckItem extends Component {
   state = { showModalType: undefined };
@@ -25,23 +26,12 @@ class DeckItem extends Component {
     this.onCloseModal();
   };
 
-  getColor = date => {
-    if (!date) {
-      // new card
-      return "teal";
-    } else if (new Date(date) < new Date()) {
-      // due card
-      return "orange";
-    } else {
-      // learning card
-      return "grey";
-    }
-  };
-
   render() {
     const { card } = this.props;
     const { showModalType } = this.state;
-    const color = this.getColor(card.nextReviewDate);
+
+    // TODO: Add progress from card
+    const progress = Math.random() * 100;
 
     return (
       <Segment className="bg-white" onClick={this.onGoto} style={{ cursor: "pointer" }}>
@@ -64,9 +54,9 @@ class DeckItem extends Component {
               </span>
             </div>
           </div>
-          <div className="col-3 col-sm-2">
+          <div className="col-3 col-sm-2 pl-0">
             <div className="d-flex justify-content-end align-items-center">
-              <Label color={color} circular empty className="mr-2" />
+              <ProgressBar progress={progress} />
               <Dropdown
                 on="click"
                 icon={false}

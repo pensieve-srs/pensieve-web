@@ -5,6 +5,7 @@ import { Header, Segment, Progress } from "semantic-ui-react";
 import pluralize from "pluralize";
 
 import { Deck } from "../../types";
+import { ProgressBar } from "../../components";
 
 import "./DeckCard.css";
 
@@ -34,16 +35,7 @@ class DeckCard extends Component<Props> {
               <small className="m-0 text-secondary font-weight-bold">
                 {pluralize("card", deck.numCards, true)}
               </small>
-              <div className="progress" style={{ width: "35px", borderRadius: "999px" }}>
-                <div
-                  style={{ background: "#50E3C2", width: `${percent}%`, borderRadius: "999px" }}
-                  className="progress-bar"
-                  role="progressbar"
-                  aria-valuenow="0"
-                  aria-valuemin=""
-                  aria-valuemax="100"
-                />
-              </div>
+              <ProgressBar progress={percent} />
             </div>
             <Progress attached="bottom" color="blue" percent={100} />
           </Segment>

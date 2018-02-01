@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { Button, Dropdown, Icon, Label, Segment } from "semantic-ui-react";
+import { Button, Dropdown, Icon, Segment } from "semantic-ui-react";
 import pluralize from "pluralize";
 
 import {
@@ -11,10 +11,14 @@ import {
   MODAL_TYPES,
 } from "../../../components/modals";
 
+import { ProgressBar } from "../../../components";
+
 import * as api from "../deckActions";
 import * as cardApi from "../../cards/cardActions";
 
 import DeckItem from "./DeckItem";
+
+import "./DeckHome.css";
 
 const EmptyView = ({ title, description, emoji = "✌️" }) => (
   <div className="text-center ml-auto mr-auto my-5">
@@ -165,10 +169,8 @@ class DeckHome extends Component {
   render() {
     const { deck, cards, showModalType } = this.state;
 
-    const numNewCards = cards.filter(card => !card.nextReviewDate).length;
-    const numDueCards = cards.filter(card => new Date(card.nextReviewDate) < new Date()).length;
-    const numInProgress = cards.length - numNewCards - numDueCards;
-    const createdAt = new Date(deck.createdAt);
+    // TODO: Add total progress to deck
+    const progress = Math.random() * 100;
 
     return (
       <div className="deck-home">
@@ -196,32 +198,34 @@ class DeckHome extends Component {
         <div className="container">
           <div className="row">
             <div className="position-relative col-lg-10 offset-lg-1">
-              <h6 className="text-secondary text-uppercase m-0 mt-3">DECK</h6>
-              <h1 className="font-weight-bold h3 mb-0 mt-0">{deck.title}</h1>
-              {deck.description && <p className="text-dark h5 mb-1">{deck.description}</p>}
-              <div className="mt-1 mb-3">
-                <small className="text-secondary">
-                  {createdAt.toLocaleDateString("en-US", {
-                    year: "numeric",
-                    month: "long",
-                    day: "numeric",
-                  })}{" "}
-                  &middot; {pluralize("card", cards.length, true)}
-                </small>
+              <h6 className="text-secondary text-uppercase m-0 mt-3">
+                DECK &middot; {pluralize("card", cards.length, true)}
+              </h6>
+              <div className="deck-header">
+                <h1 className="font-weight-bold h3 mb-0 mt-0">{deck.title}</h1>
+                {deck.description && <p className="text-dark h5 mb-1">{deck.description}</p>}
               </div>
-              <div className="my-3">
-                <Button onClick={this.studyDeck} primary disabled={cards.length === 0}>
-                  Study now
-                </Button>
-                <Button
-                  basic
-                  color="blue"
-                  onClick={this.onShowModal}
-                  value={MODAL_TYPES.ADD_ITEM}
-                  className="ml-2"
-                >
-                  Add Card +
-                </Button>
+              <div className="d-flex flex-wrap-reverse justify-content-between align-items-center mt-4">
+                <div className="left-side">
+                  <Button onClick={this.studyDeck} primary disabled={cards.length === 0}>
+                    Study Now
+                  </Button>
+                  <Button
+                    basic
+                    color="blue"
+                    onClick={this.onShowModal}
+                    value={MODAL_TYPES.ADD_ITEM}
+                    className="ml-2"
+                  >
+                    Add Card +
+                  </Button>
+                </div>
+                <div className="right-side mb-3 d-flex align-items-center">
+                  <strong style={{ lineHeight: "1em" }} className="text-secondary mr-2">
+                    Total Strength
+                  </strong>
+                  <ProgressBar progress={progress} />
+                </div>
               </div>
               <Dropdown
                 on="click"
@@ -253,25 +257,6 @@ class DeckHome extends Component {
             <div className="col-lg-10 offset-lg-1">
               {cards.length > 0 ? (
                 <div>
-                  {(numDueCards > 0 || numNewCards > 0 || numInProgress > 0) && (
-                    <div className="mb-2 text-right">
-                      {numDueCards > 0 && (
-                        <Label color="orange" className="ml-1">
-                          {numDueCards} Weak
-                        </Label>
-                      )}
-                      {numNewCards > 0 && (
-                        <Label color="teal" className="ml-1">
-                          {numNewCards} New
-                        </Label>
-                      )}
-                      {numInProgress > 0 && (
-                        <Label color="grey" className="ml-1">
-                          {numInProgress} Learning
-                        </Label>
-                      )}
-                    </div>
-                  )}
                   <Segment.Group>
                     {cards.map((card, key) => (
                       <DeckItem

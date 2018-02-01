@@ -1,0 +1,9 @@
+.deck-home .deck-header {
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .deck-home .deck-header {
+    width: 75%;
+  }
+}
