@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 
-import { Landing, NotFound } from "../pages";
+import { Landing, NotFound, ComingSoon } from "../pages";
 import { Signup, Login, Logout, ReqAuth } from "./auth";
 import { Decks, DeckHome, DeckNew } from "./decks";
 import Account from "./account/Account";
@@ -35,6 +35,11 @@ class App extends Component {
               <Route exact path="/cards/:cardId" component={ReqAuth(ErrorHandler(CardHome))} />
               <Route exact path="/sessions/new" component={ReqAuth(ErrorHandler(ReviewNew))} />
               <Route exact path="/sessions/:sessionId" component={ReqAuth(ErrorHandler(Review))} />
+
+              <Route path="/about" component={ComingSoon} />
+              <Route path="/api" component={ComingSoon} />
+              <Route path="/help" component={ComingSoon} />
+
               <Route exact path="*" component={NotFound} />
             </Switch>
           </div>
