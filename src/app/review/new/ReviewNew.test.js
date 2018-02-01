@@ -2,7 +2,7 @@ import React from "react";
 import { shallow } from "enzyme";
 import ReviewNew from "./ReviewNew";
 
-jest.mock("../../home/homeActions", () => ({
+jest.mock("../reviewActions", () => ({
   createSession: () => Promise.resolve({ data: { session: {} } }),
 }));
 
