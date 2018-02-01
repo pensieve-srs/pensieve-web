@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import cookie from "js-cookie";
 import cx from "classnames";
+import { withRouter } from "react-router";
 
 class NavBar extends Component {
   state = { isCollapsed: false };
@@ -13,13 +14,15 @@ class NavBar extends Component {
     const { isCollapsed } = this.state;
     const authenticated = Boolean(cookie.get("token"));
 
+    const isLandingPage = this.props.location.pathname === "/";
+
     return (
       <nav
-        className={cx(className, "navbar navbar-expand-lg navbar-light")}
-        style={{ background: "#fff", boxShadow: "0 1px 2px rgba(178, 178, 178, 0.5)" }}
+        className={cx(className, "navbar navbar-expand-sm navbar-dark")}
+        style={{ backgroundColor: isLandingPage ? "#1574fb" : "#262E45" }}
       >
         <div className="container">
-          <Link className="navbar-brand text-primary" to="/">
+          <Link className="navbar-brand" to="/">
             Pensieve
           </Link>
           <button
@@ -32,25 +35,16 @@ class NavBar extends Component {
           </button>
 
           <div className={cx("navbar-collapse", { collapse: !isCollapsed })}>
-            {authenticated && (
-              <ul className="navbar-nav mr-auto">
-                <li className="nav-item">
-                  <Link to="/study" className="nav-link" onClick={this.onCollapse}>
-                    Study
-                  </Link>
-                </li>
+            {authenticated ? (
+              <ul className="navbar-nav ml-auto">
                 <li className="nav-item">
                   <Link to="/decks" className="nav-link" onClick={this.onCollapse}>
                     Decks
                   </Link>
                 </li>
-              </ul>
-            )}
-            {authenticated ? (
-              <ul className="navbar-nav ml-auto">
                 <li className="nav-item">
                   <Link to="/account" className="nav-link" onClick={this.onCollapse}>
-                    Account
+                    Settings
                   </Link>
                 </li>
                 <li className="nav-item">
@@ -75,4 +69,4 @@ class NavBar extends Component {
   }
 }
 
-export default NavBar;
+export default withRouter(NavBar);
