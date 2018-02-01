@@ -5,7 +5,6 @@ import { Landing, NotFound } from "../pages";
 import { Signup, Login, Logout, ReqAuth } from "./auth";
 import { Decks, DeckHome, DeckNew } from "./decks";
 import Account from "./account/Account";
-import Home from "./home/Home";
 import CardHome from "./cards/home/CardHome";
 import Review from "./review/Review";
 import ReviewNew from "./review/new/ReviewNew";
@@ -28,7 +27,6 @@ class App extends Component {
               <Route path="/login" component={ErrorHandler(Login)} />
               <Route path="/logout" component={Logout} />
               <Route path="/signup" component={ErrorHandler(Signup)} />
-              <Route path="/study" component={ReqAuth(ErrorHandler(Home))} />
 
               <Route path="/account" component={ReqAuth(ErrorHandler(Account))} />
               <Route exact path="/decks" component={ReqAuth(ErrorHandler(Decks))} />
