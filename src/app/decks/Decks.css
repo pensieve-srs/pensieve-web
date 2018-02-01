@@ -23,16 +23,3 @@
   margin-right: 24px;
   margin-bottom: 0;
 }
-
-.deck-card {
-  display: flex;
-  flex-direction: column;
-  height: 180px;
-  hyphens: auto;
-  justify-content: center;
-  text-align: center;
-}
-
-.deck-card:hover {
-  text-decoration: none;
-}

@@ -98,7 +98,7 @@ class Decks extends Component<Props, State> {
               {filteredDecks.length > 0 ? (
                 <div className="row">
                   {filteredDecks.map((deck, key) => (
-                    <DeckCard className="col-xs-6 col-sm-4 col-md-3" deck={deck} key={key} />
+                    <DeckCard className="col-6 col-sm-4 col-md-3" deck={deck} key={key} />
                   ))}
                 </div>
               ) : (
