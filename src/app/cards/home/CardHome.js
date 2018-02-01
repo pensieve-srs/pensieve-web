@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
-import { Icon, Dropdown, Header, Label, Segment } from "semantic-ui-react";
+import { Icon, Dropdown, Header, Label, Segment, Popup } from "semantic-ui-react";
 
 import * as api from "../cardActions";
 
@@ -11,6 +11,8 @@ import {
   ResetCardModal,
   MODAL_TYPES,
 } from "../../../components/modals";
+
+import { ProgressBar } from "../../../components";
 
 import "./CardHome.css";
 
@@ -27,40 +29,6 @@ const EmptyView = () => (
     </div>
   </div>
 );
-
-const getColor = date => {
-  if (!date) {
-    // new card
-    return "teal";
-  } else if (new Date(date) < new Date()) {
-    // due card
-    return "orange";
-  } else {
-    // learning card
-    return "grey";
-  }
-};
-
-const getLabel = date => {
-  if (!date) {
-    return "New Card";
-  } else if (new Date(date) < new Date()) {
-    return "Weak Card";
-  } else {
-    return "Learning";
-  }
-};
-
-const CardLabel = ({ date }) => {
-  const color = getColor(date);
-  const label = getLabel(date);
-
-  return (
-    <Label className="card-label" color={color}>
-      {label}
-    </Label>
-  );
-};
 
 class CardHome extends Component {
   state = {
@@ -143,6 +111,9 @@ class CardHome extends Component {
 
     const cardContent = showFront ? card.front : card.back;
 
+    // TODO: Add card progress
+    const progress = Math.random() * 100;
+
     return (
       <div className="card-home">
         <DeleteCardModal
@@ -197,7 +168,20 @@ class CardHome extends Component {
                   {deck.title}
                 </Label>
                 <Label attached="bottom right">{showFront ? "Front" : "Back"}</Label>
-                <CardLabel date={card.nextReviewDate} />
+                <Popup
+                  inverted
+                  position="bottom right"
+                  trigger={
+                    <div className="card-strength d-flex align-items-center">
+                      <strong style={{ lineHeight: "1em" }} className="text-secondary mr-2">
+                        Recall Strength
+                      </strong>
+                      <ProgressBar progress={progress} />
+                    </div>
+                  }
+                >
+                  You have a {parseInt(progress, 10)}% chance of remembering this card correctly
+                </Popup>
                 <h3 className="text-center my-5">{cardContent}</h3>
               </Segment>
             </div>
