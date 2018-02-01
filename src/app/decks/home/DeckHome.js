@@ -173,7 +173,7 @@ class DeckHome extends Component {
     const progress = Math.random() * 100;
 
     return (
-      <div className="deck-home">
+      <div className="deck-home mt-4">
         <AddCardModal
           open={showModalType === MODAL_TYPES.ADD_ITEM}
           onClose={this.onCloseModal}
@@ -198,7 +198,7 @@ class DeckHome extends Component {
         <div className="container">
           <div className="row">
             <div className="position-relative col-lg-10 offset-lg-1">
-              <h6 className="text-secondary text-uppercase m-0 mt-3">
+              <h6 className="text-secondary text-uppercase m-0">
                 DECK &middot; {pluralize("card", cards.length, true)}
               </h6>
               <div className="deck-header">
@@ -220,7 +220,7 @@ class DeckHome extends Component {
                     Add Card +
                   </Button>
                 </div>
-                <div className="right-side mb-3 d-flex align-items-center">
+                <div className="right-side my-3 d-flex align-items-center">
                   <strong style={{ lineHeight: "1em" }} className="text-secondary mr-2">
                     Total Strength
                   </strong>

@@ -72,7 +72,7 @@ class Account extends Component {
     const { prefs } = user;
 
     return (
-      <div className="account-page">
+      <div className="account-page mt-4">
         <DeleteUserModal
           open={showModalType === MODAL_TYPES.DELETE_USER}
           onClose={this.onCloseModal}

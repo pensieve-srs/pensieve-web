@@ -25,7 +25,7 @@ class DeckCard extends Component<Props> {
       <div className={className}>
         <Link to={`/decks/${deck._id}`} className="position-relative">
           <Segment className="deck-card mt-4 position-relative">
-            <Header className="m-0" as="h5">
+            <Header className="m-0" as="h4">
               {deck.title}
             </Header>
             <div

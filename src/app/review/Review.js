@@ -157,7 +157,7 @@ class Review extends Component {
     const cardContent = showFront ? card.front : card.back;
 
     return (
-      <div className="review-container">
+      <div className="review-container mt-4">
         <DeleteCardModal
           open={showModalType === MODAL_TYPES.DELETE_ITEM}
           onClose={this.onCloseModal}

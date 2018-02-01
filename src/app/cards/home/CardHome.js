@@ -115,7 +115,7 @@ class CardHome extends Component {
     const progress = Math.random() * 100;
 
     return (
-      <div className="card-home">
+      <div className="card-home mt-4">
         <DeleteCardModal
           open={showModalType === MODAL_TYPES.DELETE_ITEM}
           onClose={this.onCloseModal}
