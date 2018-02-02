@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { withRouter } from "react-router";
+import moment from "moment";
 
 import { Dropdown, Icon, Segment } from "semantic-ui-react";
 
@@ -30,8 +31,10 @@ class DeckItem extends Component {
     const { card } = this.props;
     const { showModalType } = this.state;
 
-    // TODO: Add progress from card
-    const progress = Math.random() * 100;
+    // Quick maths
+    const delta = moment().diff(moment(card.reviewedAt), "days");
+    const interval = Math.abs(moment(card.reviewedAt).diff(moment(card.nextReviewDate), "days"));
+    const probabilty = Math.pow(2, -delta / interval) * 100;
 
     return (
       <Segment className="bg-white" onClick={this.onGoto} style={{ cursor: "pointer" }}>
@@ -56,7 +59,7 @@ class DeckItem extends Component {
           </div>
           <div className="col-3 col-sm-2 pl-0">
             <div className="d-flex justify-content-end align-items-center">
-              <ProgressBar progress={progress} />
+              <ProgressBar progress={probabilty} />
               <Dropdown
                 on="click"
                 icon={false}

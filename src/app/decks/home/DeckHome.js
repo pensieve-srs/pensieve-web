@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Button, Dropdown, Icon, Segment } from "semantic-ui-react";
 import pluralize from "pluralize";
+import moment from "moment";
 
 import {
   AddCardModal,
@@ -169,8 +170,15 @@ class DeckHome extends Component {
   render() {
     const { deck, cards, showModalType } = this.state;
 
-    // TODO: Add total progress to deck
-    const progress = Math.random() * 100;
+    // Quick maths
+    const probs = cards.map(card => {
+      const delta = moment().diff(moment(card.reviewedAt), "days");
+      const interval = Math.abs(moment(card.reviewedAt).diff(moment(card.nextReviewDate), "days"));
+      return Math.pow(2, -delta / interval) * 100;
+    });
+
+    const average = arr => arr.reduce((p, c) => p + c, 0) / arr.length;
+    const strength = average(probs);
 
     return (
       <div className="deck-home mt-4">
@@ -224,7 +232,7 @@ class DeckHome extends Component {
                   <strong style={{ lineHeight: "1em" }} className="text-secondary mr-2">
                     Total Strength
                   </strong>
-                  <ProgressBar progress={progress} />
+                  <ProgressBar progress={strength} />
                 </div>
               </div>
               <Dropdown

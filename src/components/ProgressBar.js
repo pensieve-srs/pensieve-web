@@ -1,17 +1,25 @@
 // @flow
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import cx from "classnames";
+
+import "./ProgressBar.css";
 
 type Props = { progress: Number };
 
 class ProgressBar extends Component<Props> {
   render() {
     const { progress } = this.props;
+    const classNames = cx("progress-bar", {
+      "progress-bar--warning": progress < 70,
+      "progress-bar--alert": progress < 50,
+    });
+
     return (
-      <div className="progress" style={{ width: "35px", borderRadius: "999px" }}>
+      <div className="progress">
         <div
-          style={{ background: "#50E3C2", width: `${String(progress)}%`, borderRadius: "999px" }}
-          className="progress-bar"
+          style={{ width: `${String(progress)}%` }}
+          className={classNames}
           role="progressbar"
           aria-valuenow="0"
           aria-valuemin=""

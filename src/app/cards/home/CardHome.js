@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import moment from "moment";
 import { Link } from "react-router-dom";
 import { Icon, Dropdown, Header, Label, Segment, Popup } from "semantic-ui-react";
 
@@ -109,10 +110,15 @@ class CardHome extends Component {
       return <EmptyView />;
     }
 
-    const cardContent = showFront ? card.front : card.back;
+    // Quick maths
+    const delta = moment().diff(moment(card.reviewedAt), "days");
+    const interval = Math.abs(moment(card.reviewedAt).diff(moment(card.nextReviewDate), "days"));
+    const probabilty = Math.pow(2, -delta / interval) * 100;
 
-    // TODO: Add card progress
-    const progress = Math.random() * 100;
+    console.log("delta", delta);
+    console.log("interval", interval);
+    console.log("probabilty", probabilty);
+    const cardContent = showFront ? card.front : card.back;
 
     return (
       <div className="card-home mt-4">
@@ -176,11 +182,11 @@ class CardHome extends Component {
                       <strong style={{ lineHeight: "1em" }} className="text-secondary mr-2">
                         Recall Strength
                       </strong>
-                      <ProgressBar progress={progress} />
+                      <ProgressBar progress={probabilty} />
                     </div>
                   }
                 >
-                  You have a {parseInt(progress, 10)}% chance of remembering this card correctly
+                  You have a {parseInt(probabilty, 10)}% chance of remembering this card correctly
                 </Popup>
                 <h3 className="text-center my-5">{cardContent}</h3>
               </Segment>
