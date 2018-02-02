@@ -19,7 +19,7 @@ class NavBar extends Component {
     return (
       <nav
         className={cx(className, "navbar navbar-expand-sm navbar-dark")}
-        style={{ backgroundColor: isLandingPage ? "#1574fb" : "#262E45" }}
+        style={{ zIndex: "2000", backgroundColor: isLandingPage ? "#1574fb" : "#262E45" }}
       >
         <div className="container">
           <Link className="navbar-brand" to="/">

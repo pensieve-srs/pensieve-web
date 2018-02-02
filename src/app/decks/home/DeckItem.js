@@ -27,11 +27,11 @@ class DeckItem extends Component {
   };
 
   render() {
-    const { card } = this.props;
+    const { card, onClick } = this.props;
     const { showModalType } = this.state;
 
     return (
-      <Segment className="bg-white" onClick={this.onGoto} style={{ cursor: "pointer" }}>
+      <Segment className="bg-white" onClick={onClick} style={{ cursor: "pointer" }}>
         <DeleteCardModal
           open={showModalType === MODAL_TYPES.DELETE_ITEM}
           onClose={this.onCloseModal}
