@@ -18,8 +18,6 @@ class DeckCard extends Component<Props> {
   render() {
     const { deck, className } = this.props;
 
-    console.log("deck", deck);
-
     return (
       <div className={className}>
         <Link to={`/decks/${deck._id}`} className="position-relative">
@@ -36,7 +34,7 @@ class DeckCard extends Component<Props> {
                   {pluralize("card", deck.cardsCount, true)}
                 </small>
               )}
-              <ProgressBar progress={deck.strength} />
+              {deck.strength >= 0 && <ProgressBar progress={deck.strength} />}
             </div>
             <Progress attached="bottom" color="blue" percent={100} />
           </Segment>

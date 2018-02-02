@@ -217,12 +217,14 @@ class DeckHome extends Component {
                     Add Card +
                   </Button>
                 </div>
-                <div className="right-side my-3 d-flex align-items-center">
-                  <strong style={{ lineHeight: "1em" }} className="text-secondary mr-2">
-                    Total Strength
-                  </strong>
-                  {deck.strength >= 0 && <ProgressBar progress={deck.strength} />}
-                </div>
+                {deck.strength >= 0 && (
+                  <div className="right-side my-3 d-flex align-items-center">
+                    <strong style={{ lineHeight: "1em" }} className="text-secondary mr-2">
+                      Total Strength
+                    </strong>
+                    <ProgressBar progress={deck.strength} />
+                  </div>
+                )}
               </div>
               <Dropdown
                 on="click"
