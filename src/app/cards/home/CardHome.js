@@ -173,11 +173,11 @@ class CardHome extends Component {
                       <strong style={{ lineHeight: "1em" }} className="text-secondary mr-2">
                         Recall Strength
                       </strong>
-                      <ProgressBar progress={card.strength} />
+                      <ProgressBar percent={card.recallRate} />
                     </div>
                   }
                 >
-                  You have a {parseInt(card.strength, 10)}% chance of remembering this card
+                  You have a {parseInt(card.recallRate, 10)}% chance of remembering this card
                   correctly
                 </Popup>
                 <h3 className="text-center my-5">{cardContent}</h3>

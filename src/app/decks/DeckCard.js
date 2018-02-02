@@ -34,7 +34,7 @@ class DeckCard extends Component<Props> {
                   {pluralize("card", deck.cardsCount, true)}
                 </small>
               )}
-              {deck.strength >= 0 && <ProgressBar progress={deck.strength} />}
+              {deck.recallRate >= 0 && <ProgressBar percent={deck.recallRate} />}
             </div>
             <Progress attached="bottom" color="blue" percent={100} />
           </Segment>

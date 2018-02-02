@@ -53,7 +53,7 @@ class DeckItem extends Component {
           </div>
           <div className="col-3 col-sm-2 pl-0">
             <div className="d-flex justify-content-end align-items-center">
-              {card.strength >= 0 && <ProgressBar progress={card.strength} />}
+              {card.recallRate >= 0 && <ProgressBar percent={card.recallRate} />}
               <Dropdown
                 on="click"
                 icon={false}
