@@ -15,17 +15,34 @@
 .landing-hero {
   background: #1574fb;
   color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   margin-top: -6em;
+  min-height: 85vh;
 }
 
 .landing-hero .btn-light {
   color: #1574fb;
+  background: white;
+  font-size: 1.25em;
   padding: 10px 15px;
+  box-shadow: 0 3px 4px 0 rgba(0, 0, 0, 0.13);
 }
 
-.landing-hero h1,
+.landing-hero h1 {
+  font-size: 46px;
+  line-height: 1.1em;
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.05);
+}
 .landing-hero h2 {
-  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
+  font-weight: normal;
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.05);
+}
+
+.landing-hero .landing-image {
+  margin-right: -80px;
+  margin-left: 20px;
 }
 
 .landing-copy {

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
-import { Icon, Dropdown, Header, Label, Segment } from "semantic-ui-react";
+import { Icon, Dropdown, Header, Label, Segment, Popup } from "semantic-ui-react";
 
 import * as api from "../cardActions";
 
@@ -12,10 +12,12 @@ import {
   MODAL_TYPES,
 } from "../../../components/modals";
 
+import { ProgressBar } from "../../../components";
+
 import "./CardHome.css";
 
 const EmptyView = () => (
-  <div className="card-home">
+  <div className="card-home mt-5 pt-3">
     <div className="col-md-8 offset-md-2 text-center">
       <span style={{ fontSize: "80px", fontWeight: "bold" }} role="img" aria-label="jsx-a11y">
         😅
@@ -27,40 +29,6 @@ const EmptyView = () => (
     </div>
   </div>
 );
-
-const getColor = date => {
-  if (!date) {
-    // new card
-    return "teal";
-  } else if (new Date(date) < new Date()) {
-    // due card
-    return "orange";
-  } else {
-    // learning card
-    return "grey";
-  }
-};
-
-const getLabel = date => {
-  if (!date) {
-    return "New Card";
-  } else if (new Date(date) < new Date()) {
-    return "Weak Card";
-  } else {
-    return "Learning";
-  }
-};
-
-const CardLabel = ({ date }) => {
-  const color = getColor(date);
-  const label = getLabel(date);
-
-  return (
-    <Label className="card-label" color={color}>
-      {label}
-    </Label>
-  );
-};
 
 class CardHome extends Component {
   state = {
@@ -144,7 +112,7 @@ class CardHome extends Component {
     const cardContent = showFront ? card.front : card.back;
 
     return (
-      <div className="card-home">
+      <div className="card-home mt-4">
         <DeleteCardModal
           open={showModalType === MODAL_TYPES.DELETE_ITEM}
           onClose={this.onCloseModal}
@@ -197,7 +165,21 @@ class CardHome extends Component {
                   {deck.title}
                 </Label>
                 <Label attached="bottom right">{showFront ? "Front" : "Back"}</Label>
-                <CardLabel date={card.nextReviewDate} />
+                <Popup
+                  inverted
+                  position="bottom right"
+                  trigger={
+                    <div className="card-strength d-flex align-items-center">
+                      <strong style={{ lineHeight: "1em" }} className="text-secondary mr-2">
+                        Recall Strength
+                      </strong>
+                      <ProgressBar percent={card.recallRate} />
+                    </div>
+                  }
+                >
+                  You have a {parseInt(card.recallRate, 10)}% chance of remembering this card
+                  correctly
+                </Popup>
                 <h3 className="text-center my-5">{cardContent}</h3>
               </Segment>
             </div>

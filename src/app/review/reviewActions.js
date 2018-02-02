@@ -12,3 +12,9 @@ export const reviewCard = ({ cardId, value }) => {
 
   return axios.post(`/api/cards/${cardId}/review`, { cardId, value }, config);
 };
+
+export const createSession = sessionType => {
+  const config = { headers: { Authorization: cookie.get("token") } };
+
+  return axios.post("/api/sessions", { type: sessionType }, config);
+};

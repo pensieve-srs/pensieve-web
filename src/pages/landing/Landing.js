@@ -10,13 +10,13 @@ class Landing extends Component {
         <div className="landing-hero py-5 px-2">
           <div className="container my-5 py-5">
             <div className="d-flex flex-column-reverse flex-md-row justify-content-between align-items-center">
-              <div className="landing-copy w-100 text-left">
-                <h1 className="font-weight-bold">Remember anything with Pensieve</h1>
-                <h2 className="h5">
+              <div className="landing-copy w-100 text-left mr-3">
+                <h1 className="font-weight-bold mb-2">Remember anything with Pensieve</h1>
+                <h2 className="h5 m-0">
                   Pensieve is a simple, open source, personal spaced repetition platform
                 </h2>
-                <Link to="/signup" className="btn btn-light mt-4">
-                  Create account
+                <Link to="/signup" className="btn btn-light mt-5">
+                  Get Started Now
                 </Link>
               </div>
               <div className="landing-image mb-5">

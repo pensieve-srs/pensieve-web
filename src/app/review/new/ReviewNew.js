@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 
-import * as api from "../../home/homeActions";
+import * as api from "../reviewActions";
 
 class ReviewNew extends Component {
   componentWillMount() {

@@ -1,11 +1,10 @@
 import React, { Component } from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 
-import { Landing, NotFound } from "../pages";
+import { Landing, NotFound, ComingSoon } from "../pages";
 import { Signup, Login, Logout, ReqAuth } from "./auth";
 import { Decks, DeckHome, DeckNew } from "./decks";
 import Account from "./account/Account";
-import Home from "./home/Home";
 import CardHome from "./cards/home/CardHome";
 import Review from "./review/Review";
 import ReviewNew from "./review/new/ReviewNew";
@@ -28,7 +27,6 @@ class App extends Component {
               <Route path="/login" component={ErrorHandler(Login)} />
               <Route path="/logout" component={Logout} />
               <Route path="/signup" component={ErrorHandler(Signup)} />
-              <Route path="/study" component={ReqAuth(ErrorHandler(Home))} />
 
               <Route path="/account" component={ReqAuth(ErrorHandler(Account))} />
               <Route exact path="/decks" component={ReqAuth(ErrorHandler(Decks))} />
@@ -37,6 +35,11 @@ class App extends Component {
               <Route exact path="/cards/:cardId" component={ReqAuth(ErrorHandler(CardHome))} />
               <Route exact path="/sessions/new" component={ReqAuth(ErrorHandler(ReviewNew))} />
               <Route exact path="/sessions/:sessionId" component={ReqAuth(ErrorHandler(Review))} />
+
+              <Route path="/about" component={ComingSoon} />
+              <Route path="/api" component={ComingSoon} />
+              <Route path="/help" component={ComingSoon} />
+
               <Route exact path="*" component={NotFound} />
             </Switch>
           </div>

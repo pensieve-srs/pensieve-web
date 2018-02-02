@@ -1,0 +1,17 @@
+.progress {
+  width: 35px;
+  border-radius: 999px;
+}
+
+.progress-bar {
+  background: #50e3c2;
+  border-radius: 999px;
+}
+
+.progress-bar--warning {
+  background: #f5a623;
+}
+
+.progress-bar--alert {
+  background: #ff3232;
+}

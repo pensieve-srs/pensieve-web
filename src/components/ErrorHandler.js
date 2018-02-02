@@ -29,7 +29,7 @@ const ErrorHandler = (ComposedComponent: ElementType) => {
               message={message}
             />
           )}
-          <ComposedComponent {...this.props} onError={this.onError} />;
+          <ComposedComponent {...this.props} onError={this.onError} />
         </Fragment>
       );
     }

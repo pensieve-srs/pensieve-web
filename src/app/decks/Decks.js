@@ -71,7 +71,7 @@ class Decks extends Component<Props, State> {
       filter.length > 0 ? decks.filter(deck => deck.title.indexOf(filter) !== -1) : decks;
 
     return (
-      <div className="decks-page mt-3">
+      <div className="decks-page mt-4">
         <div className="container">
           <div className="row">
             <div className="col-lg-10 offset-lg-1">
@@ -98,7 +98,7 @@ class Decks extends Component<Props, State> {
               {filteredDecks.length > 0 ? (
                 <div className="row">
                   {filteredDecks.map((deck, key) => (
-                    <DeckCard className="col-xs-6 col-sm-4 col-md-3" deck={deck} key={key} />
+                    <DeckCard className="col-6 col-sm-4 col-md-3" deck={deck} key={key} />
                   ))}
                 </div>
               ) : (
