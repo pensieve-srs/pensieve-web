@@ -221,7 +221,7 @@ class DeckHome extends Component {
                   <strong style={{ lineHeight: "1em" }} className="text-secondary mr-2">
                     Total Strength
                   </strong>
-                  <ProgressBar progress={deck.strength} />
+                  {deck.strength >= 0 && <ProgressBar progress={deck.strength} />}
                 </div>
               </div>
               <Dropdown

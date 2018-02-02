@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import moment from "moment";
 import { Link } from "react-router-dom";
 import { Icon, Dropdown, Header, Label, Segment, Popup } from "semantic-ui-react";
 
@@ -18,7 +17,7 @@ import { ProgressBar } from "../../../components";
 import "./CardHome.css";
 
 const EmptyView = () => (
-  <div className="card-home">
+  <div className="card-home mt-5 pt-3">
     <div className="col-md-8 offset-md-2 text-center">
       <span style={{ fontSize: "80px", fontWeight: "bold" }} role="img" aria-label="jsx-a11y">
         😅
@@ -110,14 +109,6 @@ class CardHome extends Component {
       return <EmptyView />;
     }
 
-    // Quick maths
-    const delta = moment().diff(moment(card.reviewedAt), "days");
-    const interval = Math.abs(moment(card.reviewedAt).diff(moment(card.nextReviewDate), "days"));
-    const probabilty = Math.pow(2, -delta / interval) * 100;
-
-    console.log("delta", delta);
-    console.log("interval", interval);
-    console.log("probabilty", probabilty);
     const cardContent = showFront ? card.front : card.back;
 
     return (
@@ -182,11 +173,12 @@ class CardHome extends Component {
                       <strong style={{ lineHeight: "1em" }} className="text-secondary mr-2">
                         Recall Strength
                       </strong>
-                      <ProgressBar progress={probabilty} />
+                      <ProgressBar progress={card.strength} />
                     </div>
                   }
                 >
-                  You have a {parseInt(probabilty, 10)}% chance of remembering this card correctly
+                  You have a {parseInt(card.strength, 10)}% chance of remembering this card
+                  correctly
                 </Popup>
                 <h3 className="text-center my-5">{cardContent}</h3>
               </Segment>
