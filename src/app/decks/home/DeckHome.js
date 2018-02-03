@@ -95,9 +95,23 @@ class DeckHome extends Component {
     );
   };
 
+  editCard = card => {
+    cardApi.editCard(card).then(
+      response => {
+        const newCard = response.data;
+        const cards = this.state.cards.map(el => (el._id === newCard._id ? newCard : el));
+        this.setState(() => ({ cards: cards }));
+      },
+      error => {
+        this.props.onError("Oops! Something went wrong.");
+      },
+    );
+  };
+
   deleteCard = cardId => {
     cardApi.deleteCard(cardId).then(
       response => {
+        this.onCloseModal();
         this.setState(({ cards }) => {
           return { cards: cards.filter(card => card._id !== cardId) };
         });
@@ -192,6 +206,9 @@ class DeckHome extends Component {
             onClose={this.onCloseModal}
             onNext={this.onNextCard}
             onPrev={this.onPrevCard}
+            onEdit={this.editCard}
+            onReset={this.resetCard}
+            onDelete={this.deleteCard}
           />
         )}
         <AddCardModal
