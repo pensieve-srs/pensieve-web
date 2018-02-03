@@ -5,6 +5,7 @@ import pluralize from "pluralize";
 
 import {
   AddCardModal,
+  CardModal,
   DeleteDeckModal,
   EditDeckModal,
   ResetDeckModal,
@@ -40,6 +41,7 @@ class DeckHome extends Component {
     deck: {},
     cards: [],
     showModalType: undefined,
+    selectedCard: undefined,
   };
 
   componentWillMount() {
@@ -53,7 +55,18 @@ class DeckHome extends Component {
 
   onShowModal = (event, data) => this.setState({ showModalType: data.value });
 
-  onCloseModal = () => this.setState({ showModalType: undefined });
+  onShowCardModal = index =>
+    this.setState({ showModalType: MODAL_TYPES.CARD_ITEM, selectedCard: index });
+
+  onCloseModal = () => this.setState({ showModalType: undefined, selectedCard: undefined });
+
+  onPrevCard = () =>
+    this.setState(({ selectedCard }) => ({ selectedCard: Math.max(selectedCard - 1, 0) }));
+
+  onNextCard = () =>
+    this.setState(({ selectedCard, cards }) => ({
+      selectedCard: Math.min(selectedCard + 1, cards.length - 1),
+    }));
 
   createCard = card => {
     const deckId = this.state.deck._id;
@@ -82,9 +95,23 @@ class DeckHome extends Component {
     );
   };
 
+  editCard = card => {
+    cardApi.editCard(card).then(
+      response => {
+        const newCard = response.data;
+        const cards = this.state.cards.map(el => (el._id === newCard._id ? newCard : el));
+        this.setState(() => ({ cards: cards }));
+      },
+      error => {
+        this.props.onError("Oops! Something went wrong.");
+      },
+    );
+  };
+
   deleteCard = cardId => {
     cardApi.deleteCard(cardId).then(
       response => {
+        this.onCloseModal();
         this.setState(({ cards }) => {
           return { cards: cards.filter(card => card._id !== cardId) };
         });
@@ -167,10 +194,23 @@ class DeckHome extends Component {
   };
 
   render() {
-    const { deck, cards, showModalType } = this.state;
+    const { deck, cards, showModalType, selectedCard } = this.state;
 
     return (
       <div className="deck-home mt-4">
+        {selectedCard >= 0 && (
+          <CardModal
+            card={cards[selectedCard]}
+            deck={deck}
+            open={showModalType === MODAL_TYPES.CARD_ITEM}
+            onClose={this.onCloseModal}
+            onNext={this.onNextCard}
+            onPrev={this.onPrevCard}
+            onEdit={this.editCard}
+            onReset={this.resetCard}
+            onDelete={this.deleteCard}
+          />
+        )}
         <AddCardModal
           open={showModalType === MODAL_TYPES.ADD_ITEM}
           onClose={this.onCloseModal}
@@ -261,6 +301,7 @@ class DeckHome extends Component {
                       <DeckItem
                         key={key}
                         card={card}
+                        onClick={() => this.onShowCardModal(key)}
                         deleteCard={this.deleteCard}
                         resetCard={this.resetCard}
                       />

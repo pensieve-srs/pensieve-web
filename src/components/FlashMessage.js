@@ -15,7 +15,7 @@ class FlashMessage extends Component<Props> {
   render() {
     const { className, message } = this.props;
     return (
-      <div className={cx(className, "FlashMessage")}>
+      <div className={cx(className, "FlashMessage")} style={{ zIndex: "2000" }}>
         <Message negative className="rounded-0">
           <div className="container">
             <span>{message}</span>

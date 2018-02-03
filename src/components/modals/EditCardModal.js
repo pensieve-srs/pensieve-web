@@ -5,6 +5,12 @@ import { Button, Form, Modal, TextArea } from "semantic-ui-react";
 class EditCardModal extends Component {
   state = { ...this.props.card };
 
+  componentWillUpdate(nextProps) {
+    if (this.props.card !== nextProps.card) {
+      this.setState({ ...nextProps.card });
+    }
+  }
+
   onChange = e => this.setState({ [e.target.name]: e.target.value });
 
   onSubmit = () => this.props.onSubmit(this.state);
