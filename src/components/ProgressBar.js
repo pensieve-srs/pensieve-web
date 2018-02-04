@@ -5,7 +5,7 @@ import cx from "classnames";
 
 import "./ProgressBar.css";
 
-type Props = { percent: Number };
+type Props = { percent: number };
 
 class ProgressBar extends Component<Props> {
   render() {

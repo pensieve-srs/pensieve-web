@@ -9,7 +9,7 @@ import CardHome from "./cards/home/CardHome";
 import Review from "./review/Review";
 import ReviewNew from "./review/new/ReviewNew";
 
-import { NavBar, Footer, ErrorHandler } from "../components";
+import { NavBar, Footer } from "../components";
 import GoogleAnalytics from "../helpers/GoogleAnalytics";
 
 import "./App.css";
@@ -24,17 +24,17 @@ class App extends Component {
             <Route path="/" component={GoogleAnalytics} />
             <Switch>
               <Route exact path="/" component={Landing} />
-              <Route path="/login" component={ErrorHandler(Login)} />
+              <Route path="/login" component={Login} />
               <Route path="/logout" component={Logout} />
-              <Route path="/signup" component={ErrorHandler(Signup)} />
+              <Route path="/signup" component={Signup} />
 
-              <Route path="/account" component={ReqAuth(ErrorHandler(Account))} />
-              <Route exact path="/decks" component={ReqAuth(ErrorHandler(Decks))} />
-              <Route exact path="/decks/new" component={ReqAuth(ErrorHandler(DeckNew))} />
-              <Route exact path="/decks/:deckId" component={ReqAuth(ErrorHandler(DeckHome))} />
-              <Route exact path="/cards/:cardId" component={ReqAuth(ErrorHandler(CardHome))} />
-              <Route exact path="/sessions/new" component={ReqAuth(ErrorHandler(ReviewNew))} />
-              <Route exact path="/sessions/:sessionId" component={ReqAuth(ErrorHandler(Review))} />
+              <Route path="/account" component={ReqAuth(Account)} />
+              <Route exact path="/decks" component={ReqAuth(Decks)} />
+              <Route exact path="/decks/new" component={ReqAuth(DeckNew)} />
+              <Route exact path="/decks/:deckId" component={ReqAuth(DeckHome)} />
+              <Route exact path="/cards/:cardId" component={ReqAuth(CardHome)} />
+              <Route exact path="/sessions/new" component={ReqAuth(ReviewNew)} />
+              <Route exact path="/sessions/:sessionId" component={ReqAuth(Review)} />
 
               <Route path="/about" component={ComingSoon} />
               <Route path="/api" component={ComingSoon} />

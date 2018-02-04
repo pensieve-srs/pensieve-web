@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 
+import withErrors from "../../../helpers/withErrors";
+
 import * as api from "../reviewActions";
 
 class ReviewNew extends Component {
@@ -9,14 +11,9 @@ class ReviewNew extends Component {
   }
 
   createSession = sessionType => {
-    api.createSession(sessionType).then(
-      ({ data }) => {
-        this.props.history.push(`/sessions/${data._id}`);
-      },
-      error => {
-        this.props.onError("Oops! Something went wrong.");
-      },
-    );
+    api.createSession(sessionType).then(({ data }) => {
+      this.props.history.push(`/sessions/${data._id}`);
+    });
   };
 
   render() {
@@ -34,4 +31,4 @@ ReviewNew.propTypes = {
   history: PropTypes.object.isRequired,
 };
 
-export default ReviewNew;
+export default withErrors(ReviewNew);

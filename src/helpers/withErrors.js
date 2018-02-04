@@ -1,6 +1,8 @@
 /* @flow */
 import React, { Component, Fragment } from "react";
-import FlashMessage from "./FlashMessage";
+import FlashMessage from "../components/FlashMessage";
+import axios from "axios";
+import cookie from "js-cookie";
 import type { ElementType } from "react";
 
 type Props = any;
@@ -9,9 +11,23 @@ type State = {
   message: string,
 };
 
-const ErrorHandler = (ComposedComponent: ElementType) => {
+const withErrors = (ComposedComponent: ElementType) => {
   class ErrorHandler extends Component<Props, State> {
     state = { open: false, message: "" };
+
+    componentWillMount() {
+      axios.interceptors.response.use(null, error => {
+        if (error.response && error.response.status === 401) {
+          cookie.remove("token");
+          cookie.remove("user");
+          this.props.history.push("/");
+          return Promise.reject(error);
+        } else {
+          this.onError("Oops, looks like something went wrong.");
+          return Promise.reject(error);
+        }
+      });
+    }
 
     onDismiss = () => this.setState({ open: false, message: "" });
 
@@ -38,4 +54,4 @@ const ErrorHandler = (ComposedComponent: ElementType) => {
   return ErrorHandler;
 };
 
-export default ErrorHandler;
+export default withErrors;

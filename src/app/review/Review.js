@@ -3,6 +3,8 @@ import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { Button, Dropdown, Icon, Header, Label, Progress, Segment } from "semantic-ui-react";
 
+import withErrors from "../../helpers/withErrors";
+
 import * as api from "./reviewActions";
 import * as cardApi from "../cards/cardActions";
 
@@ -71,73 +73,53 @@ class Review extends Component {
   };
 
   fetchSession = sessionId => {
-    api.fetchSession(sessionId).then(
-      response => {
-        this.setState({ session: response.data });
-      },
-      error => {
-        this.props.onError("Oops! Something went wrong.");
-      },
-    );
+    api.fetchSession(sessionId).then(response => {
+      this.setState({ session: response.data });
+    });
   };
 
   reviewCard = (cardId, value) => {
-    api.reviewCard({ cardId, value }).then(
-      response => {
-        const card = response.data;
-        this.setState(({ session, index }) => {
-          const cards = session.cards.map(el => {
-            return el._id === card._id ? card : el;
-          });
-          return {
-            session: { ...session, cards: cards },
-            index: index + 1,
-            showAnswers: false,
-            showFront: true,
-          };
+    api.reviewCard({ cardId, value }).then(response => {
+      const card = response.data;
+      this.setState(({ session, index }) => {
+        const cards = session.cards.map(el => {
+          return el._id === card._id ? card : el;
         });
-      },
-      error => {
-        this.props.onError("Oops! Something went wrong.");
-      },
-    );
+        return {
+          session: { ...session, cards: cards },
+          index: index + 1,
+          showAnswers: false,
+          showFront: true,
+        };
+      });
+    });
   };
 
   editCard = card => {
-    cardApi.editCard(card).then(
-      response => {
-        this.setState(({ session }) => {
-          const cards = session.cards.map(el => {
-            return el._id === card._id ? card : el;
-          });
-          return { session: { ...session, cards: cards } };
+    cardApi.editCard(card).then(response => {
+      this.setState(({ session }) => {
+        const cards = session.cards.map(el => {
+          return el._id === card._id ? card : el;
         });
-        this.onCloseModal();
-      },
-      error => {
-        this.props.onError("Oops! Something went wrong.");
-      },
-    );
+        return { session: { ...session, cards: cards } };
+      });
+      this.onCloseModal();
+    });
   };
 
   deleteCard = () => {
     const { index, session: { cards } } = this.state;
     const card = cards[index];
 
-    cardApi.deleteCard(card._id).then(
-      response => {
-        const newCards = cards.filter(el => el._id !== card._id);
-        this.setState(({ session }) => ({
-          session: { ...session, cards: newCards },
-          showAnswers: false,
-          showFront: true,
-        }));
-        this.onCloseModal();
-      },
-      error => {
-        this.props.onError("Oops! Something went wrong.");
-      },
-    );
+    cardApi.deleteCard(card._id).then(response => {
+      const newCards = cards.filter(el => el._id !== card._id);
+      this.setState(({ session }) => ({
+        session: { ...session, cards: newCards },
+        showAnswers: false,
+        showFront: true,
+      }));
+      this.onCloseModal();
+    });
   };
 
   render() {
@@ -257,4 +239,4 @@ Review.propTypes = {
   match: PropTypes.object.isRequired,
 };
 
-export default Review;
+export default withErrors(Review);

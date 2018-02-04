@@ -3,6 +3,8 @@ import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { Icon, Dropdown, Header, Label, Segment, Popup } from "semantic-ui-react";
 
+import withErrors from "../../../helpers/withErrors";
+
 import * as api from "../cardActions";
 
 import {
@@ -54,51 +56,31 @@ class CardHome extends Component {
   onGoto = (event, data) => this.props.history.push(data.value);
 
   fetchCard = cardId => {
-    api.fetchCard(cardId).then(
-      response => {
-        this.setState(() => ({ card: response.data }));
-      },
-      error => {
-        this.props.onError("Oops! Something went wrong.");
-      },
-    );
+    api.fetchCard(cardId).then(response => {
+      this.setState(() => ({ card: response.data }));
+    });
   };
 
   editCard = card => {
-    api.editCard(card).then(
-      response => {
-        this.setState({ card: response.data });
-        this.onCloseModal();
-      },
-      error => {
-        this.props.onError("Oops! Something went wrong.");
-      },
-    );
+    api.editCard(card).then(response => {
+      this.setState({ card: response.data });
+      this.onCloseModal();
+    });
   };
 
   deleteCard = () => {
     const { card } = this.state;
-    api.deleteCard(card._id).then(
-      response => {
-        this.props.history.go(-1);
-      },
-      error => {
-        this.props.onError("Oops! Something went wrong.");
-      },
-    );
+    api.deleteCard(card._id).then(response => {
+      this.props.history.go(-1);
+    });
   };
 
   resetCard = () => {
     const { card } = this.state;
-    api.resetCard(card._id).then(
-      response => {
-        this.setState({ card: response.data });
-        this.onCloseModal();
-      },
-      error => {
-        this.props.onError("Oops! Something went wrong.");
-      },
-    );
+    api.resetCard(card._id).then(response => {
+      this.setState({ card: response.data });
+      this.onCloseModal();
+    });
   };
 
   render() {
@@ -195,4 +177,4 @@ CardHome.propTypes = {
   history: PropTypes.object.isRequired,
 };
 
-export default CardHome;
+export default withErrors(CardHome);

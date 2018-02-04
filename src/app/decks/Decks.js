@@ -3,6 +3,8 @@ import React, { Component } from "react";
 import { Button, Input } from "semantic-ui-react";
 import type { Deck } from "../../types";
 
+import withErrors from "../../helpers/withErrors";
+
 import * as api from "./deckActions";
 
 import DeckCard from "./DeckCard";
@@ -54,14 +56,9 @@ class Decks extends Component<Props, State> {
   onSearch = ({ target }: { target: HTMLInputElement }) => this.setState({ filter: target.value });
 
   fetchDecks = () => {
-    api.fetchDecks().then(
-      response => {
-        this.setState({ decks: response.data });
-      },
-      error => {
-        this.props.onError("Oops! Something went wrong.");
-      },
-    );
+    api.fetchDecks().then(response => {
+      this.setState({ decks: response.data });
+    });
   };
 
   render() {
@@ -115,4 +112,4 @@ class Decks extends Component<Props, State> {
   }
 }
 
-export default Decks;
+export default withErrors(Decks);

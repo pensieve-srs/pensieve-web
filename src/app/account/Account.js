@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { Button, Header, Form, Checkbox, Input, Segment } from "semantic-ui-react";
 
+import withErrors from "../../helpers/withErrors";
+
 import * as api from "./userActions";
 
 import { DeleteUserModal, MODAL_TYPES } from "../../components/modals";
@@ -32,39 +34,24 @@ class Account extends Component {
   onShowModal = (event, data) => this.setState({ showModalType: data.value });
 
   fetchUser = () => {
-    api.fetchUser().then(
-      ({ data }) => {
-        const { name, email, prefs } = data;
-        this.setState({ user: { name, email, prefs } });
-      },
-      error => {
-        this.props.onError("Oops! Something went wrong.");
-      },
-    );
+    api.fetchUser().then(({ data }) => {
+      const { name, email, prefs } = data;
+      this.setState({ user: { name, email, prefs } });
+    });
   };
 
   editUser = () => {
     const { user } = this.state;
-    api.editUser(user).then(
-      ({ data }) => {
-        const { name, email, prefs } = data;
-        this.setState({ user: { name, email, prefs } });
-      },
-      error => {
-        this.props.onError("Oops! Something went wrong.");
-      },
-    );
+    api.editUser(user).then(({ data }) => {
+      const { name, email, prefs } = data;
+      this.setState({ user: { name, email, prefs } });
+    });
   };
 
   deleteUser = () => {
-    api.deleteUser().then(
-      response => {
-        this.props.history.push("/logout");
-      },
-      error => {
-        this.props.onError("Oops! Something went wrong.");
-      },
-    );
+    api.deleteUser().then(response => {
+      this.props.history.push("/logout");
+    });
   };
 
   render() {
@@ -148,4 +135,4 @@ class Account extends Component {
   }
 }
 
-export default Account;
+export default withErrors(Account);

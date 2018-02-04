@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import { Button, Form } from "semantic-ui-react";
 import cookie from "js-cookie";
 
+import withErrors from "../../helpers/withErrors";
+
 import * as api from "./authActions";
 
 class Login extends Component {
@@ -38,8 +40,6 @@ class Login extends Component {
       error => {
         if (error.response && error.response.status === 400) {
           this.props.onError("Oops, it does not look like that is a valid username or password.");
-        } else {
-          this.props.onError("Oops, looks like something went wrong.");
         }
       },
     );
@@ -94,4 +94,4 @@ class Login extends Component {
   }
 }
 
-export default Login;
+export default withErrors(Login);

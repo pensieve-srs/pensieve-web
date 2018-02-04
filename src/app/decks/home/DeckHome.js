@@ -11,6 +11,7 @@ import {
   ResetDeckModal,
   MODAL_TYPES,
 } from "../../../components/modals";
+import withErrors from "../../../helpers/withErrors";
 
 import { ProgressBar } from "../../../components";
 
@@ -71,126 +72,76 @@ class DeckHome extends Component {
   createCard = card => {
     const deckId = this.state.deck._id;
     const { front, back } = card;
-    cardApi.createCard({ deck: deckId, front, back }).then(
-      response => {
-        this.setState(({ cards }) => ({ cards: [...cards, response.data] }));
-        this.onCloseModal();
-      },
-      error => {
-        this.props.onError("Oops! Something went wrong.");
-      },
-    );
+    cardApi.createCard({ deck: deckId, front, back }).then(response => {
+      this.setState(({ cards }) => ({ cards: [...cards, response.data] }));
+      this.onCloseModal();
+    });
   };
 
   resetCard = cardId => {
-    cardApi.resetCard(cardId).then(
-      response => {
-        const newCard = response.data;
-        const cards = this.state.cards.map(card => (card._id === newCard._id ? newCard : card));
-        this.setState(() => ({ cards: cards }));
-      },
-      error => {
-        this.props.onError("Oops! Something went wrong.");
-      },
-    );
+    cardApi.resetCard(cardId).then(response => {
+      const newCard = response.data;
+      const cards = this.state.cards.map(card => (card._id === newCard._id ? newCard : card));
+      this.setState(() => ({ cards: cards }));
+    });
   };
 
   editCard = card => {
-    cardApi.editCard(card).then(
-      response => {
-        const newCard = response.data;
-        const cards = this.state.cards.map(el => (el._id === newCard._id ? newCard : el));
-        this.setState(() => ({ cards: cards }));
-      },
-      error => {
-        this.props.onError("Oops! Something went wrong.");
-      },
-    );
+    cardApi.editCard(card).then(response => {
+      const newCard = response.data;
+      const cards = this.state.cards.map(el => (el._id === newCard._id ? newCard : el));
+      this.setState(() => ({ cards: cards }));
+    });
   };
 
   deleteCard = cardId => {
-    cardApi.deleteCard(cardId).then(
-      response => {
-        this.onCloseModal();
-        this.setState(({ cards }) => {
-          return { cards: cards.filter(card => card._id !== cardId) };
-        });
-      },
-      error => {
-        this.props.onError("Oops! Something went wrong.");
-      },
-    );
+    cardApi.deleteCard(cardId).then(response => {
+      this.onCloseModal();
+      this.setState(({ cards }) => {
+        return { cards: cards.filter(card => card._id !== cardId) };
+      });
+    });
   };
 
   fetchDeck = deckId => {
-    api.fetchDeck(deckId).then(
-      response => {
-        this.setState({ deck: response.data });
-      },
-      error => {
-        this.props.onError("Oops! Something went wrong.");
-      },
-    );
+    api.fetchDeck(deckId).then(response => {
+      this.setState({ deck: response.data });
+    });
   };
 
   fetchCards = deckId => {
-    cardApi.fetchCards(deckId).then(
-      response => {
-        this.setState({ cards: response.data });
-      },
-      error => {
-        this.props.onError("Oops! Something went wrong.");
-      },
-    );
+    cardApi.fetchCards(deckId).then(response => {
+      this.setState({ cards: response.data });
+    });
   };
 
   editDeck = deck => {
-    api.editDeck(deck).then(
-      response => {
-        this.setState({ deck: response.data });
-        this.onCloseModal();
-      },
-      error => {
-        this.props.onError("Oops! Something went wrong.");
-      },
-    );
+    api.editDeck(deck).then(response => {
+      this.setState({ deck: response.data });
+      this.onCloseModal();
+    });
   };
 
   resetDeck = () => {
     const deckId = this.state.deck._id;
-    api.resetDeck(deckId).then(
-      response => {
-        this.setState({ cards: response.data });
-        this.onCloseModal();
-      },
-      error => {
-        this.props.onError("Oops! Something went wrong.");
-      },
-    );
+    api.resetDeck(deckId).then(response => {
+      this.setState({ cards: response.data });
+      this.onCloseModal();
+    });
   };
 
   studyDeck = () => {
     const deckId = this.state.deck._id;
-    api.studyDeck(deckId).then(
-      response => {
-        this.props.history.push(`/sessions/${response.data._id}`);
-      },
-      error => {
-        this.props.onError("Oops! Something went wrong.");
-      },
-    );
+    api.studyDeck(deckId).then(response => {
+      this.props.history.push(`/sessions/${response.data._id}`);
+    });
   };
 
   deleteDeck = () => {
     const deckId = this.state.deck._id;
-    api.deleteDeck(deckId).then(
-      response => {
-        this.props.history.push(`/decks`);
-      },
-      error => {
-        this.props.onError("Oops! Something went wrong.");
-      },
-    );
+    api.deleteDeck(deckId).then(response => {
+      this.props.history.push(`/decks`);
+    });
   };
 
   render() {
@@ -326,4 +277,4 @@ DeckHome.propTypes = {
   match: PropTypes.object.isRequired,
 };
 
-export default DeckHome;
+export default withErrors(DeckHome);

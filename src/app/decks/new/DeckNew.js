@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Button, Form, Input, TextArea, Segment } from "semantic-ui-react";
 
+import withErrors from "../../../helpers/withErrors";
+
 import * as api from "../deckActions";
 
 class DeckNew extends Component {
@@ -18,14 +20,9 @@ class DeckNew extends Component {
 
   createDeck = () => {
     const { title, description } = this.state;
-    api.createDeck({ title, description }).then(
-      response => {
-        this.props.history.push(`/decks/${response.data._id}`);
-      },
-      error => {
-        this.props.onError("Oops! Something went wrong.");
-      },
-    );
+    api.createDeck({ title, description }).then(response => {
+      this.props.history.push(`/decks/${response.data._id}`);
+    });
   };
 
   render() {
@@ -75,4 +72,4 @@ DeckNew.propTypes = {
   history: PropTypes.object.isRequired,
 };
 
-export default DeckNew;
+export default withErrors(DeckNew);

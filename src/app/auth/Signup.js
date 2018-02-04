@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import { Button, Form } from "semantic-ui-react";
 import cookie from "js-cookie";
 
+import withErrors from "../../helpers/withErrors";
+
 import * as api from "./authActions";
 
 import { logSignupEvent } from "../../helpers/GoogleAnalytics";
@@ -41,8 +43,6 @@ class Signup extends Component {
       error => {
         if (error.response.status === 400) {
           this.props.onError("Oops, it does not look like that is a valid sign up");
-        } else {
-          this.props.onError("Oops, looks like something went wrong.");
         }
       },
     );
@@ -106,4 +106,4 @@ class Signup extends Component {
   }
 }
 
-export default Signup;
+export default withErrors(Signup);
