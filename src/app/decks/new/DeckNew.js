@@ -29,7 +29,7 @@ class DeckNew extends Component {
     const { title, description } = this.state;
 
     return (
-      <div className="container">
+      <div className="container mt-4">
         <div className="row">
           <div className="col-sm-8 offset-sm-2 col-md-8 offset-md-2">
             <Segment>
