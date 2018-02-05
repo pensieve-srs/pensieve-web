@@ -4,7 +4,7 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { Landing, NotFound, ComingSoon } from "../pages";
 import { Signup, Login, Logout, ReqAuth } from "./auth";
 import { Decks, DeckHome, DeckNew } from "./decks";
-import Account from "./account/Account";
+import Settings from "./settings/Settings";
 import CardHome from "./cards/home/CardHome";
 import Review from "./review/Review";
 import ReviewNew from "./review/new/ReviewNew";
@@ -28,7 +28,7 @@ class App extends Component {
               <Route path="/logout" component={Logout} />
               <Route path="/signup" component={Signup} />
 
-              <Route path="/account" component={ReqAuth(Account)} />
+              <Route path="/settings" component={ReqAuth(Settings)} />
               <Route exact path="/decks" component={ReqAuth(Decks)} />
               <Route exact path="/decks/new" component={ReqAuth(DeckNew)} />
               <Route exact path="/decks/:deckId" component={ReqAuth(DeckHome)} />
