@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Menu } from "semantic-ui-react";
+import { Menu, Icon } from "semantic-ui-react";
 
 import Account from "./Account";
 import Notifications from "./Notifications";
@@ -40,20 +40,22 @@ class Settings extends Component {
       <div className="account-page mt-4">
         <div className="container">
           <div className="row">
-            <div className="col-lg-2 offset-lg-1 mr-5">
-              <Menu vertical>
-                <Menu.Item link href="#account">
-                  Account profile
+            <div className="col-md-3 col-lg-2 offset-lg-1">
+              <Menu vertical className="w-100 mb-3">
+                <Menu.Item active={page === PAGE.ACCOUNT} link href="#account">
+                  <Icon name="settings" />Account profile
                 </Menu.Item>
-                <Menu.Item link href="#export">
+                <Menu.Item active={page === PAGE.EXPORT} link href="#export">
+                  <Icon name="cloud download" />
                   Export data
                 </Menu.Item>
-                <Menu.Item link href="#notifications">
+                <Menu.Item active={page === PAGE.NOTIFS} link href="#notifications">
+                  <Icon name="inbox" />
                   Notifications
                 </Menu.Item>
               </Menu>
             </div>
-            <div className="col-lg-7">
+            <div className="col-md-9 col-lg-6">
               {
                 {
                   [PAGE.ACCOUNT]: <Account {...this.props} />,
