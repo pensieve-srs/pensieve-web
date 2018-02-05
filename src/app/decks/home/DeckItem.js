@@ -43,13 +43,11 @@ class DeckItem extends Component {
           onSubmit={this.onReset}
         />
         <div className="row">
-          <div className="col-9 col-sm-10">
-            <div className="d-flex flex-column flex-md-row">
-              <span className="col-md-5">{card.front}</span>
-              <span className="d-none d-sm-block font-weight-bold col-md-7 mt-2 mt-md-0">
-                {card.back}
-              </span>
-            </div>
+          <div className="col-9 col-sm-10 d-flex flex-column flex-md-row">
+            <span className="col-md-5 py-1">{card.front}</span>
+            <span className="d-none d-sm-block font-weight-bold col-md-7 mt-2 mt-md-0 py-1">
+              {card.back}
+            </span>
           </div>
           <div className="col-3 col-sm-2 pl-0">
             <div className="d-flex justify-content-end align-items-center">

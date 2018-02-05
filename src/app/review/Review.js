@@ -15,9 +15,9 @@ import "./Review.css";
 import { DeleteCardModal, EditCardModal, MODAL_TYPES } from "../../components/modals";
 
 const REVIEW_TYPE = {
-  EASY: "easy",
-  GOOD: "good",
+  REDO: "redo",
   HARD: "hard",
+  EASY: "easy",
 };
 
 const EmptyView = () => (
@@ -80,11 +80,14 @@ class Review extends Component {
 
   reviewCard = (cardId, value) => {
     api.reviewCard({ cardId, value }).then(response => {
-      const card = response.data;
+      const card = { ...response.data, value };
       this.setState(({ session, index }) => {
         const cards = session.cards.map(el => {
           return el._id === card._id ? card : el;
         });
+        if (value === REVIEW_TYPE.REDO) {
+          cards.push(card);
+        }
         return {
           session: { ...session, cards: cards },
           index: index + 1,
@@ -195,21 +198,22 @@ class Review extends Component {
                   <div className="d-flex justify-content-between">
                     <Button
                       onClick={this.onReview}
+                      value={REVIEW_TYPE.REDO}
+                      className="d-flex"
+                      size="large"
+                      primary
+                    >
+                      <Icon name="repeat" />
+                      Redo
+                    </Button>
+                    <Button
+                      onClick={this.onReview}
                       value={REVIEW_TYPE.HARD}
                       size="large"
                       primary
                       fluid
                     >
-                      Again
-                    </Button>
-                    <Button
-                      onClick={this.onReview}
-                      value={REVIEW_TYPE.GOOD}
-                      size="large"
-                      primary
-                      fluid
-                    >
-                      Good
+                      Hard
                     </Button>
                     <Button
                       onClick={this.onReview}
