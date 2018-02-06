@@ -43,7 +43,7 @@ class NavBar extends Component {
                   </Link>
                 </li>
                 <li className="nav-item">
-                  <Link to="/account" className="nav-link" onClick={this.onCollapse}>
+                  <Link to="/settings" className="nav-link" onClick={this.onCollapse}>
                     Settings
                   </Link>
                 </li>
