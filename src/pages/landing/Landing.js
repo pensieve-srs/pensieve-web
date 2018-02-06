@@ -12,9 +12,7 @@ class Landing extends Component {
             <div className="d-flex flex-column-reverse flex-md-row justify-content-between align-items-center">
               <div className="landing-copy w-100 text-left mr-3">
                 <h1 className="font-weight-bold mb-2">Remember anything with Pensieve</h1>
-                <h2 className="h5 m-0">
-                  Pensieve is a simple, open source, personal spaced repetition platform
-                </h2>
+                <h2 className="h5 m-0">Pensieve is a personal spaced repetition system</h2>
                 <Link to="/signup" className="btn btn-light mt-5">
                   Get Started Now
                 </Link>
