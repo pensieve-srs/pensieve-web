@@ -210,7 +210,10 @@ class DeckHome extends Component {
                 </div>
                 {deck.recallRate >= 0 && (
                   <div className="right-side my-3 d-flex align-items-center">
-                    <strong style={{ lineHeight: "1em" }} className="text-secondary mr-2">
+                    <strong
+                      style={{ lineHeight: "1em", fontWeight: "600" }}
+                      className="text-secondary mr-2"
+                    >
                       Total Strength
                     </strong>
                     <ProgressBar percent={deck.recallRate} />

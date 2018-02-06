@@ -30,7 +30,7 @@ class DeckCard extends Component<Props> {
               style={{ bottom: "0", right: "0", left: "0" }}
             >
               {deck.cardsCount >= 0 && (
-                <small className="m-0 text-secondary font-weight-bold">
+                <small className="m-0 text-secondary" style={{ fontWeight: 600 }}>
                   {pluralize("card", deck.cardsCount, true)}
                 </small>
               )}

@@ -86,7 +86,10 @@ class CardModal extends Component {
                 position="bottom right"
                 trigger={
                   <div className="card-strength float-right d-flex align-items-center py-1">
-                    <strong style={{ lineHeight: "1em" }} className="text-secondary mr-2">
+                    <strong
+                      style={{ lineHeight: "1em", fontWeight: 600 }}
+                      className="text-secondary mr-2"
+                    >
                       Recall Strength
                     </strong>
                     <ProgressBar percent={card.recallRate} />
