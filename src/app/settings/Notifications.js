@@ -3,12 +3,6 @@ import { Button, Checkbox, Segment, Header, Form, Icon } from "semantic-ui-react
 
 import * as api from "./userActions";
 
-const NOTIFS = {
-  ALL: "all",
-  DAILY: "daily",
-  NEVER: "never",
-};
-
 class Notifications extends Component {
   state = { prefs: {} };
 
