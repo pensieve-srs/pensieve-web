@@ -1,29 +1,37 @@
 import React, { Component } from "react";
-import { Checkbox, Message, Segment, Header, Form, Icon } from "semantic-ui-react";
+import { Button, Checkbox, Segment, Header, Form, Icon } from "semantic-ui-react";
 
-const NOTIFS = {
-  ALL: "all",
-  DAILY: "daily",
-  NEVER: "never",
-};
+import * as api from "./userActions";
 
 class Notifications extends Component {
-  state = { isOn: false, type: NOTIFS.DAILY };
+  state = { prefs: {} };
+
+  componentWillMount() {
+    this.fetchUser();
+  }
 
   onEmailToggle = (event, data) => {
-    this.setState({
-      isOn: data.checked,
+    this.setState(({ prefs }) => ({ prefs: { ...prefs, emailNotifs: data.checked } }));
+  };
+
+  fetchUser = () => {
+    api.fetchUser().then(({ data }) => {
+      const { name, email, prefs } = data;
+      this.setState({ name, email, prefs });
     });
   };
 
-  onChangeFreq = value => {
-    this.setState({
-      type: value,
+  editNotifs = () => {
+    const { name, email, prefs } = this.state;
+    api.editUser({ name, email, prefs }).then(({ data }) => {
+      const { name, email, prefs } = data;
+      this.setState({ name, email, prefs });
     });
   };
 
   render() {
-    const { isOn, type } = this.state;
+    const { prefs } = this.state;
+    const isEmailOn = prefs.emailNotifs;
 
     return (
       <Segment padded>
@@ -32,15 +40,13 @@ class Notifications extends Component {
           <Form.Field>
             <Checkbox
               onChange={this.onEmailToggle}
-              checked={isOn}
+              checked={isEmailOn}
               name="emailNotifs"
               label={
                 <label>
                   <Header size="small">
                     Send me email notifications{" "}
-                    <span className="text-secondary font-weight-normal ml-2">
-                      {type === NOTIFS.DAILY ? "once every day" : "once every hour"}
-                    </span>
+                    <span className="text-secondary font-weight-normal ml-2">once every day</span>
                     <Header.Subheader>
                       <Icon color="blue" name="info circle" />Emails are only sent when cards need
                       to be reviewed
@@ -51,44 +57,9 @@ class Notifications extends Component {
             />
           </Form.Field>
           <Form.Field>
-            <Message color={type === NOTIFS.DAILY ? "blue" : "grey"}>
-              <Checkbox
-                radio
-                checked={type === NOTIFS.DAILY}
-                disabled={!isOn}
-                onChange={() => this.onChangeFreq(NOTIFS.DAILY)}
-                label={
-                  <label>
-                    <Header size="small">
-                      Daily notifications
-                      <Header.Subheader>
-                        You will be notified once a day. This is great for people that study once a
-                        day and consolidate their reviews.
-                      </Header.Subheader>
-                    </Header>
-                  </label>
-                }
-              />
-            </Message>
-            <Message color={type === NOTIFS.ALL ? "blue" : "grey"}>
-              <Checkbox
-                radio
-                checked={type === NOTIFS.ALL}
-                disabled={!isOn}
-                onChange={() => this.onChangeFreq(NOTIFS.ALL)}
-                label={
-                  <label>
-                    <Header size="small">
-                      All notifications
-                      <Header.Subheader>
-                        You will be notified as soon as your cards need to be reviewed. This is good
-                        for people that study throughout the day.
-                      </Header.Subheader>
-                    </Header>
-                  </label>
-                }
-              />
-            </Message>
+            <Button onClick={this.editNotifs} primary>
+              Update
+            </Button>
           </Form.Field>
         </Form>
       </Segment>
