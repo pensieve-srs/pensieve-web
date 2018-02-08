@@ -78,7 +78,7 @@ class Landing extends Component {
             </Grid>
           </div>
         </div>
-        <div className="landing-howItWorks border py-5">
+        <div className="landing-howItWorks border-bottom py-5">
           <div className="container py-5">
             <div className="row">
               <div className="col-sm-10 offset-sm-1 col-md-8 offset-md-2">
@@ -96,7 +96,7 @@ class Landing extends Component {
             </div>
           </div>
         </div>
-        <div className="landing-info py-5">
+        <div className="landing-info border py-5">
           <div className="container py-5">
             <div className="row">
               <div className="col-sm-10 offset-sm-1 col-md-8 offset-md-2">
