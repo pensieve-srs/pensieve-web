@@ -1,9 +1,11 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import { Button, Grid, Header, Image, Label } from "semantic-ui-react";
 
 import "./Landing.css";
 
 class Landing extends Component {
+  onGoto = (event: Event, data: any) => this.props.history.push(data.value);
+
   render() {
     return (
       <div className="landing-page">
@@ -11,76 +13,109 @@ class Landing extends Component {
           <div className="container my-5 py-5">
             <div className="d-flex flex-column-reverse flex-md-row justify-content-between align-items-center">
               <div className="landing-copy w-100 text-left mr-3">
-                <h1 className="font-weight-bold mb-2">Remember anything with Pensieve</h1>
-                <h2 className="h5 m-0">Pensieve is a personal spaced repetition system</h2>
-                <Link to="/signup" className="btn btn-light mt-5">
-                  Get Started Now
-                </Link>
+                <h1 className="font-weight-bold m-0">Pensieve</h1>
+                <h2 className="m-0" style={{ fontSize: "38px" }}>
+                  The smartest way to study
+                </h2>
+                <hr className="my-3 ml-0 w-25" style={{ borderColor: "white", opacity: "0.8" }} />
+                <h3 className="font-weight-normal m-0  mb-5">
+                  Pensieve is a spaced repetition tool that predicts your memory to optimize your
+                  study habits
+                </h3>
+                <Button onClick={this.onGoto} value="/signup" className="btn-light" size="large">
+                  GET STARTED
+                </Button>
               </div>
               <div className="landing-image mb-5">
-                <img
-                  className="my-auto w-100"
-                  src={require("./landing_hero.png")}
-                  alt="Collection of school items"
-                />
+                <Image src={require("./landing_hero.png")} />
               </div>
             </div>
           </div>
         </div>
         <div className="landing-box bg-white py-5">
-          <div className="container my-5">
-            <div className="border w-100 py-5">
-              <h4 className="text-center text-dark">
-                You can use Pensieve to remember virtually anything that needs remembering
-              </h4>
-              <div className="d-flex flex-column flex-md-row justify-content-around align-items-center mt-3">
-                <div className="flex-item">
-                  <span
-                    className="emoji"
-                    style={{ fontSize: "110px" }}
-                    role="img"
-                    aria-label="Microscope emoji"
-                  >
-                    🔬
-                  </span>
-                </div>
-                <div className="flex-item">
-                  <p className="lead text-dark">Learn a language</p>
-                  <p className="lead text-dark">Study medical terms</p>
-                  <p className="lead text-dark">Memorize poetry</p>
-                </div>
-                <div className="flex-item">
-                  <p className="lead text-dark">Prepare for law exams</p>
-                  <p className="lead text-dark">Master trivia</p>
-                  <p className="lead text-dark">Remember names and faces</p>
-                </div>
+          <div className="container my-5 py-3">
+            <Header as="h2" textAlign="center" size="large" className="mb-4">
+              Simple Spaced Repetition
+            </Header>
+            <Grid columns={3} padded relaxed stackable>
+              <Grid.Row>
+                <Grid.Column>
+                  <Header as="h3" className="mb-2">
+                    <Label color="grey" size="large" className="ml-0 mr-2">
+                      1
+                    </Label>Gather notes
+                  </Header>
+                  <p className="text-secondary">
+                    Collect the information you want to remember, organized into flashcards. It can
+                    be anything you want to remember: language vocabulary, medical terms, trivia,
+                    friend’s names.
+                  </p>
+                </Grid.Column>
+                <Grid.Column>
+                  <Header as="h3" className="mb-2">
+                    <Label color="grey" size="large" className="ml-0 mr-2">
+                      2
+                    </Label>Review those notes
+                  </Header>
+                  <p className="text-secondary m-0">
+                    Your recall of your notes will decrease naturally over time as you forget them.
+                    Study your flashcards as you are most likely to forget them in order to
+                    strengthen your memory of them.
+                  </p>
+                </Grid.Column>
+                <Grid.Column>
+                  <Header as="h3" className="mb-2">
+                    <Label color="grey" size="large" className="ml-0 mr-2">
+                      3
+                    </Label>Grade your memory
+                  </Header>
+                  <p className="text-secondary">
+                    Each time you study a card is a chance to grade you on how well you remember it.
+                    The harder a card is, the sooner you will see it again to study.
+                  </p>
+                </Grid.Column>
+              </Grid.Row>
+            </Grid>
+          </div>
+        </div>
+        <div className="landing-howItWorks border py-5">
+          <div className="container py-5">
+            <div className="row">
+              <div className="col-sm-10 offset-sm-1 col-md-8 offset-md-2">
+                <Header as="h2" textAlign="center" size="large" className="mb-4">
+                  How It Works
+                </Header>
+                <Image className="my-4" src={require("./graph.png")} size="large" centered />
+                <p className="lead text-dark">
+                  Pensieve uses the time since you last reviewed a note and your answers to estimate
+                  how well you remember it over time. As your memory of those notes improve, the
+                  intervals between studying them increases, avoiding wasted studying of that
+                  material.
+                </p>
               </div>
             </div>
           </div>
         </div>
-        <div className="landing-info pt-5">
-          <div className="container py-5 my-5">
+        <div className="landing-info py-5">
+          <div className="container py-5">
             <div className="row">
-              <div className="col-sm-8 offset-sm-2 col-md-6 offset-md-3">
-                <h4 className="text-center text-dark mb-3">Why Pensieve?</h4>
+              <div className="col-sm-10 offset-sm-1 col-md-8 offset-md-2">
+                <Header as="h2" textAlign="center" size="large" className="mb-4">
+                  Pensieve is for people that want to learn better
+                </Header>
                 <p className="lead text-dark mx-2">
                   Pensieve is for students, language learners, and autodidacts that are tired of
                   forgetting information after just learning it. It is for people that don't have
                   time to review their notes everyday. Pensieve solves this by automatically
                   scheduling reviews of your cards for you so you never have to forget it again.
-                  <br />
-                  <br />
-                  Pensieve schedules these reviews at increasing intervals over time so the time you
-                  spend reviewing new information decreases as it moves from short term to long term
-                  memory.
                 </p>
                 <h4 className="text-center text-dark mt-5 pt-3 mb-3">
                   Improve your studying for free
                 </h4>
                 <div className="text-center">
-                  <Link to="/signup" className="btn btn-primary">
-                    Create account
-                  </Link>
+                  <Button onClick={this.onGoto} value="/signup" primary size="large">
+                    GET STARTED
+                  </Button>
                 </div>
               </div>
             </div>
