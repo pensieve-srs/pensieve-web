@@ -14,10 +14,9 @@ class Footer extends Component {
                 <span>Pensieve &copy; 2018</span>
               </small>
               <small className="d-inline m-2">
-                <Link to="/help">Help</Link>
-              </small>
-              <small className="d-inline m-2">
-                <Link to="/about">About</Link>
+                <a className="ml-2" href="mailto:hello@pensieve.space">
+                  Contact
+                </a>
               </small>
             </div>
             <div className="right-side">
@@ -32,11 +31,6 @@ class Footer extends Component {
               <small className="d-inline m-2">
                 <a href="http://eepurl.com/dfhnq9" target="_blank" rel="noopener noreferrer">
                   Newsletter
-                </a>
-              </small>
-              <small className="d-inline m-2">
-                <a className="ml-2" href="mailto:hello@pensieve.space">
-                  Contact
                 </a>
               </small>
             </div>

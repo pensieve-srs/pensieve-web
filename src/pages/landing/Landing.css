@@ -13,7 +13,7 @@
 }
 
 .landing-hero {
-  background: #1574fb;
+  background: linear-gradient(0, #0061e6, #1574fb);
   color: white;
   display: flex;
   flex-direction: column;
@@ -25,9 +25,15 @@
 .landing-hero .btn-light {
   color: #1574fb;
   background: white;
-  font-size: 1.25em;
-  padding: 10px 15px;
   box-shadow: 0 3px 4px 0 rgba(0, 0, 0, 0.13);
+}
+
+.landing-hero .btn-light:focus,
+.landing-hero .btn-light:active,
+.landing-hero .btn-light:hover {
+  transition: 0.1s all ease-in-out;
+  color: #1574fb;
+  background: #ececdc;
 }
 
 .landing-hero h1 {
@@ -43,20 +49,38 @@
 .landing-hero .landing-image {
   margin-right: -80px;
   margin-left: 20px;
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .landing-hero .landing-image {
+    display: block;
+  }
 }
 
 .landing-copy {
   max-width: 440px;
 }
 
-.landing-box .border {
-  border-color: #4b4b4b !important;
+.landing-box h3.header {
+  font-weight: 600;
+  font-size: 1.5em;
+}
+.landing-box p {
+  line-height: 1.75em;
+  font-size: 1.1em;
 }
 
-.landing-box .lead {
-  text-align: center;
+.landing-howItWorks .lead {
+  line-height: 1.65em;
+}
+.landing-howItWorks img {
+  width: 525px !important;
 }
 
+.landing-info {
+  background: #ffffff;
+}
 .landing-info .btn-primary {
   padding: 10px 15px;
 }
