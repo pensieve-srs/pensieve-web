@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { Button, Dropdown, Icon, Segment } from "semantic-ui-react";
+import { Button, Dropdown, Icon, Segment, Popup } from "semantic-ui-react";
 import pluralize from "pluralize";
 
 import {
@@ -209,15 +209,24 @@ class DeckHome extends Component {
                   </Button>
                 </div>
                 {deck.recallRate >= 0 && (
-                  <div className="right-side my-3 d-flex align-items-center">
-                    <strong
-                      style={{ lineHeight: "1em", fontWeight: "600" }}
-                      className="text-secondary mr-2"
-                    >
-                      Total Strength
-                    </strong>
-                    <ProgressBar percent={deck.recallRate} />
-                  </div>
+                  <Popup
+                    inverted
+                    position="bottom right"
+                    trigger={
+                      <div className="right-side my-3 d-flex align-items-center">
+                        <strong
+                          style={{ lineHeight: "1em", fontWeight: "600" }}
+                          className="text-secondary mr-2"
+                        >
+                          Total Strength
+                        </strong>
+                        <ProgressBar percent={deck.recallRate} />
+                      </div>
+                    }
+                  >
+                    Your recall strength of this deck is approximately{" "}
+                    {parseInt(deck.recallRate * 100, 10)}%.
+                  </Popup>
                 )}
               </div>
               <Dropdown

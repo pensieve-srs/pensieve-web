@@ -96,7 +96,8 @@ class CardModal extends Component {
                   </div>
                 }
               >
-                You have a {card.recallRate * 100}% chance of remembering this card correctly
+                Your recall strength of this card is approximately{" "}
+                {parseInt(card.recallRate * 100, 10)}%.
               </Popup>
             )}
           </div>
