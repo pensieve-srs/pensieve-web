@@ -1,6 +1,6 @@
 // @flow
 import React, { Component } from "react";
-import { Button, Input } from "semantic-ui-react";
+import { Header, Button, Input } from "semantic-ui-react";
 import type { Deck } from "../../types";
 
 import withErrors from "../../helpers/withErrors";
@@ -24,10 +24,12 @@ const EmptyView = ({
     <div className="text-center">
       <div className="row">
         <div className="col-md-6 offset-md-3">
-          <h2>
+          <Header size="large">
             {emoji} {title}
-          </h2>
-          <p className="text-secondary">{description}</p>
+            <Header.Subheader className="text-secondary" style={{ lineHeight: "1.4em" }}>
+              {description}
+            </Header.Subheader>
+          </Header>
         </div>
       </div>
     </div>

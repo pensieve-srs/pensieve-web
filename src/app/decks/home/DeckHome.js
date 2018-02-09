@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { Button, Dropdown, Icon, Segment, Popup } from "semantic-ui-react";
+import { Button, Dropdown, Header, Icon, Segment, Popup } from "semantic-ui-react";
 import pluralize from "pluralize";
 
 import {
@@ -27,10 +27,12 @@ const EmptyView = ({ title, description, emoji = "✌️" }) => (
     <div className="text-center">
       <div className="row">
         <div className="col-md-6 offset-md-3">
-          <h2>
+          <Header size="large">
             {emoji} {title}
-          </h2>
-          <p className="text-secondary">{description}</p>
+            <Header.Subheader className="text-secondary" style={{ lineHeight: "1.4em" }}>
+              {description}
+            </Header.Subheader>
+          </Header>
         </div>
       </div>
     </div>
