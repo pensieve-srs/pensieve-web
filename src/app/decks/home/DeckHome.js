@@ -265,7 +265,7 @@ class DeckHome extends Component {
               ) : (
                 <EmptyView
                   title="Add cards to your deck"
-                  description="Decks are made of related notes. Start adding cards to your deck by clicking 'Add Item +'"
+                  description="Decks are made of related notes. Start adding cards to your deck by clicking 'Add Card +'"
                 />
               )}
             </div>
