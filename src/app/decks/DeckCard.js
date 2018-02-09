@@ -1,7 +1,7 @@
 // @flow
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import { Header, Segment, Progress } from "semantic-ui-react";
+import { Header, Segment, Progress, Popup } from "semantic-ui-react";
 import pluralize from "pluralize";
 
 import { Deck } from "../../types";
@@ -34,7 +34,20 @@ class DeckCard extends Component<Props> {
                   {pluralize("card", deck.cardsCount, true)}
                 </small>
               )}
-              {deck.recallRate >= 0 && <ProgressBar percent={deck.recallRate} />}
+              {deck.recallRate >= 0 && (
+                <Popup
+                  inverted
+                  position="top right"
+                  trigger={
+                    <div>
+                      <ProgressBar percent={deck.recallRate} />
+                    </div>
+                  }
+                >
+                  Your recall strength of this deck is approximately{" "}
+                  {parseInt(deck.recallRate * 100, 10)}%.
+                </Popup>
+              )}
             </div>
             <Progress attached="bottom" color="blue" percent={100} />
           </Segment>

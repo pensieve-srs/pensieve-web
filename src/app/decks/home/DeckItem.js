@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { withRouter } from "react-router";
 
-import { Dropdown, Icon, Segment } from "semantic-ui-react";
+import { Dropdown, Icon, Segment, Popup } from "semantic-ui-react";
 
 import { DeleteCardModal, ResetCardModal, MODAL_TYPES } from "../../../components/modals";
 import { ProgressBar } from "../../../components";
@@ -51,7 +51,20 @@ class DeckItem extends Component {
           </div>
           <div className="col-3 col-sm-2 pl-0">
             <div className="d-flex justify-content-end align-items-center">
-              {card.recallRate >= 0 && <ProgressBar percent={card.recallRate} />}
+              {card.recallRate >= 0 && (
+                <Popup
+                  inverted
+                  position="bottom right"
+                  trigger={
+                    <div>
+                      <ProgressBar percent={card.recallRate} />
+                    </div>
+                  }
+                >
+                  Your recall strength of this card is approximately{" "}
+                  {parseInt(card.recallRate * 100, 10)}%.
+                </Popup>
+              )}
               <Dropdown
                 on="click"
                 icon={false}

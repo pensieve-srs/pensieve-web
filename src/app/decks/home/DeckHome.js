@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { Button, Dropdown, Icon, Segment } from "semantic-ui-react";
+import { Button, Dropdown, Header, Icon, Segment, Popup } from "semantic-ui-react";
 import pluralize from "pluralize";
 
 import {
@@ -27,10 +27,12 @@ const EmptyView = ({ title, description, emoji = "✌️" }) => (
     <div className="text-center">
       <div className="row">
         <div className="col-md-6 offset-md-3">
-          <h2>
+          <Header size="large">
             {emoji} {title}
-          </h2>
-          <p className="text-secondary">{description}</p>
+            <Header.Subheader className="text-secondary" style={{ lineHeight: "1.4em" }}>
+              {description}
+            </Header.Subheader>
+          </Header>
         </div>
       </div>
     </div>
@@ -209,15 +211,24 @@ class DeckHome extends Component {
                   </Button>
                 </div>
                 {deck.recallRate >= 0 && (
-                  <div className="right-side my-3 d-flex align-items-center">
-                    <strong
-                      style={{ lineHeight: "1em", fontWeight: "600" }}
-                      className="text-secondary mr-2"
-                    >
-                      Total Strength
-                    </strong>
-                    <ProgressBar percent={deck.recallRate} />
-                  </div>
+                  <Popup
+                    inverted
+                    position="bottom right"
+                    trigger={
+                      <div className="right-side my-3 d-flex align-items-center">
+                        <strong
+                          style={{ lineHeight: "1em", fontWeight: "600" }}
+                          className="text-secondary mr-2"
+                        >
+                          Total Strength
+                        </strong>
+                        <ProgressBar percent={deck.recallRate} />
+                      </div>
+                    }
+                  >
+                    Your recall strength of this deck is approximately{" "}
+                    {parseInt(deck.recallRate * 100, 10)}%.
+                  </Popup>
                 )}
               </div>
               <Dropdown
@@ -265,7 +276,7 @@ class DeckHome extends Component {
               ) : (
                 <EmptyView
                   title="Add cards to your deck"
-                  description="Decks are made of related notes. Start adding cards to your deck by clicking 'Add Item +'"
+                  description="Decks are made of related notes. Start adding cards to your deck by clicking 'Add Card +'"
                 />
               )}
             </div>

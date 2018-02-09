@@ -3,14 +3,12 @@ import { Menu, Icon } from "semantic-ui-react";
 
 import Account from "./Account";
 import Notifications from "./Notifications";
-import Export from "./Export";
 
 import withErrors from "../../helpers/withErrors";
 
 // Page type enum
 const PAGE = {
   ACCOUNT: "account",
-  EXPORT: "export",
   NOTIFS: "notifications",
 };
 
@@ -45,10 +43,6 @@ class Settings extends Component {
                 <Menu.Item active={page === PAGE.ACCOUNT} link href="#account">
                   <Icon name="settings" />Account profile
                 </Menu.Item>
-                <Menu.Item active={page === PAGE.EXPORT} link href="#export">
-                  <Icon name="cloud download" />
-                  Export data
-                </Menu.Item>
                 <Menu.Item active={page === PAGE.NOTIFS} link href="#notifications">
                   <Icon name="inbox" />
                   Notifications
@@ -59,7 +53,6 @@ class Settings extends Component {
               {
                 {
                   [PAGE.ACCOUNT]: <Account {...this.props} />,
-                  [PAGE.EXPORT]: <Export {...this.props} />,
                   [PAGE.NOTIFS]: <Notifications {...this.props} />,
                 }[page]
               }
