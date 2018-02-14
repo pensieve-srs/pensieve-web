@@ -37,7 +37,7 @@ class Landing extends Component {
             <Header as="h2" textAlign="center" size="large" className="mb-4">
               Simple Spaced Repetition
             </Header>
-            <Grid columns={3} padded relaxed stackable>
+            <Grid columns={4} padded relaxed stackable>
               <Grid.Row>
                 <Grid.Column>
                   <Header as="h3" className="mb-2">
@@ -72,6 +72,18 @@ class Landing extends Component {
                   <p className="text-secondary">
                     Each time you study a card is a chance to grade you on how well you remember it.
                     The harder a card is, the sooner you will see it again to study.
+                  </p>
+                </Grid.Column>
+                <Grid.Column>
+                  <Header as="h3" className="mb-2">
+                    <Label color="grey" size="large" className="ml-0 mr-2">
+                      4
+                    </Label>Get notified
+                  </Header>
+                  <p className="text-secondary">
+                    Pensieve will notify you over time when you should review your notes in order to
+                    maintain retention of them over time. A lot of work goes into developing smart
+                    notifications in order to optimize your study habits.
                   </p>
                 </Grid.Column>
               </Grid.Row>

@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import queryString from "query-string";
 
 import withErrors from "../../../helpers/withErrors";
 
@@ -7,11 +8,14 @@ import * as api from "../reviewActions";
 
 class ReviewNew extends Component {
   componentWillMount() {
-    this.createSession("review");
+    const { deckId } = queryString.parse(this.props.location.search);
+
+    this.createSession(deckId);
   }
 
-  createSession = sessionType => {
-    api.createSession(sessionType).then(({ data }) => {
+  createSession = deckId => {
+    const type = deckId ? "deck" : "review";
+    api.createSession(type, deckId).then(({ data }) => {
       this.props.history.push(`/sessions/${data._id}`);
     });
   };
