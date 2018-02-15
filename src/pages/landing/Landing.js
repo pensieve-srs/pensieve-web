@@ -15,7 +15,7 @@ class Landing extends Component {
               <div className="landing-copy w-100 text-left mr-3">
                 <h1 className="font-weight-bold m-0">Pensieve</h1>
                 <h2 className="m-0" style={{ fontSize: "38px" }}>
-                  Control your memory.
+                  Control your memory
                 </h2>
                 <hr className="my-3 ml-0 w-25" style={{ borderColor: "white", opacity: "0.8" }} />
                 <h3 className="font-weight-normal m-0  mb-5">
@@ -32,7 +32,29 @@ class Landing extends Component {
             </div>
           </div>
         </div>
-        <div className="landing-box bg-white py-5">
+        <div className="landing-howItWorks bg-white border-bottom py-5">
+          <div className="container py-5">
+            <div className="row">
+              <div className="col-sm-10 offset-sm-1 col-md-8 offset-md-2">
+                <Header as="h2" textAlign="center" size="large" className="mb-4">
+                  Why it works
+                </Header>
+                <p className="lead text-dark">
+                  Our short term memory is in a battle to retain the most relevant information. As
+                  time goes by, it will naturally forget information that it doesn't think is
+                  important. The trick to convincing your brain what information is important?
+                  Revisiting that material. <br /> <br />Review and repetition are the key to
+                  learning anything new. However, by studying at increasing intervals between each
+                  review, you also will greatly reduce the amount of studying you do while improving
+                  the long term retention of that material. Pensieve solves this problem of knowing
+                  when to study by notifying you when your notes are ready to review. Allowing you
+                  to remember anything quicker with less effort.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="landing-box py-5">
           <div className="container my-5 py-3">
             <Header as="h2" textAlign="center" size="large" className="mb-4">
               How It Works
@@ -48,7 +70,7 @@ class Landing extends Component {
                   <p className="text-secondary">
                     Collect the information you want to learn and input them in our system as
                     flashcards. It can be anything you want to remember: language vocabulary,
-                    medical terms, trivia, friend’s names.
+                    medical terms, trivia, or even friends' names.
                   </p>
                 </Grid.Column>
                 <Grid.Column>
@@ -58,9 +80,9 @@ class Landing extends Component {
                     </Label>Get notified
                   </Header>
                   <p className="text-secondary">
-                    Your memory of these cards will decrease constantly as you start to forget them.
-                    We will estimate the best time to review them and let you know when you should
-                    study them next.
+                    Your recall ability of these cards will decrease constantly as you start to
+                    forget them. We will estimate the best time to review them and let you know when
+                    you should study them again.
                   </p>
                 </Grid.Column>
                 <Grid.Column>
@@ -88,24 +110,6 @@ class Landing extends Component {
                 </Grid.Column>
               </Grid.Row>
             </Grid>
-          </div>
-        </div>
-        <div className="landing-howItWorks border-bottom py-5">
-          <div className="container py-5">
-            <div className="row">
-              <div className="col-sm-10 offset-sm-1 col-md-8 offset-md-2">
-                <Header as="h2" textAlign="center" size="large" className="mb-4">
-                  Simple Spaced Repetition
-                </Header>
-                <Image className="my-4" src={require("./graph.png")} size="large" centered />
-                <p className="lead text-dark">
-                  Pensieve uses the time since you last reviewed a note and your answers to estimate
-                  how well you remember it over time. As your memory of those notes improve, the
-                  intervals between studying them increases, avoiding wasted studying of that
-                  material.
-                </p>
-              </div>
-            </div>
           </div>
         </div>
         <div className="landing-info border py-5">
