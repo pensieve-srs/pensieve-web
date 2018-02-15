@@ -15,12 +15,12 @@ class Landing extends Component {
               <div className="landing-copy w-100 text-left mr-3">
                 <h1 className="font-weight-bold m-0">Pensieve</h1>
                 <h2 className="m-0" style={{ fontSize: "38px" }}>
-                  The smartest way to study
+                  Control your memory.
                 </h2>
                 <hr className="my-3 ml-0 w-25" style={{ borderColor: "white", opacity: "0.8" }} />
                 <h3 className="font-weight-normal m-0  mb-5">
-                  Pensieve is a spaced repetition tool that predicts your memory to optimize your
-                  study habits
+                  Pensieve uses smarter flashcards with spaced repetition to help you learn
+                  information easier and longer.
                 </h3>
                 <Button onClick={this.onGoto} value="/signup" className="btn-light" size="large">
                   GET STARTED
@@ -35,7 +35,7 @@ class Landing extends Component {
         <div className="landing-box bg-white py-5">
           <div className="container my-5 py-3">
             <Header as="h2" textAlign="center" size="large" className="mb-4">
-              Simple Spaced Repetition
+              How It Works
             </Header>
             <Grid columns={4} padded relaxed stackable>
               <Grid.Row>
@@ -43,47 +43,47 @@ class Landing extends Component {
                   <Header as="h3" className="mb-2">
                     <Label color="grey" size="large" className="ml-0 mr-2">
                       1
-                    </Label>Gather notes
+                    </Label>Create your cards
                   </Header>
                   <p className="text-secondary">
-                    Collect the information you want to remember, organized into flashcards. It can
-                    be anything you want to remember: language vocabulary, medical terms, trivia,
-                    friend’s names.
+                    Collect the information you want to learn and input them in our system as
+                    flashcards. It can be anything you want to remember: language vocabulary,
+                    medical terms, trivia, friend’s names.
                   </p>
                 </Grid.Column>
                 <Grid.Column>
                   <Header as="h3" className="mb-2">
                     <Label color="grey" size="large" className="ml-0 mr-2">
                       2
-                    </Label>Review those notes
+                    </Label>Get notified
                   </Header>
-                  <p className="text-secondary m-0">
-                    Your recall of your notes will decrease naturally over time as you forget them.
-                    Study your flashcards as you are most likely to forget them in order to
-                    strengthen your memory of them.
+                  <p className="text-secondary">
+                    Your memory of these cards will decrease constantly as you start to forget them.
+                    We will estimate the best time to review them and let you know when you should
+                    study them next.
                   </p>
                 </Grid.Column>
                 <Grid.Column>
                   <Header as="h3" className="mb-2">
                     <Label color="grey" size="large" className="ml-0 mr-2">
                       3
-                    </Label>Grade your memory
+                    </Label>Review your cards
                   </Header>
-                  <p className="text-secondary">
-                    Each time you study a card is a chance to grade you on how well you remember it.
-                    The harder a card is, the sooner you will see it again to study.
+                  <p className="text-secondary m-0">
+                    Once your cards expired, you will need to study them again, telling us how well
+                    you remember them. The harder a card is to remember, the sooner you will see it
+                    again.
                   </p>
                 </Grid.Column>
                 <Grid.Column>
                   <Header as="h3" className="mb-2">
                     <Label color="grey" size="large" className="ml-0 mr-2">
                       4
-                    </Label>Get notified
+                    </Label>Repeat
                   </Header>
                   <p className="text-secondary">
-                    Pensieve will notify you over time when you should review your notes in order to
-                    maintain retention of them over time. A lot of work goes into developing smart
-                    notifications in order to optimize your study habits.
+                    This step is simple. Keep studying as your cards expire over longer and longer
+                    periods of time until you have successful stored them in your long term memory.
                   </p>
                 </Grid.Column>
               </Grid.Row>
@@ -95,7 +95,7 @@ class Landing extends Component {
             <div className="row">
               <div className="col-sm-10 offset-sm-1 col-md-8 offset-md-2">
                 <Header as="h2" textAlign="center" size="large" className="mb-4">
-                  How It Works
+                  Simple Spaced Repetition
                 </Header>
                 <Image className="my-4" src={require("./graph.png")} size="large" centered />
                 <p className="lead text-dark">
