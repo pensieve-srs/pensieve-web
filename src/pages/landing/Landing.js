@@ -22,8 +22,8 @@ class Landing extends Component {
                   Pensieve uses smarter flashcards with spaced repetition to help you learn
                   information easier and longer.
                 </h3>
-                <Button onClick={this.onGoto} value="/signup" className="btn-light" size="large">
-                  GET STARTED
+                <Button value="/signup" className="btn-light" size="large">
+                  GET BETA ACCESS
                 </Button>
               </div>
               <div className="landing-image mb-5">
@@ -129,8 +129,8 @@ class Landing extends Component {
                   Improve your studying for free
                 </h4>
                 <div className="text-center">
-                  <Button onClick={this.onGoto} value="/signup" primary size="large">
-                    GET STARTED
+                  <Button value="/signup" primary size="large">
+                    GET BETA ACCESS
                   </Button>
                 </div>
               </div>
