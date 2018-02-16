@@ -1,5 +1,7 @@
 import React, { Component } from "react";
-import { Button, Grid, Header, Image, Label } from "semantic-ui-react";
+import { Grid, Header, Image, Label } from "semantic-ui-react";
+
+import BetaListForm from "./BetaListForm";
 
 import "./Landing.css";
 
@@ -22,9 +24,7 @@ class Landing extends Component {
                   Pensieve uses smarter flashcards with spaced repetition to help you learn
                   information easier and longer.
                 </h3>
-                <Button value="/signup" className="btn-light" size="large">
-                  GET BETA ACCESS
-                </Button>
+                <BetaListForm inverted />
               </div>
               <div className="landing-image mb-5">
                 <Image src={require("./landing_hero.png")} />
@@ -128,10 +128,8 @@ class Landing extends Component {
                 <h4 className="text-center text-dark mt-5 pt-3 mb-3">
                   Improve your studying for free
                 </h4>
-                <div className="text-center">
-                  <Button value="/signup" primary size="large">
-                    GET BETA ACCESS
-                  </Button>
+                <div className="text-center d-table mr-auto ml-auto">
+                  <BetaListForm />
                 </div>
               </div>
             </div>

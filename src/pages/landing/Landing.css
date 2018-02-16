@@ -22,15 +22,15 @@
   min-height: 85vh;
 }
 
-.landing-hero .btn-light {
+.landing-page .btn-light {
   color: #1574fb;
   background: white;
   box-shadow: 0 3px 4px 0 rgba(0, 0, 0, 0.13);
 }
 
-.landing-hero .btn-light:focus,
-.landing-hero .btn-light:active,
-.landing-hero .btn-light:hover {
+.landing-page .btn-light:focus,
+.landing-page .btn-light:active,
+.landing-page .btn-light:hover {
   transition: 0.1s all ease-in-out;
   color: #1574fb;
   background: #ececdc;
