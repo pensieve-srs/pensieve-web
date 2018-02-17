@@ -16,13 +16,13 @@ class Landing extends Component {
             <div className="d-flex flex-column-reverse flex-md-row justify-content-between align-items-center">
               <div className="landing-copy w-100 text-left mr-3">
                 <h1 className="font-weight-bold m-0">Pensieve</h1>
-                <h2 className="m-0" style={{ fontSize: "38px" }}>
-                  Control your memory
+                <h2 className="m-0" style={{ fontSize: "34px" }}>
+                  Flashcards for busy people
                 </h2>
                 <hr className="my-3 ml-0 w-25" style={{ borderColor: "white", opacity: "0.8" }} />
                 <h3 className="font-weight-normal m-0  mb-5">
-                  Pensieve uses smarter flashcards with spaced repetition to help you learn
-                  information easier and longer.
+                  Pensieve uses smarter flashcards with spaced repetition to help you remember
+                  everything you'll learn.
                 </h3>
                 <BetaListForm inverted />
               </div>
@@ -40,15 +40,14 @@ class Landing extends Component {
                   Why it works
                 </Header>
                 <p className="lead text-dark">
-                  Our short term memory is in a battle to retain the most relevant information. As
-                  time goes by, it will naturally forget information that it doesn't think is
-                  important. The trick to convincing your brain what information is important?
-                  Revisiting that material. <br /> <br />Review and repetition are the key to
-                  learning anything new. However, by studying at increasing intervals between each
-                  review, you also will greatly reduce the amount of studying you do while improving
-                  the long term retention of that material. Pensieve solves this problem of knowing
-                  when to study by notifying you when your notes are ready to review. Allowing you
-                  to remember anything quicker with less effort.
+                  When you are learning, 80% of what you hear, read, and write will be forgotten
+                  tomorrow. Practice that information regularly to remember it and move on to your
+                  next lesson.
+                  <br /> <br />Pensieve is based on the idea that there is the perfect moment to
+                  practice what you've learned. Practice too soon and you have wasted your time.
+                  Practice too late and you've forgotten the material and have to relearn it.
+                  Pensieve makes remembering anything easier by predicting the right time to
+                  practice and reminding you to review.
                 </p>
               </div>
             </div>
@@ -57,9 +56,9 @@ class Landing extends Component {
         <div className="landing-box py-5">
           <div className="container my-5 py-3">
             <Header as="h2" textAlign="center" size="large" className="mb-4">
-              How It Works
+              How it works
             </Header>
-            <Grid columns={4} padded relaxed stackable>
+            <Grid columns={3} padded relaxed stackable>
               <Grid.Row>
                 <Grid.Column>
                   <Header as="h3" className="mb-2">
@@ -95,17 +94,6 @@ class Landing extends Component {
                     Once your cards expired, you will need to study them again, telling us how well
                     you remember them. The harder a card is to remember, the sooner you will see it
                     again.
-                  </p>
-                </Grid.Column>
-                <Grid.Column>
-                  <Header as="h3" className="mb-2">
-                    <Label color="grey" size="large" className="ml-0 mr-2">
-                      4
-                    </Label>Repeat
-                  </Header>
-                  <p className="text-secondary">
-                    This step is simple. Keep studying as your cards expire over longer and longer
-                    periods of time until you have successful stored them in your long term memory.
                   </p>
                 </Grid.Column>
               </Grid.Row>
