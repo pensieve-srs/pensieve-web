@@ -59,7 +59,7 @@
 }
 
 .landing-copy {
-  max-width: 460px;
+  max-width: 475px;
 }
 
 .landing-box h3.header {
@@ -80,6 +80,10 @@
 
 .landing-info {
   background: #ffffff;
+}
+.landing-howItWorks strong,
+.landing-info strong {
+  font-weight: 600;
 }
 .landing-info .btn-primary {
   padding: 10px 15px;
