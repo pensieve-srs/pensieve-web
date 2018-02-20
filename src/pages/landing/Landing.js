@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Grid, Header, Image, Label } from "semantic-ui-react";
+import { Container, Grid, Header, Image, Label, Responsive } from "semantic-ui-react";
 
 import BetaListForm from "./BetaListForm";
 
@@ -12,25 +12,29 @@ class Landing extends Component {
     return (
       <div className="landing-page">
         <div className="landing-hero py-5 px-2">
-          <div className="container my-5 py-5">
-            <div className="d-flex flex-column-reverse flex-md-row justify-content-between align-items-center">
-              <div className="landing-copy w-100 text-left mr-3">
-                <h1 className="font-weight-bold m-0">Pensieve</h1>
-                <h2 className="m-0" style={{ fontSize: "32px" }}>
-                  Capture and remember everything
-                </h2>
-                <hr className="my-3 ml-0 w-25" style={{ borderColor: "white", opacity: "0.8" }} />
-                <h3 className="font-weight-normal m-0  mb-5">
-                  Pensieve uses smarter flashcards with spaced repetition to allow you to control
-                  the brain's forgetting process
-                </h3>
-                <BetaListForm inverted />
-              </div>
-              <div className="landing-image mb-5">
-                <Image src={require("./landing_hero.png")} />
-              </div>
+          <Container textAlign="center">
+            <div className="py-5 my-5">
+              <Header as="h1" inverted className="mb-4" style={{ fontSize: "34px" }}>
+                Capture and remember everything
+                <Header.Subheader
+                  className="mx-auto"
+                  as="h2"
+                  inverted
+                  style={{ maxWidth: "550px", fontSize: "18px" }}
+                >
+                  Pensieve uses smarter flashcards with spaced repetition to help you conquer your
+                  memory
+                </Header.Subheader>
+              </Header>
+              <BetaListForm inverted />
             </div>
-          </div>
+            <Responsive minWidth={768}>
+              <Image centered src={require("./web_mobile.png")} />
+            </Responsive>
+            <Responsive className="text-center" maxWidth={767}>
+              <Image style={{ marginBottom: "-200px" }} centered src={require("./mobile.png")} />
+            </Responsive>
+          </Container>
         </div>
         <div className="landing-howItWorks bg-white border-bottom py-5">
           <div className="container py-5 my-4">
@@ -108,8 +112,8 @@ class Landing extends Component {
                   Pensieve is for people that want to learn better
                 </Header>
                 <p className="lead text-dark mx-2">
-                  Pensieve is for students, language learners, and autodidacts that are tired of
-                  forgetting information after just learning it. It is for people that don't have
+                  Pensieve is for students, language learners, and lifelong learners that are tired
+                  of forgetting information after just learning it. It is for people that don't have
                   time to review their notes everyday. It can be used for anything you want to
                   remember: <strong>languages</strong>, <strong>medical terms</strong>,{" "}
                   <strong>books</strong>, or even <strong>friend's names</strong>.

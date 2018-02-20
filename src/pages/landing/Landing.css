@@ -20,6 +20,7 @@
   justify-content: center;
   margin-top: -6em;
   min-height: 85vh;
+  overflow-y: hidden;
 }
 
 .landing-page .btn-light {
@@ -34,16 +35,6 @@
   transition: 0.1s all ease-in-out;
   color: #1574fb;
   background: #ececdc;
-}
-
-.landing-hero h1 {
-  font-size: 46px;
-  line-height: 1.1em;
-  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.05);
-}
-.landing-hero h2 {
-  font-weight: normal;
-  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.05);
 }
 
 .landing-hero .landing-image {
