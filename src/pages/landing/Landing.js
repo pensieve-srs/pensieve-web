@@ -18,6 +18,7 @@ class Landing extends Component {
                 Capture and remember everything
                 <Header.Subheader
                   className="mx-auto"
+                  inverted
                   style={{ maxWidth: "550px", fontSize: "18px" }}
                 >
                   Pensieve uses smarter flashcards with spaced repetition to help you conquer your
