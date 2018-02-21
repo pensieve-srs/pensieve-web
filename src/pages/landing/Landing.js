@@ -26,7 +26,9 @@ class Landing extends Component {
                   memory
                 </Header.Subheader>
               </Header>
-              <BetaListForm inverted />
+              <div className="text-center d-table mr-auto ml-auto">
+                <BetaListForm inverted />
+              </div>
             </div>
             <Responsive minWidth={768}>
               <Image centered src={require("./web_mobile.png")} />
