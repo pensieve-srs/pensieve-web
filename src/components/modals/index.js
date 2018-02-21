@@ -7,6 +7,7 @@ import EditDeckModal from "./EditDeckModal";
 import EditCardModal from "./EditCardModal";
 import ResetCardModal from "./ResetCardModal";
 import ResetDeckModal from "./ResetDeckModal";
+import OnboardingModal from "./OnboardingModal";
 
 export const MODAL_TYPES = {
   ADD_ITEM: "addItem",
@@ -21,6 +22,7 @@ export const MODAL_TYPES = {
 };
 
 export {
+  OnboardingModal,
   AddCardModal,
   CardModal,
   DeleteDeckModal,

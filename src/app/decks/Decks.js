@@ -8,6 +8,7 @@ import withErrors from "../../helpers/withErrors";
 import * as api from "./deckActions";
 
 import DeckCard from "./DeckCard";
+import { OnboardingModal } from "../../components/modals";
 
 import "./Decks.css";
 
@@ -71,6 +72,7 @@ class Decks extends Component<Props, State> {
 
     return (
       <div className="decks-page mt-4">
+        <OnboardingModal />
         <div className="container">
           <div className="row">
             <div className="col-lg-10 offset-lg-1">
@@ -97,7 +99,7 @@ class Decks extends Component<Props, State> {
               {filteredDecks.length > 0 ? (
                 <div className="row">
                   {filteredDecks.map((deck, key) => (
-                    <DeckCard className="col-6 col-sm-4 col-md-3" deck={deck} key={key} />
+                    <DeckCard className="col-6 col-sm-4 col-md-3 mt-4" deck={deck} key={key} />
                   ))}
                 </div>
               ) : (

@@ -37,6 +37,7 @@ class Signup extends Component {
         logSignupEvent(response.data.user._id);
         cookie.set("token", response.data.token);
         cookie.set("user", response.data.user);
+        cookie.set("newUser", true);
 
         this.props.history.push("/decks");
       },

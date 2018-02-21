@@ -16,18 +16,18 @@ type Props = {
 
 class DeckCard extends Component<Props> {
   render() {
-    const { deck, className } = this.props;
+    const { deck, className, style } = this.props;
 
     return (
-      <div className={className}>
+      <div className={className} style={style}>
         <Link to={`/decks/${deck._id}`} className="position-relative">
-          <Segment className="deck-card mt-4 position-relative">
+          <Segment className="deck-card position-relative">
             {deck.recallRate <= 0.5 && (
               <Label floating circular color="red" size="tiny">
                 <Popup
                   inverted
                   position="bottom right"
-                  trigger={<Icon className="m-0" name="exclamation" color="white" />}
+                  trigger={<Icon className="m-0" name="exclamation" />}
                 >
                   Review this deck before you forget the information and need to relearn it.
                 </Popup>
@@ -51,7 +51,7 @@ class DeckCard extends Component<Props> {
                   position="top right"
                   trigger={
                     <div>
-                      <ProgressBar percent={deck.recallRate} />
+                      <ProgressBar animated={this.props.animated} percent={deck.recallRate} />
                     </div>
                   }
                 >

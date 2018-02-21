@@ -8,6 +8,10 @@
   border-radius: 999px;
 }
 
+.progress-bar--animated {
+  transition: 1.5s all ease-in-out;
+}
+
 .progress-bar--warning {
   background: #f5a623;
 }
