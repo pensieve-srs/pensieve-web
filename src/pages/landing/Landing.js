@@ -17,7 +17,7 @@ class Landing extends Component {
               <Header as="h1" inverted className="mb-4" style={{ fontSize: "34px" }}>
                 Capture and remember everything
                 <Header.Subheader
-                  className="mx-auto"
+                  className="my-3 mx-auto"
                   as="h2"
                   inverted
                   style={{ maxWidth: "550px", fontSize: "18px" }}
@@ -43,16 +43,16 @@ class Landing extends Component {
             <div className="row">
               <div className="col-sm-10 offset-sm-1 col-md-8 offset-md-2">
                 <Header as="h2" textAlign="center" size="large" className="mb-4">
-                  Why it works
+                  Improve your memory
                 </Header>
-                <p className="lead text-dark">
+                <p className="lead text-dark text-center">
                   When you are learning, 80% of what you hear, read, and write will be forgotten
                   tomorrow. Practice and repetition will help you remember anything you want to
                   learn. Practice too soon though and you have wasted your time. Practice too late
-                  and you've forgotten the material and have to relearn it.{" "}
+                  and you've forgotten the material and have to relearn it. {" "}
                   <strong>
-                    With Pensieve, we prompt you to review at the perfect time so you spend less
-                    effort to learn what you want to remember.
+                    With Pensieve, you review at the perfect time so you spend less effort to learn
+                    what you want to remember.
                   </strong>
                 </p>
               </div>
@@ -111,9 +111,9 @@ class Landing extends Component {
             <div className="row">
               <div className="col-sm-10 offset-sm-1 col-md-8 offset-md-2">
                 <Header as="h2" textAlign="center" size="large" className="mb-4">
-                  Pensieve is for people that want to learn better
+                  Pensieve is for people who want to learn better
                 </Header>
-                <p className="lead text-dark mx-2">
+                <p className="lead text-dark mx-2 text-center">
                   Pensieve is for students, language learners, and lifelong learners that are tired
                   of forgetting information after just learning it. It is for people that don't have
                   time to review their notes everyday. It can be used for anything you want to
