@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Button, Header, Form, Input, Segment } from "semantic-ui-react";
+import { Button, Divider, Header, Form, Input, Segment } from "semantic-ui-react";
 import { DeleteUserModal, MODAL_TYPES } from "../../components/modals";
 
 import * as api from "./userActions";
@@ -53,7 +53,11 @@ class Account extends Component {
         />
         <Segment padded>
           <Form>
-            <Header>Profile</Header>
+            <Header>
+              <Header.Content>Profile</Header.Content>
+              <Header.Subheader>Update profile information for your account</Header.Subheader>
+            </Header>
+            <Divider />
             <Form.Field>
               <label>Name</label>
               <Input
@@ -85,7 +89,7 @@ class Account extends Component {
             Do you wish to delete your account? This is permament and all your data will be
             permanently erased?
           </p>
-          <Button negative onClick={this.onShowModal} value={MODAL_TYPES.DELETE_USER}>
+          <Button negative onClick={this.onShowModal} basic value={MODAL_TYPES.DELETE_USER}>
             Delete
           </Button>
         </Segment>

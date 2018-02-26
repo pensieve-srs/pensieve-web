@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { Button, Dropdown, Header, Icon, Segment, Popup } from "semantic-ui-react";
+import { Button, Dropdown, Header, Icon, Segment, Popup, Label } from "semantic-ui-react";
 import pluralize from "pluralize";
 
 import {
@@ -148,6 +148,7 @@ class DeckHome extends Component {
 
   render() {
     const { deck, cards, showModalType, selectedCard } = this.state;
+    const numExpiredCards = cards.filter(card => card.recallRate <= 0.5).length;
 
     return (
       <div className="deck-home mt-4">
@@ -188,17 +189,34 @@ class DeckHome extends Component {
         <div className="container">
           <div className="row">
             <div className="position-relative col-lg-10 offset-lg-1">
-              <h6 className="text-secondary text-uppercase m-0">
-                DECK &middot; {pluralize("card", cards.length, true)}
-              </h6>
+              <Header as="h6" className="text-secondary text-uppercase m-0">
+                DECK
+              </Header>
               <div className="deck-header">
                 <h1 className="font-weight-bold h3 mb-0 mt-0">{deck.title}</h1>
                 {deck.description && <p className="text-dark h5 mb-1">{deck.description}</p>}
               </div>
-              <div className="d-flex flex-wrap-reverse justify-content-between align-items-center mt-4">
+              <p
+                className="text-secondary text-uppercase m-0 mt-4 mb-2"
+                style={{ fontWeight: "600" }}
+              >
+                {pluralize("card", cards.length, true)} &middot; {numExpiredCards} to review
+              </p>
+              <div className="d-flex flex-wrap-reverse justify-content-between align-items-center">
                 <div className="left-side">
-                  <Button onClick={this.studyDeck} primary disabled={cards.length === 0}>
-                    Study Now
+                  <Button primary onClick={this.studyDeck} disabled={numExpiredCards === 0}>
+                    Study Now{" "}
+                    <Label
+                      style={{
+                        padding: ".43em",
+                        margin: "-.53em",
+                        marginLeft: "4px",
+                        color: "#fff",
+                        background: "#0662E4",
+                      }}
+                    >
+                      {numExpiredCards}
+                    </Label>
                   </Button>
                   <Button
                     basic

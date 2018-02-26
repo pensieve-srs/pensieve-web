@@ -14,12 +14,13 @@ class Landing extends Component {
         <div className="landing-hero py-5 px-2">
           <Container textAlign="center">
             <div className="py-5 my-5">
-              <Header as="h1" inverted className="mb-4" style={{ fontSize: "34px" }}>
-                Capture and remember everything
+              <Header inverted className="mb-4">
+                <Header.Content style={{ fontSize: "34px" }}>
+                  Capture and remember everything
+                </Header.Content>
                 <Header.Subheader
                   className="my-3 mx-auto"
                   as="h2"
-                  inverted
                   style={{ maxWidth: "550px", fontSize: "18px" }}
                 >
                   Pensieve uses smarter flashcards with spaced repetition to help you conquer your

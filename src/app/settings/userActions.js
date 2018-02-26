@@ -18,3 +18,9 @@ export const deleteUser = () => {
 
   return axios.delete("/api/users/profile", config);
 };
+
+export const updatePassword = body => {
+  const config = { headers: { Authorization: cookie.get("token") } };
+
+  return axios.put("/api/users/profile/security", body, config);
+};
