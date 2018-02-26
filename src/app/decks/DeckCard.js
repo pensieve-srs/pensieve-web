@@ -1,7 +1,7 @@
 // @flow
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import { Header, Segment, Progress, Popup, Label, Icon } from "semantic-ui-react";
+import { Header, Segment, Progress, Popup, Icon } from "semantic-ui-react";
 import pluralize from "pluralize";
 
 import { Deck } from "../../types";
@@ -22,17 +22,6 @@ class DeckCard extends Component<Props> {
       <div className={className}>
         <Link to={`/decks/${deck._id}`} className="position-relative">
           <Segment className="deck-card mt-4 position-relative">
-            {deck.recallRate <= 0.5 && (
-              <Label floating circular color="red" size="tiny">
-                <Popup
-                  inverted
-                  position="bottom right"
-                  trigger={<Icon className="m-0" name="exclamation" />}
-                >
-                  Review this deck before you forget the information and need to relearn it.
-                </Popup>
-              </Label>
-            )}
             <Header className="m-0" as="h4">
               {deck.title}
             </Header>
@@ -50,7 +39,8 @@ class DeckCard extends Component<Props> {
                   inverted
                   position="top right"
                   trigger={
-                    <div>
+                    <div className="d-flex">
+                      {deck.recallRate <= 0.5 && <Icon name="exclamation" color="red" />}
                       <ProgressBar percent={deck.recallRate} />
                     </div>
                   }
