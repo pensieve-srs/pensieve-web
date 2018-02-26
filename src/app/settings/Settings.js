@@ -3,6 +3,7 @@ import { Menu, Icon } from "semantic-ui-react";
 
 import Account from "./Account";
 import Notifications from "./Notifications";
+import Security from "./Security";
 
 import withErrors from "../../helpers/withErrors";
 
@@ -10,6 +11,7 @@ import withErrors from "../../helpers/withErrors";
 const PAGE = {
   ACCOUNT: "account",
   NOTIFS: "notifications",
+  SECURITY: "security",
 };
 
 class Settings extends Component {
@@ -47,6 +49,10 @@ class Settings extends Component {
                   <Icon name="inbox" />
                   Notifications
                 </Menu.Item>
+                <Menu.Item active={page === PAGE.SECURITY} link href="#security">
+                  <Icon name="setting" />
+                  Security
+                </Menu.Item>
               </Menu>
             </div>
             <div className="col-md-9 col-lg-6">
@@ -54,6 +60,7 @@ class Settings extends Component {
                 {
                   [PAGE.ACCOUNT]: <Account {...this.props} />,
                   [PAGE.NOTIFS]: <Notifications {...this.props} />,
+                  [PAGE.SECURITY]: <Security {...this.props} />,
                 }[page]
               }
             </div>
