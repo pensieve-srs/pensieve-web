@@ -45,8 +45,7 @@ class Notifications extends Component {
               label={
                 <label>
                   <Header size="small">
-                    Send me email notifications{" "}
-                    <span className="text-secondary font-weight-normal ml-2">once every day</span>
+                    Send me email notifications
                     <Header.Subheader>
                       <Icon color="blue" name="info circle" />Emails are only sent when cards need
                       to be reviewed

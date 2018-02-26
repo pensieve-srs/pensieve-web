@@ -27,7 +27,7 @@ class DeckCard extends Component<Props> {
                 <Popup
                   inverted
                   position="bottom right"
-                  trigger={<Icon className="m-0" name="exclamation" color="white" />}
+                  trigger={<Icon className="m-0" name="exclamation" />}
                 >
                   Review this deck before you forget the information and need to relearn it.
                 </Popup>
