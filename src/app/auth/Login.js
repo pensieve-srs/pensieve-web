@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
 import { Button, Form } from "semantic-ui-react";
 import cookie from "js-cookie";
 
@@ -82,9 +81,6 @@ class Login extends Component {
 
               <p className="text-center mb-1">
                 Forgot your password? <a href="mailto:hello@pensieve.space">Send us a message</a>
-              </p>
-              <p className="text-center mb-3">
-                Need an account? <Link to="/signup">Sign up</Link>
               </p>
             </div>
           </div>

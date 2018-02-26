@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Button, Checkbox, Segment, Header, Form, Icon } from "semantic-ui-react";
+import { Divider, Button, Checkbox, Segment, Header, Form, Icon } from "semantic-ui-react";
 
 import * as api from "./userActions";
 
@@ -35,7 +35,11 @@ class Notifications extends Component {
 
     return (
       <Segment padded>
-        <Header>Notifications</Header>
+        <Header>
+          <Header.Content>Notifications</Header.Content>
+          <Header.Subheader>Update notification settings for your account.</Header.Subheader>
+        </Header>
+        <Divider />
         <Form>
           <Form.Field>
             <Checkbox
@@ -45,8 +49,7 @@ class Notifications extends Component {
               label={
                 <label>
                   <Header size="small">
-                    Send me email notifications{" "}
-                    <span className="text-secondary font-weight-normal ml-2">once every day</span>
+                    Send me email notifications
                     <Header.Subheader>
                       <Icon color="blue" name="info circle" />Emails are only sent when cards need
                       to be reviewed
