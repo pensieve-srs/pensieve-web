@@ -13,10 +13,10 @@ class Landing extends Component {
       <div className="landing-page">
         <div className="landing-hero py-5 px-2">
           <Container textAlign="center">
-            <div className="py-5 my-5">
+            <div className="pb-5 mb-5">
               <Header inverted className="mb-4">
-                <Header.Content style={{ fontSize: "34px" }}>
-                  Capture and remember everything
+                <Header.Content style={{ fontSize: "34px", lineHeight: "1em" }}>
+                  Improve your memory
                 </Header.Content>
                 <Header.Subheader
                   className="my-3 mx-auto"
@@ -32,19 +32,21 @@ class Landing extends Component {
               </div>
             </div>
             <Responsive minWidth={768}>
-              <Image centered src={require("./web_mobile.png")} />
+              <div style={{ marginBottom: "-300px" }}>
+                <Image centered src={require("./web_mobile.png")} />
+              </div>
             </Responsive>
             <Responsive className="text-center" maxWidth={767}>
-              <Image style={{ marginBottom: "-200px" }} centered src={require("./mobile.png")} />
+              <Image style={{ marginBottom: "-270px" }} centered src={require("./mobile.png")} />
             </Responsive>
           </Container>
         </div>
-        <div className="landing-howItWorks bg-white border-bottom py-5">
+        <div className="landing-howItWorks border bg-white border-bottom py-5">
           <div className="container py-5 my-4">
             <div className="row">
               <div className="col-sm-10 offset-sm-1 col-md-8 offset-md-2">
                 <Header as="h2" textAlign="center" size="large" className="mb-4">
-                  Improve your memory
+                  Use it or lose it
                 </Header>
                 <p className="lead text-dark text-center">
                   When you are learning, 80% of what you hear, read, and write will be forgotten
