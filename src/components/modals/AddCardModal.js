@@ -9,7 +9,7 @@ class AddItemModal extends Component {
 
   onClose = () => {
     this.props.onClose();
-    this.setState(this.initState);
+    this.setState(state => ({ front: "", back: "", numCards: 0 }));
   };
 
   onSubmit = () => {
