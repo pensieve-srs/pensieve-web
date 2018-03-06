@@ -1,11 +1,9 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { Button, Form, Modal, TextArea } from "semantic-ui-react";
+import { Button, Form, Modal, TextArea, Label } from "semantic-ui-react";
 
 class AddItemModal extends Component {
-  initState = { front: "", back: "" };
-
-  state = this.initState;
+  state = { front: "", back: "", numCards: 0 };
 
   onChange = e => this.setState({ [e.target.name]: e.target.value });
 
@@ -16,16 +14,21 @@ class AddItemModal extends Component {
 
   onSubmit = () => {
     this.props.onSubmit(this.state);
-    this.setState(this.initState);
+    this.setState(state => ({ front: "", back: "", numCards: state.numCards + 1 }));
   };
 
   render() {
-    const { front, back } = this.state;
+    const { front, back, numCards } = this.state;
     const { open } = this.props;
 
     return (
       <Modal open={open} onClose={this.onClose} size="tiny" className="position-relative">
-        <Modal.Header>Add Card</Modal.Header>
+        <Modal.Header>
+          <div className="d-flex justify-content-between">
+            <div>Create Cards</div>
+            {numCards > 0 && <Label>+{numCards} cards</Label>}
+          </div>
+        </Modal.Header>
         <Modal.Content>
           <Form>
             <Form.Field required>
@@ -53,9 +56,9 @@ class AddItemModal extends Component {
           </Form>
         </Modal.Content>
         <Modal.Actions>
-          <Button onClick={this.onClose}>Close</Button>
+          <Button onClick={this.onClose}>Cancel</Button>
           <Button onClick={this.onSubmit} primary>
-            Save
+            Create Card
           </Button>
         </Modal.Actions>
       </Modal>
