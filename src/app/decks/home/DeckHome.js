@@ -76,7 +76,6 @@ class DeckHome extends Component {
     const { front, back } = card;
     cardApi.createCard({ deck: deckId, front, back }).then(response => {
       this.setState(({ cards }) => ({ cards: [...cards, response.data] }));
-      // this.onCloseModal();
     });
   };
 
