@@ -38,7 +38,7 @@ class Signup extends Component {
         cookie.set("token", response.data.token);
         cookie.set("user", response.data.user);
 
-        this.props.history.push("/decks");
+        this.props.history.push("/decks/new");
       },
       error => {
         if (error.response.status === 400) {
@@ -53,7 +53,7 @@ class Signup extends Component {
       <div className="signup-page">
         <div className="container mt-5">
           <div className="row">
-            <div className="col-sm-8 offset-sm-2 col-md-6 offset-md-3">
+            <div className="col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-6 offset-md-3">
               <h1 className="h4 mb-3 text-center">Create an account</h1>
               <Form>
                 <Form.Field>

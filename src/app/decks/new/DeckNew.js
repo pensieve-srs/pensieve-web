@@ -31,7 +31,7 @@ class DeckNew extends Component {
     return (
       <div className="container mt-4">
         <div className="row">
-          <div className="col-sm-8 offset-sm-2 col-md-8 offset-md-2">
+          <div className="col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-6 offset-md-3">
             <Segment>
               <h1 className="h4 mb-3 text-center font-weight-bold">Create a new study deck</h1>
               <Form>
