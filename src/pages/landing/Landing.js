@@ -13,7 +13,7 @@ class Landing extends Component {
       <div className="landing-page">
         <div className="landing-hero py-5 px-2">
           <Container textAlign="center">
-            <div className="pb-5 mb-5">
+            <div className="pb-5 mb-5 mt-3">
               <Header inverted className="mb-4">
                 <Header.Content style={{ fontSize: "34px", lineHeight: "1em" }}>
                   Improve your memory
