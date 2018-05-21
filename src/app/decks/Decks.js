@@ -47,7 +47,7 @@ type State = {
 };
 
 class Decks extends Component<Props, State> {
-  state = { decks: [], filter: "" };
+  state = { decks: [], filter: "", isLoading: true };
 
   componentWillMount = () => {
     this.fetchDecks();
@@ -59,12 +59,12 @@ class Decks extends Component<Props, State> {
 
   fetchDecks = () => {
     api.fetchDecks().then(response => {
-      this.setState({ decks: response.data });
+      this.setState({ decks: response.data, isLoading: false });
     });
   };
 
   render() {
-    const { decks = [], filter } = this.state;
+    const { decks = [], filter, isLoading } = this.state;
 
     const filteredDecks =
       filter.length > 0 ? decks.filter(deck => deck.title.indexOf(filter) !== -1) : decks;
@@ -94,7 +94,7 @@ class Decks extends Component<Props, State> {
                 </div>
               </div>
               <hr className="mt-2 mb-2" />
-              {filteredDecks.length > 0 ? (
+              {!isLoading && filteredDecks.length > 0 ? (
                 <div className="row">
                   {filteredDecks.map((deck, key) => (
                     <DeckCard className="col-6 col-sm-4 col-md-3" deck={deck} key={key} />
@@ -102,8 +102,12 @@ class Decks extends Component<Props, State> {
                 </div>
               ) : (
                 <EmptyView
-                  title="No decks in your collection yet"
-                  description="Decks are groups of related cards for organizing your notes. Haven't created a deck yet? No problem. Click 'Create Deck +' to get started."
+                  title={isLoading ? "Loading decks..." : "No decks in your collection yet"}
+                  description={
+                    isLoading
+                      ? "Satellites are beeping, electrons are whirling, and your data is on its way..."
+                      : "Decks are groups of related cards for organizing your notes. Haven't created a deck yet? No problem. Click 'Create Deck +' to get started."
+                  }
                 />
               )}
             </div>
