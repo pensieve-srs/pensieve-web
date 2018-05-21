@@ -45,6 +45,7 @@ class DeckHome extends Component {
     cards: [],
     showModalType: undefined,
     selectedCard: undefined,
+    isLoading: true,
   };
 
   componentWillMount() {
@@ -106,13 +107,13 @@ class DeckHome extends Component {
 
   fetchDeck = deckId => {
     api.fetchDeck(deckId).then(response => {
-      this.setState({ deck: response.data });
+      this.setState({ deck: response.data, isLoading: false });
     });
   };
 
   fetchCards = deckId => {
     cardApi.fetchCards(deckId).then(response => {
-      this.setState({ cards: response.data });
+      this.setState({ cards: response.data, isLoading: false });
     });
   };
 
@@ -146,7 +147,7 @@ class DeckHome extends Component {
   };
 
   render() {
-    const { deck, cards, showModalType, selectedCard } = this.state;
+    const { deck, cards, showModalType, selectedCard, isLoading } = this.state;
     const numExpiredCards = cards.filter(card => card.recallRate <= 0.5).length;
 
     return (
@@ -192,7 +193,9 @@ class DeckHome extends Component {
                 DECK
               </Header>
               <div className="deck-header">
-                <h1 className="font-weight-bold h3 mb-0 mt-0">{deck.title}</h1>
+                <h1 className="font-weight-bold h3 mb-0 mt-0">
+                  {isLoading ? <span className="text-secondary">Loading info...</span> : deck.title}
+                </h1>
                 {deck.description && <p className="text-dark h5 mb-1">{deck.description}</p>}
               </div>
               <p
@@ -292,8 +295,18 @@ class DeckHome extends Component {
                 </div>
               ) : (
                 <EmptyView
-                  title="Add cards to your deck"
-                  description="Decks are made of related notes. Start adding cards to your deck by clicking 'Add Card +'"
+                  title={
+                    isLoading ? (
+                      <span className="text-secondary">Loading cards...</span>
+                    ) : (
+                      "Add cards to your decks"
+                    )
+                  }
+                  description={
+                    isLoading
+                      ? "Electrons are beaming to your computer as we speak."
+                      : "Decks are made of related notes. Start adding cards to your deck by clicking 'Add Card +'"
+                  }
                 />
               )}
             </div>
