@@ -105,7 +105,7 @@ class Decks extends Component<Props, State> {
                   title={isLoading ? "Loading decks..." : "No decks in your collection yet"}
                   description={
                     isLoading
-                      ? "Satellites are beeping, electrons are whirling, and your data is on its way..."
+                      ? "Satellites are beeping, electrons are whirling, and your data is on its way to your device..."
                       : "Decks are groups of related cards for organizing your notes. Haven't created a deck yet? No problem. Click 'Create Deck +' to get started."
                   }
                 />
