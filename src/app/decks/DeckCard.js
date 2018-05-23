@@ -30,7 +30,7 @@ class DeckCard extends Component<Props> {
               style={{ bottom: "0", right: "0", left: "0" }}
             >
               {deck.cardsCount >= 0 && (
-                <small className="m-0 text-secondary" style={{ fontWeight: 600 }}>
+                <small className="m-0 text-secondary float-left" style={{ fontWeight: 600 }}>
                   {pluralize("card", deck.cardsCount, true)}
                 </small>
               )}
@@ -39,8 +39,10 @@ class DeckCard extends Component<Props> {
                   inverted
                   position="top right"
                   trigger={
-                    <div className="d-flex">
-                      {deck.recallRate <= 0.5 && <Icon name="exclamation" color="red" />}
+                    <div className="d-flex float-right">
+                      {deck.recallRate <= 0.5 && (
+                        <Icon name="exclamation" className="float-left" color="red" />
+                      )}
                       <ProgressBar percent={deck.recallRate} />
                     </div>
                   }
