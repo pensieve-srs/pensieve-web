@@ -1,7 +1,16 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
-import { Button, Dropdown, Icon, Header, Label, Progress, Segment } from "semantic-ui-react";
+import {
+  Button,
+  Dropdown,
+  Divider,
+  Icon,
+  Header,
+  Label,
+  Progress,
+  Segment,
+} from "semantic-ui-react";
 
 import withErrors from "../../helpers/withErrors";
 
@@ -190,7 +199,10 @@ class Review extends Component {
                   <strong>{index + 1}</strong> out of {cards.length}
                 </p>
               </div>
-              <Segment className="review-container-panel mt-2 mb-4" onClick={this.onReveal}>
+              <Segment
+                className="review-container-panel mt-2 mb-2 d-flex flex-column"
+                onClick={this.onReveal}
+              >
                 <Dropdown
                   on="click"
                   icon={false}
@@ -214,9 +226,20 @@ class Review extends Component {
                   {deck.title}
                 </Label>
                 <Label attached="bottom right">{showFront ? "Front" : "Back"}</Label>
-                <Header as="h2" className="text-center my-5">
-                  {isLoading ? "Loading cards..." : cardContent}
-                </Header>
+                <div className="my-5 mx-3 d-flex align-items-center" style={{ flex: 1 }}>
+                  <Header as="h2" className="text-center">
+                    {isLoading ? "Loading cards..." : cardContent}
+                  </Header>
+                </div>
+                {!showFront &&
+                  card.notes && (
+                    <div className="w-100 mb-5">
+                      <Divider />
+                      <Header as="h6" className="px-3">
+                        {card.notes}
+                      </Header>
+                    </div>
+                  )}
               </Segment>
               <div className="review-actions">
                 {showAnswers ? (
