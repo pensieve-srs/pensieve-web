@@ -74,8 +74,8 @@ class DeckHome extends Component {
 
   createCard = card => {
     const deckId = this.state.deck._id;
-    const { front, back } = card;
-    cardApi.createCard({ deck: deckId, front, back }).then(response => {
+    const { front, back, notes } = card;
+    cardApi.createCard({ deck: deckId, front, back, notes }).then(response => {
       this.setState(({ cards }) => ({ cards: [...cards, response.data] }));
     });
   };

@@ -112,12 +112,25 @@ class CardModal extends Component {
           <Divider />
           <div className="clearfix">
             <div className="px-3 py-5">
-              <strong>{card.back}</strong>
+              <span>{card.back}</span>
             </div>
             <Label className="float-right" basic>
               Back
             </Label>
           </div>
+          {card.notes && (
+            <div>
+              <Divider />
+              <div className="clearfix">
+                <div className="px-3">
+                  <span>{card.notes}</span>
+                </div>
+                <Label className="float-right" basic>
+                  Notes
+                </Label>
+              </div>
+            </div>
+          )}
         </Modal.Content>
         <Modal.Actions>
           <Button onClick={onPrev} icon labelPosition="left">

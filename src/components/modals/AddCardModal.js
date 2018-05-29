@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { Button, Form, Modal, TextArea, Label } from "semantic-ui-react";
+import { Button, Form, Modal, TextArea, Label, Input } from "semantic-ui-react";
 
 class AddItemModal extends Component {
-  state = { front: "", back: "", numCards: 0 };
+  state = { front: "", back: "", notes: "", numCards: 0 };
 
   onChange = e => this.setState({ [e.target.name]: e.target.value });
 
@@ -13,12 +13,13 @@ class AddItemModal extends Component {
   };
 
   onSubmit = () => {
-    this.props.onSubmit(this.state);
-    this.setState(state => ({ front: "", back: "", numCards: state.numCards + 1 }));
+    const { front, back, notes } = this.state;
+    this.props.onSubmit({ front, back, notes });
+    this.setState(state => ({ front: "", back: "", notes: "", numCards: state.numCards + 1 }));
   };
 
   render() {
-    const { front, back, numCards } = this.state;
+    const { front, back, notes, numCards } = this.state;
     const { open } = this.props;
 
     return (
@@ -52,6 +53,15 @@ class AddItemModal extends Component {
                 autoHeight
                 rows={4}
                 placeholder="Add to the card back..."
+              />
+            </Form.Field>
+            <Form.Field>
+              <label htmlFor="notes">Notes</label>
+              <Input
+                onChange={this.onChange}
+                value={notes}
+                name="notes"
+                placeholder="Additional notes..."
               />
             </Form.Field>
           </Form>
