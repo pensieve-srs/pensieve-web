@@ -1,16 +1,23 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { Button, Form, Input, TextArea, Segment } from "semantic-ui-react";
+import { Button, Form, Input, TextArea, Segment, Dropdown } from "semantic-ui-react";
 
 import withErrors from "../../../helpers/withErrors";
 
 import * as api from "../deckActions";
+import * as tagApi from "../tagActions";
 
 class DeckNew extends Component {
   state = {
     title: "",
     description: "",
+    options: [],
+    selectedTags: [],
   };
+
+  componentWillMount() {
+    this.fetchTags();
+  }
 
   onChange = e => this.setState({ [e.target.name]: e.target.value });
 
@@ -18,15 +25,43 @@ class DeckNew extends Component {
 
   onCancel = () => this.props.history.push("/decks");
 
+  onAddTag = (e, { value }) => {
+    this.createTag(value).then(tag => {
+      const option = { text: tag.value, value: tag._id };
+      this.setState({
+        options: [option, ...this.state.options],
+        selectedTags: [...this.state.selectedTags, tag._id],
+      });
+    });
+  };
+
+  onChangeTag = (e, data) => {
+    const { value } = data;
+    const { options } = this.state;
+    const tags = value.filter(el => options.find(tag => tag.value === el));
+    this.setState({ selectedTags: tags });
+  };
+
+  fetchTags = () => {
+    tagApi.getTags().then(({ data }) => {
+      const options = data.map(tag => ({ text: tag.value, value: tag._id }));
+      this.setState({ options });
+    });
+  };
+
   createDeck = () => {
-    const { title, description } = this.state;
-    api.createDeck({ title, description }).then(response => {
+    const { title, description, selectedTags } = this.state;
+    api.createDeck({ title, description, tags: selectedTags }).then(response => {
       this.props.history.push(`/decks/${response.data._id}`);
     });
   };
 
+  createTag = value => {
+    return tagApi.createTag(value).then(({ data }) => data);
+  };
+
   render() {
-    const { title, description } = this.state;
+    const { title, description, options, selectedTags } = this.state;
 
     return (
       <div className="container mt-4">
@@ -52,6 +87,21 @@ class DeckNew extends Component {
                     name="description"
                     autoHeight
                     placeholder="Add a deck description..."
+                  />
+                </Form.Field>
+                <Form.Field>
+                  <label>Tags</label>
+                  <Dropdown
+                    value={selectedTags}
+                    placeholder="Add tags..."
+                    options={options}
+                    fluid
+                    multiple
+                    search
+                    selection
+                    allowAdditions
+                    onAddItem={this.onAddTag}
+                    onChange={this.onChangeTag}
                   />
                 </Form.Field>
                 <Form.Field className="mt-4">

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { Button, Form, Modal, TextArea } from "semantic-ui-react";
+import { Button, Form, Modal, TextArea, Input } from "semantic-ui-react";
 
 class EditCardModal extends Component {
   state = { ...this.props.card };
@@ -16,7 +16,7 @@ class EditCardModal extends Component {
   onSubmit = () => this.props.onSubmit(this.state);
 
   render() {
-    const { front, back } = this.state;
+    const { front, back, notes } = this.state;
     const { open, onClose } = this.props;
 
     return (
@@ -44,6 +44,15 @@ class EditCardModal extends Component {
                 onChange={this.onChange}
                 autoHeight
                 placeholder="Add to the card back..."
+              />
+            </Form.Field>
+            <Form.Field>
+              <label htmlFor="notes">Notes</label>
+              <Input
+                onChange={this.onChange}
+                value={notes}
+                name="notes"
+                placeholder="Additional notes..."
               />
             </Form.Field>
           </Form>
