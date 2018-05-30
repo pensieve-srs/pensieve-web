@@ -28,12 +28,18 @@ class DeckNew extends Component {
   onAddTag = (e, { value }) => {
     this.createTag(value).then(tag => {
       const option = { text: tag.value, value: tag._id };
-      this.setState({ options: [option, ...this.state.options] });
+      this.setState({
+        options: [option, ...this.state.options],
+        selectedTags: [...this.state.selectedTags, tag._id],
+      });
     });
   };
 
-  onChangeTag = (e, { value }) => {
-    this.setState({ selectedTags: value });
+  onChangeTag = (e, data) => {
+    const { value } = data;
+    const { options } = this.state;
+    const tags = value.filter(el => options.find(tag => tag.value === el));
+    this.setState({ selectedTags: tags });
   };
 
   fetchTags = () => {
@@ -51,9 +57,7 @@ class DeckNew extends Component {
   };
 
   createTag = value => {
-    return tagApi.createTag(value).then(({ data }) => {
-      return data;
-    });
+    return tagApi.createTag(value).then(({ data }) => data);
   };
 
   render() {
