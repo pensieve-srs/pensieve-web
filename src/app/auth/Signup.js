@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { Button, Form, Input } from "semantic-ui-react";
 import cookie from "js-cookie";
-import niceware from "niceware";
 
 import withErrors from "../../helpers/withErrors";
 
@@ -14,7 +13,6 @@ class Signup extends Component {
   state = { email: "", password: "", name: "" };
 
   componentWillMount() {
-    this.passLabel = niceware.generatePassphrase(6).join(" ");
     if (cookie.get("token")) {
       this.props.history.push("/");
     }
@@ -53,7 +51,7 @@ class Signup extends Component {
                   <Form.Field>
                     <label style={{ fontWeight: "bold", fontSize: "1.2em" }}>Invite phrase</label>
                     <Input
-                      placeholder={`eg. ${this.passLabel}`}
+                      placeholder={`eg. ethanol mongeese guiro`}
                       onChange={this.onChange}
                       name="invite"
                       type="text"

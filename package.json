@@ -11,7 +11,6 @@
     "flow-bin": "^0.66.0",
     "js-cookie": "^2.2.0",
     "moment": "^2.19.4",
-    "niceware": "^1.0.5",
     "pluralize": "^7.0.0",
     "query-string": "^5.0.1",
     "react": "^16.2.0",
