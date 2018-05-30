@@ -197,6 +197,12 @@ class DeckHome extends Component {
                   {isLoading ? <span className="text-secondary">Loading info...</span> : deck.title}
                 </h1>
                 {deck.description && <p className="text-dark h5 mb-1">{deck.description}</p>}
+                {deck.tags &&
+                  deck.tags.map(tag => (
+                    <Label key={tag._id} className="mb-2">
+                      {tag.value}
+                    </Label>
+                  ))}
               </div>
               <p
                 className="text-secondary text-uppercase m-0 mt-4 mb-2"
