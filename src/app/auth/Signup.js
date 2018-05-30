@@ -10,12 +10,11 @@ import * as api from "./authActions";
 
 import { logSignupEvent } from "../../helpers/GoogleAnalytics";
 
-const passLabel = niceware.generatePassphrase(6).join(" ");
-
 class Signup extends Component {
   state = { email: "", password: "", name: "" };
 
   componentWillMount() {
+    this.passLabel = niceware.generatePassphrase(6).join(" ");
     if (cookie.get("token")) {
       this.props.history.push("/");
     }
@@ -54,7 +53,7 @@ class Signup extends Component {
                   <Form.Field>
                     <label style={{ fontWeight: "bold", fontSize: "1.2em" }}>Invite phrase</label>
                     <Input
-                      placeholder={`eg. ${passLabel}`}
+                      placeholder={`eg. ${this.passLabel}`}
                       onChange={this.onChange}
                       name="invite"
                       type="text"
