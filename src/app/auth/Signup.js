@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import { Button, Form } from "semantic-ui-react";
+import { Button, Form, Input } from "semantic-ui-react";
 import cookie from "js-cookie";
 
 import withErrors from "../../helpers/withErrors";
@@ -10,13 +10,7 @@ import * as api from "./authActions";
 import { logSignupEvent } from "../../helpers/GoogleAnalytics";
 
 class Signup extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = { email: "", password: "", name: "" };
-    this.onChange = this.onChange.bind(this);
-    this.onSubmit = this.onSubmit.bind(this);
-  }
+  state = { email: "", password: "", name: "" };
 
   componentWillMount() {
     if (cookie.get("token")) {
@@ -24,15 +18,12 @@ class Signup extends Component {
     }
   }
 
-  onChange(event) {
-    const { name, value } = event.target;
-    this.setState({ [name]: value });
-  }
+  onChange = e => this.setState({ [e.target.name]: e.target.value });
 
-  onSubmit(event) {
+  onSubmit = event => {
     event.preventDefault();
-    const { email, password, name } = this.state;
-    api.signupUser(email, password, name).then(
+    const { email, password, name, invite } = this.state;
+    api.signupUser({ email, password, name, invite }).then(
       response => {
         logSignupEvent(response.data.user._id);
         cookie.set("token", response.data.token);
@@ -46,7 +37,7 @@ class Signup extends Component {
         }
       },
     );
-  }
+  };
 
   render() {
     return (
@@ -56,18 +47,37 @@ class Signup extends Component {
             <div className="col-sm-8 offset-sm-2 col-md-6 offset-md-3">
               <h1 className="h4 mb-3 text-center">Create an account</h1>
               <Form>
+                <div className="border rounded p-3 mb-3">
+                  <Form.Field>
+                    <label style={{ fontWeight: "bold", fontSize: "1.2em" }}>Invite phrase</label>
+                    <Input
+                      placeholder={`eg. ethanol mongeese guiro`}
+                      onChange={this.onChange}
+                      name="invite"
+                      type="text"
+                      size="large"
+                      autoFocus
+                      focus
+                    />
+                    <small className="text-secondary">
+                      An invite code is required to join. Get an invite by signing up for early
+                      access.
+                    </small>
+                  </Form.Field>
+                </div>
                 <Form.Field>
                   <label>Name</label>
-                  <input
+                  <Input
                     onChange={this.onChange}
                     name="name"
                     type="text"
+                    required
                     placeholder="What should we call you?"
                   />
                 </Form.Field>
                 <Form.Field>
                   <label>Email</label>
-                  <input
+                  <Input
                     onChange={this.onChange}
                     name="email"
                     type="email"
@@ -77,7 +87,7 @@ class Signup extends Component {
                 </Form.Field>
                 <Form.Field>
                   <label>Password</label>
-                  <input
+                  <Input
                     onChange={this.onChange}
                     name="password"
                     type="password"
