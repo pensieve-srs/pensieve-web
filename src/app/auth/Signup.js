@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import { Button, Form } from "semantic-ui-react";
+import { Button, Form, Input, Segment } from "semantic-ui-react";
 import cookie from "js-cookie";
 
 import withErrors from "../../helpers/withErrors";
@@ -56,18 +56,37 @@ class Signup extends Component {
             <div className="col-sm-8 offset-sm-2 col-md-6 offset-md-3">
               <h1 className="h4 mb-3 text-center">Create an account</h1>
               <Form>
+                <Segment color="blue">
+                  <Form.Field required>
+                    <label style={{ fontWeight: "bold", fontSize: "1.2em" }}>Invite code</label>
+                    <Input
+                      placeholder="eg. 12345"
+                      onChange={this.onChange}
+                      name="invite"
+                      type="text"
+                      size="large"
+                      autoFocus
+                      focus
+                    />
+                    <small className="text-secondary">
+                      An invite code is required to join. Get an invite by signing up for early
+                      access.
+                    </small>
+                  </Form.Field>
+                </Segment>
                 <Form.Field>
                   <label>Name</label>
-                  <input
+                  <Input
                     onChange={this.onChange}
                     name="name"
                     type="text"
+                    required
                     placeholder="What should we call you?"
                   />
                 </Form.Field>
                 <Form.Field>
                   <label>Email</label>
-                  <input
+                  <Input
                     onChange={this.onChange}
                     name="email"
                     type="email"
@@ -77,7 +96,7 @@ class Signup extends Component {
                 </Form.Field>
                 <Form.Field>
                   <label>Password</label>
-                  <input
+                  <Input
                     onChange={this.onChange}
                     name="password"
                     type="password"
