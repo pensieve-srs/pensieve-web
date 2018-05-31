@@ -4,6 +4,8 @@ import cookie from "js-cookie";
 import cx from "classnames";
 import { withRouter } from "react-router";
 
+import "./NavBar.css";
+
 class NavBar extends Component {
   state = { isCollapsed: false };
 
@@ -18,8 +20,9 @@ class NavBar extends Component {
 
     return (
       <nav
-        className={cx(className, "navbar navbar-expand-sm navbar-dark")}
-        style={{ zIndex: "2000", backgroundColor: isLandingPage ? "#1574fb" : "#262E45" }}
+        className={cx(className, "navbar navbar-expand-sm navbar-dark", {
+          "navbar-landing": isLandingPage,
+        })}
       >
         <div className="container">
           <Link className="navbar-brand" to="/">
