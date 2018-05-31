@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import { Button, Divider, Header, Form, Input, Segment } from "semantic-ui-react";
+import gravatar from "gravatar";
+import { Button, Divider, Header, Form, Input, Image, Segment } from "semantic-ui-react";
 import { DeleteUserModal, MODAL_TYPES } from "../../components/modals";
 
 import * as api from "./userActions";
@@ -58,6 +59,27 @@ class Account extends Component {
               <Header.Subheader>Update profile information for your account</Header.Subheader>
             </Header>
             <Divider />
+            <Form.Field>
+              <label>Profile picture</label>
+              <div className="d-flex">
+                <div>
+                  <Image
+                    className="rounded"
+                    src={gravatar.url(user.email, { d: "retro", s: "200" }, true)}
+                    size="tiny"
+                    href={gravatar.url(user.email, { d: "retro", s: "200" })}
+                  />
+                </div>
+                <div className="d-flex flex-column justify-content-center ml-3">
+                  <Header as="h6">
+                    Pictures provided by Gravatar
+                    <Header.Subheader>
+                      You can update <a href="https://en.gravatar.com/">images here</a>.
+                    </Header.Subheader>
+                  </Header>
+                </div>
+              </div>
+            </Form.Field>
             <Form.Field>
               <label>Name</label>
               <Input

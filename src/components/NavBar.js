@@ -35,7 +35,7 @@ class NavBar extends Component {
               <li className="nav-item d-flex align-items-center mr-2">
                 <Link
                   to="/decks/new"
-                  className="nav-link text-big text-light"
+                  className="d-flex nav-link text-big text-light"
                   style={{ fontSize: "20px" }}
                 >
                   <Octicon name="plus" />
@@ -48,7 +48,7 @@ class NavBar extends Component {
                   trigger={
                     <Image
                       style={{ height: "36px", width: "36px", margin: "0" }}
-                      src={gravatar.url(email)}
+                      src={gravatar.url(email, { d: "retro" })}
                       avatar
                     />
                   }
