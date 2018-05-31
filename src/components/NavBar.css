@@ -1,10 +1,8 @@
 .navbar {
   background-color: #262e45;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
   z-index: 2000;
 }
 
 .navbar-landing {
   background-color: #1574fb;
-  box-shadow: none;
 }

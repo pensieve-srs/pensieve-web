@@ -5,7 +5,7 @@ import { DeleteUserModal, MODAL_TYPES } from "../../components/modals";
 import * as api from "./userActions";
 
 class Account extends Component {
-  state = { user: { name: "", email: "", prefs: {} }, showModalType: undefined };
+  state = { user: { name: "", email: "", username: "", prefs: {} }, showModalType: undefined };
 
   componentWillMount = () => {
     this.fetchUser();
@@ -22,16 +22,16 @@ class Account extends Component {
 
   fetchUser = () => {
     api.fetchUser().then(({ data }) => {
-      const { name, email, prefs } = data;
-      this.setState({ user: { name, email, prefs } });
+      const { name, email, username, prefs } = data;
+      this.setState({ user: { name, email, username, prefs } });
     });
   };
 
   editUser = () => {
     const { user } = this.state;
     api.editUser(user).then(({ data }) => {
-      const { name, email, prefs } = data;
-      this.setState({ user: { name, email, prefs } });
+      const { name, email, username, prefs } = data;
+      this.setState({ user: { name, email, username, prefs } });
     });
   };
 
@@ -58,6 +58,16 @@ class Account extends Component {
               <Header.Subheader>Update profile information for your account</Header.Subheader>
             </Header>
             <Divider />
+            <Form.Field>
+              <label>Username</label>
+              <input
+                className="font-weight-bold"
+                onChange={this.onChange}
+                name="username"
+                placeholder="Enter a username"
+                value={user.username}
+              />
+            </Form.Field>
             <Form.Field>
               <label>Name</label>
               <Input
