@@ -17,7 +17,7 @@ class BetaListForm extends Component {
             size="large"
             primary={!inverted}
           >
-            JOIN BETA LIST
+            REQUEST EARLY ACCESS
           </Button>
         ) : (
           <Form
