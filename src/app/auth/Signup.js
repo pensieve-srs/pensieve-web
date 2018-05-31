@@ -10,7 +10,7 @@ import * as api from "./authActions";
 import { logSignupEvent } from "../../helpers/GoogleAnalytics";
 
 class Signup extends Component {
-  state = { email: "", password: "", name: "" };
+  state = { email: "", password: "", username: "" };
 
   componentWillMount() {
     if (cookie.get("token")) {
@@ -22,8 +22,8 @@ class Signup extends Component {
 
   onSubmit = event => {
     event.preventDefault();
-    const { email, password, name, invite } = this.state;
-    api.signupUser({ email, password, name, invite }).then(
+    const { email, password, username, invite } = this.state;
+    api.signupUser({ email, password, username, invite }).then(
       response => {
         logSignupEvent(response.data.user._id);
         cookie.set("token", response.data.token);
@@ -66,13 +66,13 @@ class Signup extends Component {
                   </Form.Field>
                 </div>
                 <Form.Field>
-                  <label>Name</label>
+                  <label>Username</label>
                   <Input
                     onChange={this.onChange}
-                    name="name"
+                    name="username"
                     type="text"
                     required
-                    placeholder="What should we call you?"
+                    placeholder="Pick a username"
                   />
                 </Form.Field>
                 <Form.Field>
@@ -94,9 +94,12 @@ class Signup extends Component {
                     placeholder="Shh! Keep this a secret."
                     autoComplete="current-password"
                   />
+                  <small className="text-secondary">
+                    Use at least one letter, one numeral, and seven characters.
+                  </small>
                 </Form.Field>
                 <Button className="mt-4" onClick={this.onSubmit} type="submit" primary fluid>
-                  Join
+                  Join Pensieve
                 </Button>
               </Form>
 
