@@ -1,0 +1,18 @@
+.App-navbar.navbar {
+  background-color: #262e45;
+  z-index: 2000;
+}
+
+.App-navbar.navbar-landing {
+  background-color: #1574fb;
+}
+
+.App-navbar.navbar .dropdown.icon {
+  margin: 0 0 0 4px;
+  color: white;
+}
+
+.App-navbar .dropdown .menu a {
+  font-weight: 500;
+  font-size: 11px;
+}
