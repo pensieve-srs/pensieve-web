@@ -3,20 +3,20 @@ import PropTypes from "prop-types";
 import { Button, Form, Modal, TextArea, Input } from "semantic-ui-react";
 
 class EditCardModal extends Component {
-  state = { ...this.props.card };
+  state = { card: this.props.card };
 
   componentWillUpdate(nextProps) {
     if (this.props.card !== nextProps.card) {
-      this.setState({ ...nextProps.card });
+      this.setState({ card: nextProps.card });
     }
   }
 
-  onChange = e => this.setState({ [e.target.name]: e.target.value });
+  onChange = e => this.setState({ card: { ...this.state.card, [e.target.name]: e.target.value } });
 
-  onSubmit = () => this.props.onSubmit(this.state);
+  onSubmit = () => this.props.onSubmit(this.state.card);
 
   render() {
-    const { front, back, notes } = this.state;
+    const { card: { front, back, notes = "" } } = this.state;
     const { open, onClose } = this.props;
 
     return (
