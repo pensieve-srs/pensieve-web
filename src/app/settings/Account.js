@@ -65,16 +65,16 @@ class Account extends Component {
                 <div>
                   <Image
                     className="rounded"
+                    href={gravatar.url(user.email, { d: "retro", s: "200" }, true)}
                     src={gravatar.url(user.email, { d: "retro", s: "200" }, true)}
                     size="tiny"
-                    href={gravatar.url(user.email, { d: "retro", s: "200" })}
                   />
                 </div>
                 <div className="d-flex flex-column justify-content-center ml-3">
                   <Header as="h6">
-                    Pictures provided by Gravatar
+                    Profile pictures by Gravatar
                     <Header.Subheader>
-                      You can update <a href="https://en.gravatar.com/">images here</a>.
+                      You can update <a href="https://en.gravatar.com/">your image here</a>.
                     </Header.Subheader>
                   </Header>
                 </div>
