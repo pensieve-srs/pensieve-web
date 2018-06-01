@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { Button, Dropdown, Header, Icon, Segment, Popup, Label } from "semantic-ui-react";
+import { Button, Dropdown, Header, Icon, Popup, Label, Tab } from "semantic-ui-react";
 import pluralize from "pluralize";
 
 import {
@@ -13,7 +13,7 @@ import {
 } from "../../../components/modals";
 import withErrors from "../../../helpers/withErrors";
 
-import { ProgressBar } from "../../../components";
+import { ProgressBar, Octicon } from "../../../components";
 
 import * as api from "../deckActions";
 import * as cardApi from "../../cards/cardActions";
@@ -36,6 +36,22 @@ const EmptyView = ({ title, description, emoji = "✌️" }) => (
         </div>
       </div>
     </div>
+  </div>
+);
+
+const DescriptionPane = ({ body }) => (
+  <Tab.Pane className="p-5">
+    <Label attached="top">Description</Label>
+    <div>{body}</div>
+  </Tab.Pane>
+);
+
+const CardTab = ({ count }) => (
+  <div className="d-flex align-items-center">
+    <span className="font-weight-medium">Cards</span>
+    <Label as="a" circular className="text-secondary ml-1" size="tiny">
+      {count}
+    </Label>
   </div>
 );
 
@@ -150,6 +166,40 @@ class DeckHome extends Component {
     const { deck, cards, showModalType, selectedCard, isLoading } = this.state;
     const numExpiredCards = cards.filter(card => card.recallRate <= 0.5).length;
 
+    const CardsPane =
+      cards.length > 0
+        ? () => (
+            <Tab.Pane>
+              {cards.map((card, key) => (
+                <DeckItem
+                  key={key}
+                  card={card}
+                  onClick={() => this.onShowCardModal(key)}
+                  deleteCard={this.deleteCard}
+                  resetCard={this.resetCard}
+                />
+              ))}
+            </Tab.Pane>
+          )
+        : () => (
+            <Tab.Pane>
+              <EmptyView
+                title={
+                  isLoading ? (
+                    <span className="text-secondary">Loading cards...</span>
+                  ) : (
+                    "Add cards to your decks"
+                  )
+                }
+                description={
+                  isLoading
+                    ? "Electrons are beaming to your computer as we speak."
+                    : "Decks are made of related notes. Start adding cards to your deck by clicking 'Add Card +'"
+                }
+              />
+            </Tab.Pane>
+          );
+
     return (
       <div className="deck-home mt-4">
         {selectedCard >= 0 && (
@@ -205,8 +255,8 @@ class DeckHome extends Component {
                   ))}
               </div>
               <p
-                className="text-secondary text-uppercase m-0 mt-4 mb-2"
-                style={{ fontWeight: "600" }}
+                className="text-secondary text-uppercase m-0 mt-4 mb-2 font-weight-medium"
+                style={{ fontSize: "11px" }}
               >
                 {pluralize("card", cards.length, true)} &middot; {numExpiredCards} to review
               </p>
@@ -243,8 +293,8 @@ class DeckHome extends Component {
                     trigger={
                       <div className="right-side my-3 d-flex align-items-center">
                         <strong
-                          style={{ lineHeight: "1em", fontWeight: "600" }}
-                          className="text-secondary mr-2"
+                          className="text-secondary mr-2 font-weight-medium"
+                          style={{ lineHeight: "1em" }}
                         >
                           Total Strength
                         </strong>
@@ -282,39 +332,29 @@ class DeckHome extends Component {
                   </Dropdown.Item>
                 </Dropdown.Menu>
               </Dropdown>
-              <hr />
             </div>
-            <div className="col-lg-10 offset-lg-1">
-              {cards.length > 0 ? (
-                <div>
-                  <Segment.Group>
-                    {cards.map((card, key) => (
-                      <DeckItem
-                        key={key}
-                        card={card}
-                        onClick={() => this.onShowCardModal(key)}
-                        deleteCard={this.deleteCard}
-                        resetCard={this.resetCard}
-                      />
-                    ))}
-                  </Segment.Group>
-                </div>
-              ) : (
-                <EmptyView
-                  title={
-                    isLoading ? (
-                      <span className="text-secondary">Loading cards...</span>
-                    ) : (
-                      "Add cards to your decks"
-                    )
-                  }
-                  description={
-                    isLoading
-                      ? "Electrons are beaming to your computer as we speak."
-                      : "Decks are made of related notes. Start adding cards to your deck by clicking 'Add Card +'"
-                  }
-                />
-              )}
+            <div className="col-lg-10 offset-lg-1 my-3">
+              <Tab
+                className="w-100"
+                panes={[
+                  {
+                    menuItem: {
+                      key: "deck",
+                      icon: <Octicon name="book" className="mr-1" />,
+                      content: <span className="font-weight-medium">Deck</span>,
+                    },
+                    render: () => <DescriptionPane body={deck.description} />,
+                  },
+                  {
+                    menuItem: {
+                      key: "cards",
+                      icon: <Octicon name="note" className="mr-1" />,
+                      content: <CardTab count={cards.length} />,
+                    },
+                    render: () => <CardsPane />,
+                  },
+                ]}
+              />
             </div>
           </div>
         </div>

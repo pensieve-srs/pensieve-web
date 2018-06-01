@@ -7,3 +7,12 @@
     width: 75%;
   }
 }
+
+.ui.tabular.menu .item .octicon {
+  margin-bottom: -2px;
+  fill: #898e96;
+}
+
+.ui.tabular.menu .active.item .octicon {
+  fill: rgba(0, 0, 0, 0.9);
+}

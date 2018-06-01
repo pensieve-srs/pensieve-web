@@ -31,7 +31,7 @@ class DeckItem extends Component {
     const { showModalType } = this.state;
 
     return (
-      <Segment onClick={onClick} style={{ cursor: "pointer" }}>
+      <Segment vertical onClick={onClick} style={{ cursor: "pointer" }}>
         <DeleteCardModal
           open={showModalType === MODAL_TYPES.DELETE_ITEM}
           onClose={this.onCloseModal}
