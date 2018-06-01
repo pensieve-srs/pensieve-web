@@ -12,6 +12,10 @@
   color: white;
 }
 
+.App-navbar.navbar .octicon {
+  fill: white;
+}
+
 .App-navbar .dropdown .menu a {
   font-weight: 500;
   font-size: 11px;

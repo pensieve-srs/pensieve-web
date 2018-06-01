@@ -4,8 +4,9 @@ import cookie from "js-cookie";
 import cx from "classnames";
 import { withRouter } from "react-router";
 import { Image, Dropdown } from "semantic-ui-react";
-import Octicon from "react-octicon";
 import gravatar from "gravatar";
+
+import Octicon from "./Octicon";
 
 import "./NavBar.css";
 
