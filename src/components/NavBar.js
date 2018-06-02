@@ -27,7 +27,7 @@ class NavBar extends Component {
         })}
       >
         <div className="container">
-          <Link className="navbar-brand" to={isLandingPage ? "/" : "/decks"}>
+          <Link className="navbar-brand" to={!authenticated ? "/" : "/decks"}>
             Pensieve
           </Link>
 
