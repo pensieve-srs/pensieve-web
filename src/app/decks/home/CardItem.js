@@ -7,7 +7,7 @@ import { Dropdown, Icon, Segment, Popup } from "semantic-ui-react";
 import { DeleteCardModal, ResetCardModal, MODAL_TYPES } from "../../../components/modals";
 import { ProgressBar } from "../../../components";
 
-class DeckItem extends Component {
+class CardItem extends Component {
   state = { showModalType: undefined };
 
   onCloseModal = () => this.setState({ showModalType: undefined });
@@ -97,9 +97,9 @@ class DeckItem extends Component {
   }
 }
 
-DeckItem.propTypes = {
+CardItem.propTypes = {
   card: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
 };
 
-export default withRouter(DeckItem);
+export default withRouter(CardItem);
