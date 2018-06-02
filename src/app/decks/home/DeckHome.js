@@ -12,7 +12,6 @@ import { SettingsTab, CardsTab, DescriptionTab } from "./tabs";
 import {
   AddCardModal,
   DeleteDeckModal,
-  EditDeckModal,
   ResetDeckModal,
   MODAL_TYPES,
 } from "../../../components/modals";
@@ -52,14 +51,6 @@ class DeckHome extends Component {
     this.setState({ showModalType: MODAL_TYPES.CARD_ITEM, selectedCard: index });
 
   onCloseModal = () => this.setState({ showModalType: undefined, selectedCard: undefined });
-
-  onPrevCard = () =>
-    this.setState(({ selectedCard }) => ({ selectedCard: Math.max(selectedCard - 1, 0) }));
-
-  onNextCard = () =>
-    this.setState(({ selectedCard, cards }) => ({
-      selectedCard: Math.min(selectedCard + 1, cards.length - 1),
-    }));
 
   onUpdateCards = cards => this.setState({ cards });
 
@@ -127,12 +118,6 @@ class DeckHome extends Component {
           open={showModalType === MODAL_TYPES.DELETE_DECK}
           onClose={this.onCloseModal}
           onSubmit={this.deleteDeck}
-        />
-        <EditDeckModal
-          deck={deck}
-          open={showModalType === MODAL_TYPES.EDIT_DECK}
-          onClose={this.onCloseModal}
-          onSubmit={this.editDeck}
         />
         <ResetDeckModal
           open={showModalType === MODAL_TYPES.RESET_DECK}
@@ -252,7 +237,7 @@ class DeckHome extends Component {
                   },
                   {
                     menuItem: SettingsTab.MenuItem(),
-                    render: () => <SettingsTab deck={deck} />,
+                    render: () => <SettingsTab deck={deck} onSubmit={this.editDeck} />,
                   },
                 ]}
               />
