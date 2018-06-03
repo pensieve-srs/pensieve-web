@@ -1,9 +1,9 @@
 import React from "react";
-import DeckItem from "./DeckItem";
+import CardItem from "./CardItem";
 import { shallow } from "enzyme";
 
 it("renders without crashing", () => {
   const defaultProps = { card: {} };
-  const wrapper = shallow(<DeckItem {...defaultProps} />);
+  const wrapper = shallow(<CardItem {...defaultProps} />);
   expect(wrapper).toHaveLength(1);
 });
