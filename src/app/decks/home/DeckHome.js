@@ -20,9 +20,9 @@ import "./DeckHome.css";
 
 const Tagline = ({ tagline }) =>
   tagline ? (
-    <p className="text-secondary h5 mb-2 font-weight-normal">{tagline}</p>
+    <p className="text-secondary h5 font-weight-light mb-2">{tagline}</p>
   ) : (
-    <p className="text-secondary font-italic h5 mb-2">No description provided</p>
+    <p className="text-secondary h5 font-italic font-weight-light mb-2">No description provided</p>
   );
 
 class DeckHome extends Component {
@@ -128,7 +128,10 @@ class DeckHome extends Component {
                 DECK
               </Header>
               <div className="deck-header">
-                <h1 className="font-weight-bold h3 mb-0 mt-0">
+                <h1
+                  className="font-weight-bold h3 mb-0 mt-0"
+                  style={{ fontSize: "22px", lineHeight: "1.2em" }}
+                >
                   {isLoading ? <span className="text-secondary">Loading info...</span> : deck.title}
                 </h1>
                 <Tagline tagline={deck.tagline} />
