@@ -20,11 +20,9 @@ import "./DeckHome.css";
 
 const Tagline = ({ tagline }) =>
   tagline ? (
-    <div>
-      <p className="text-dark h5 mb-2">{tagline}</p>
-    </div>
+    <p className="text-secondary h5 mb-2 font-weight-normal">{tagline}</p>
   ) : (
-    <p className="text-secondary font-italic h5 mb-2 mt-1">No description provided</p>
+    <p className="text-secondary font-italic h5 mb-2">No description provided</p>
   );
 
 class DeckHome extends Component {
@@ -77,7 +75,6 @@ class DeckHome extends Component {
   editDeck = deck => {
     api.editDeck(deck).then(response => {
       this.setState({ deck: response.data });
-      this.onCloseModal();
     });
   };
 
@@ -209,9 +206,6 @@ class DeckHome extends Component {
                 }}
               >
                 <Dropdown.Menu>
-                  <Dropdown.Item onClick={this.onShowModal} value={MODAL_TYPES.EDIT_DECK}>
-                    Edit Deck
-                  </Dropdown.Item>
                   <Dropdown.Item onClick={this.onShowModal} value={MODAL_TYPES.RESET_DECK}>
                     Reset Deck
                   </Dropdown.Item>

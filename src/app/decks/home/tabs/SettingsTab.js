@@ -52,7 +52,7 @@ class SettingsTab extends Component {
   };
 
   render() {
-    const { deck: { title, description, tagline, tags = [] }, options } = this.state;
+    const { deck: { title, description, tagline = "", tags = [] }, options } = this.state;
 
     const values = tags.map(el => el._id || el);
 
