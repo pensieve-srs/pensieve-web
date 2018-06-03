@@ -63,7 +63,7 @@ class EditDeckModal extends Component {
         <Modal.Content>
           <Form>
             <Form.Field required>
-              <label htmlFor="front">Deck title</label>
+              <label htmlFor="front">Title</label>
               <Input
                 onChange={this.onChange}
                 value={title}
@@ -72,7 +72,7 @@ class EditDeckModal extends Component {
               />
             </Form.Field>
             <Form.Field>
-              <label htmlFor="back">Back</label>
+              <label htmlFor="back">Description</label>
               <TextArea
                 onChange={this.onChange}
                 value={description}

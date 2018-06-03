@@ -4,7 +4,8 @@ body {
   background: #f8f8f8;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial,
     sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-  letter-spacing: -.35px;
+  letter-spacing: -0.35px;
+  overflow-y: overlay;
 }
 
 h1,
@@ -14,6 +15,10 @@ h4,
 h5 {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial,
     sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+}
+
+.font-weight-medium {
+  font-weight: 500 !important;
 }
 
 /* Customize Semantic styles */
@@ -28,4 +33,12 @@ h5 {
 .ui.basic.blue.button {
   color: #1574fb;
   box-shadow: 0 0 0 1px #1574fb inset !important;
+}
+.ui.menu {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial,
+    sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+}
+.ui.tabular.menu .item {
+  padding-top: 5px;
+  padding-bottom: 5px;
 }

@@ -4,8 +4,9 @@ import cookie from "js-cookie";
 import cx from "classnames";
 import { withRouter } from "react-router";
 import { Image, Dropdown } from "semantic-ui-react";
-import Octicon from "react-octicon";
 import gravatar from "gravatar";
+
+import Octicon from "./Octicon";
 
 import "./NavBar.css";
 
@@ -26,7 +27,7 @@ class NavBar extends Component {
         })}
       >
         <div className="container">
-          <Link className="navbar-brand" to={isLandingPage ? "/" : "/decks"}>
+          <Link className="navbar-brand" to={!authenticated ? "/" : "/decks"}>
             Pensieve
           </Link>
 

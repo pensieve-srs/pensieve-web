@@ -1,43 +1,29 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { Button, Dropdown, Header, Icon, Segment, Popup, Label } from "semantic-ui-react";
 import pluralize from "pluralize";
-
-import {
-  AddCardModal,
-  CardModal,
-  DeleteDeckModal,
-  EditDeckModal,
-  ResetDeckModal,
-  MODAL_TYPES,
-} from "../../../components/modals";
-import withErrors from "../../../helpers/withErrors";
-
-import { ProgressBar } from "../../../components";
+import { Button, Header, Icon, Popup, Label, Tab, Dropdown } from "semantic-ui-react";
 
 import * as api from "../deckActions";
 import * as cardApi from "../../cards/cardActions";
+import withErrors from "../../../helpers/withErrors";
+import { ProgressBar } from "../../../components";
+import { SettingsTab, CardsTab, DescriptionTab } from "./tabs";
 
-import DeckItem from "./DeckItem";
+import {
+  AddCardModal,
+  DeleteDeckModal,
+  ResetDeckModal,
+  MODAL_TYPES,
+} from "../../../components/modals";
 
 import "./DeckHome.css";
 
-const EmptyView = ({ title, description, emoji = "✌️" }) => (
-  <div className="text-center ml-auto mr-auto my-5">
-    <div className="text-center">
-      <div className="row">
-        <div className="col-md-6 offset-md-3">
-          <Header size="large">
-            {emoji} {title}
-            <Header.Subheader className="text-secondary" style={{ lineHeight: "1.4em" }}>
-              {description}
-            </Header.Subheader>
-          </Header>
-        </div>
-      </div>
-    </div>
-  </div>
-);
+const Tagline = ({ tagline }) =>
+  tagline ? (
+    <p className="text-secondary h5 font-weight-light mb-2">{tagline}</p>
+  ) : (
+    <p className="text-secondary h5 font-italic font-weight-light mb-2">No description provided</p>
+  );
 
 class DeckHome extends Component {
   state = {
@@ -64,44 +50,13 @@ class DeckHome extends Component {
 
   onCloseModal = () => this.setState({ showModalType: undefined, selectedCard: undefined });
 
-  onPrevCard = () =>
-    this.setState(({ selectedCard }) => ({ selectedCard: Math.max(selectedCard - 1, 0) }));
-
-  onNextCard = () =>
-    this.setState(({ selectedCard, cards }) => ({
-      selectedCard: Math.min(selectedCard + 1, cards.length - 1),
-    }));
+  onUpdateCards = cards => this.setState({ cards });
 
   createCard = card => {
     const deckId = this.state.deck._id;
     const { front, back, notes } = card;
     cardApi.createCard({ deck: deckId, front, back, notes }).then(response => {
       this.setState(({ cards }) => ({ cards: [...cards, response.data] }));
-    });
-  };
-
-  resetCard = cardId => {
-    cardApi.resetCard(cardId).then(response => {
-      const newCard = response.data;
-      const cards = this.state.cards.map(card => (card._id === newCard._id ? newCard : card));
-      this.setState(() => ({ cards: cards }));
-    });
-  };
-
-  editCard = card => {
-    cardApi.editCard(card).then(response => {
-      const newCard = response.data;
-      const cards = this.state.cards.map(el => (el._id === newCard._id ? newCard : el));
-      this.setState(() => ({ cards: cards }));
-    });
-  };
-
-  deleteCard = cardId => {
-    cardApi.deleteCard(cardId).then(response => {
-      this.onCloseModal();
-      this.setState(({ cards }) => {
-        return { cards: cards.filter(card => card._id !== cardId) };
-      });
     });
   };
 
@@ -120,7 +75,6 @@ class DeckHome extends Component {
   editDeck = deck => {
     api.editDeck(deck).then(response => {
       this.setState({ deck: response.data });
-      this.onCloseModal();
     });
   };
 
@@ -147,24 +101,11 @@ class DeckHome extends Component {
   };
 
   render() {
-    const { deck, cards, showModalType, selectedCard, isLoading } = this.state;
+    const { deck, cards, showModalType, isLoading } = this.state;
     const numExpiredCards = cards.filter(card => card.recallRate <= 0.5).length;
 
     return (
       <div className="deck-home mt-4">
-        {selectedCard >= 0 && (
-          <CardModal
-            card={cards[selectedCard]}
-            deck={deck}
-            open={showModalType === MODAL_TYPES.CARD_ITEM}
-            onClose={this.onCloseModal}
-            onNext={this.onNextCard}
-            onPrev={this.onPrevCard}
-            onEdit={this.editCard}
-            onReset={this.resetCard}
-            onDelete={this.deleteCard}
-          />
-        )}
         <AddCardModal
           open={showModalType === MODAL_TYPES.ADD_ITEM}
           onClose={this.onCloseModal}
@@ -174,12 +115,6 @@ class DeckHome extends Component {
           open={showModalType === MODAL_TYPES.DELETE_DECK}
           onClose={this.onCloseModal}
           onSubmit={this.deleteDeck}
-        />
-        <EditDeckModal
-          deck={deck}
-          open={showModalType === MODAL_TYPES.EDIT_DECK}
-          onClose={this.onCloseModal}
-          onSubmit={this.editDeck}
         />
         <ResetDeckModal
           open={showModalType === MODAL_TYPES.RESET_DECK}
@@ -193,10 +128,13 @@ class DeckHome extends Component {
                 DECK
               </Header>
               <div className="deck-header">
-                <h1 className="font-weight-bold h3 mb-0 mt-0">
+                <h1
+                  className="font-weight-bold h3 mb-0 mt-0"
+                  style={{ fontSize: "22px", lineHeight: "1.2em" }}
+                >
                   {isLoading ? <span className="text-secondary">Loading info...</span> : deck.title}
                 </h1>
-                {deck.description && <p className="text-dark h5 mb-1">{deck.description}</p>}
+                <Tagline tagline={deck.tagline} />
                 {deck.tags &&
                   deck.tags.map(tag => (
                     <Label key={tag._id} className="mb-2">
@@ -205,8 +143,8 @@ class DeckHome extends Component {
                   ))}
               </div>
               <p
-                className="text-secondary text-uppercase m-0 mt-4 mb-2"
-                style={{ fontWeight: "600" }}
+                className="text-secondary text-uppercase m-0 mt-4 mb-2 font-weight-medium"
+                style={{ fontSize: "11px" }}
               >
                 {pluralize("card", cards.length, true)} &middot; {numExpiredCards} to review
               </p>
@@ -243,8 +181,8 @@ class DeckHome extends Component {
                     trigger={
                       <div className="right-side my-3 d-flex align-items-center">
                         <strong
-                          style={{ lineHeight: "1em", fontWeight: "600" }}
-                          className="text-secondary mr-2"
+                          className="text-secondary mr-2 font-weight-medium"
+                          style={{ lineHeight: "1em" }}
                         >
                           Total Strength
                         </strong>
@@ -271,9 +209,6 @@ class DeckHome extends Component {
                 }}
               >
                 <Dropdown.Menu>
-                  <Dropdown.Item onClick={this.onShowModal} value={MODAL_TYPES.EDIT_DECK}>
-                    Edit Deck
-                  </Dropdown.Item>
                   <Dropdown.Item onClick={this.onShowModal} value={MODAL_TYPES.RESET_DECK}>
                     Reset Deck
                   </Dropdown.Item>
@@ -282,39 +217,27 @@ class DeckHome extends Component {
                   </Dropdown.Item>
                 </Dropdown.Menu>
               </Dropdown>
-              <hr />
             </div>
-            <div className="col-lg-10 offset-lg-1">
-              {cards.length > 0 ? (
-                <div>
-                  <Segment.Group>
-                    {cards.map((card, key) => (
-                      <DeckItem
-                        key={key}
-                        card={card}
-                        onClick={() => this.onShowCardModal(key)}
-                        deleteCard={this.deleteCard}
-                        resetCard={this.resetCard}
-                      />
-                    ))}
-                  </Segment.Group>
-                </div>
-              ) : (
-                <EmptyView
-                  title={
-                    isLoading ? (
-                      <span className="text-secondary">Loading cards...</span>
-                    ) : (
-                      "Add cards to your decks"
-                    )
-                  }
-                  description={
-                    isLoading
-                      ? "Electrons are beaming to your computer as we speak."
-                      : "Decks are made of related notes. Start adding cards to your deck by clicking 'Add Card +'"
-                  }
-                />
-              )}
+            <div className="col-lg-10 offset-lg-1 my-3">
+              <Tab
+                className="w-100"
+                panes={[
+                  {
+                    menuItem: DescriptionTab.MenuItem(),
+                    render: () => <DescriptionTab deck={deck} />,
+                  },
+                  {
+                    menuItem: CardsTab.MenuItem(cards),
+                    render: () => (
+                      <CardsTab cards={cards} deck={deck} onUpdate={this.onUpdateCards} />
+                    ),
+                  },
+                  {
+                    menuItem: SettingsTab.MenuItem(),
+                    render: () => <SettingsTab deck={deck} onSubmit={this.editDeck} />,
+                  },
+                ]}
+              />
             </div>
           </div>
         </div>
