@@ -102,7 +102,7 @@ class DeckHome extends Component {
 
   render() {
     const { deck, cards, showModalType, isLoading } = this.state;
-    const numExpiredCards = cards.filter(card => card.recallRate <= 0.5).length;
+    const numExpiredCards = cards.filter(card => card.recallRate < 0.5).length;
 
     return (
       <div className="deck-home mt-4">

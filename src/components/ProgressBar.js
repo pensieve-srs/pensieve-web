@@ -13,7 +13,7 @@ class ProgressBar extends Component<Props> {
 
     const classNames = cx("progress-bar", {
       "progress-bar--warning": percent <= 0.7,
-      "progress-bar--alert": percent <= 0.5,
+      "progress-bar--alert": percent < 0.5,
     });
 
     return (
