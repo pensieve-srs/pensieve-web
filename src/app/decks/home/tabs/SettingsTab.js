@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Button, Header, Input, Form, Tab, Dropdown, Segment, TextArea } from "semantic-ui-react";
 
+import { MODAL_TYPES } from "../../../../components/modals";
 import { Octicon } from "../../../../components";
 import * as tagApi from "../../tagActions";
 
@@ -125,7 +126,7 @@ class SettingsTab extends Component {
                 Reseting this deck will remove all of your progress studying its cards.
               </Header.Subheader>
             </Header>
-            <Button negative basic>
+            <Button negative basic onClick={this.props.onShowModal} value={MODAL_TYPES.RESET_DECK}>
               Reset this deck
             </Button>
           </Segment>
@@ -136,7 +137,7 @@ class SettingsTab extends Component {
                 Deleting a deck will permanently remove all of its cards.
               </Header.Subheader>
             </Header>
-            <Button negative basic>
+            <Button negative basic onClick={this.props.onShowModal} value={MODAL_TYPES.DELETE_DECK}>
               Delete this deck
             </Button>
           </Segment>

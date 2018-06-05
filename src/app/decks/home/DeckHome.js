@@ -234,7 +234,13 @@ class DeckHome extends Component {
                   },
                   {
                     menuItem: SettingsTab.MenuItem(),
-                    render: () => <SettingsTab deck={deck} onSubmit={this.editDeck} />,
+                    render: () => (
+                      <SettingsTab
+                        deck={deck}
+                        onSubmit={this.editDeck}
+                        onShowModal={this.onShowModal}
+                      />
+                    ),
                   },
                 ]}
               />
