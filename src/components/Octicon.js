@@ -1,11 +1,14 @@
 import React from "react";
 import octicons from "octicons";
+import cx from "classnames";
 
-const Octicon = ({ name, className, ...props }) => {
+import "./Octicon.css";
+
+const Octicon = ({ name, className, color, ...props }) => {
   if (name in octicons) {
     return (
       <span
-        className={className}
+        className={cx("Octicon", className, { [`Octicon-${color}`]: color })}
         dangerouslySetInnerHTML={{ __html: octicons[name].toSVG(props) }}
       />
     );
