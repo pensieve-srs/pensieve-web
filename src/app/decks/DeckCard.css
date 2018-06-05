@@ -1,15 +1,13 @@
 .deck-card {
   display: flex;
   flex-direction: column;
-  height: 180px;
+  height: 160px;
   hyphens: auto;
-  justify-content: center;
-  text-align: center;
 }
 
 @media (min-width: 1200px) {
   .deck-card {
-    height: 215px;
+    height: 160px;
   }
 }
 
@@ -19,4 +17,9 @@
 
 .deck-card .ui.blue.progress .bar {
   background-color: #1574fb;
+}
+
+.deck-card .deck-tags {
+  overflow-y: hidden;
+  height: 25px;
 }
