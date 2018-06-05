@@ -7,7 +7,7 @@ import * as api from "../deckActions";
 import * as cardApi from "../../cards/cardActions";
 import withErrors from "../../../helpers/withErrors";
 import { ProgressBar } from "../../../components";
-import { SettingsTab, CardsTab, DescriptionTab } from "./tabs";
+import { SettingsTab, CardsTab, OverviewTab } from "./tabs";
 
 import {
   AddCardModal,
@@ -223,8 +223,8 @@ class DeckHome extends Component {
                 className="w-100"
                 panes={[
                   {
-                    menuItem: DescriptionTab.MenuItem(),
-                    render: () => <DescriptionTab deck={deck} />,
+                    menuItem: OverviewTab.MenuItem(),
+                    render: () => <OverviewTab deck={deck} />,
                   },
                   {
                     menuItem: CardsTab.MenuItem(cards),
