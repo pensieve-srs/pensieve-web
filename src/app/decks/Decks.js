@@ -73,7 +73,7 @@ class Decks extends Component<Props, State> {
       <div className="decks-page mt-4">
         <div className="container">
           <div className="row">
-            <div className="col-lg-10 offset-lg-1">
+            <div className="col-lg-12">
               <div className="decks-container-header">
                 <div>
                   <h1 className="h5 m-0">Decks</h1>
@@ -98,7 +98,7 @@ class Decks extends Component<Props, State> {
                 <div className="row">
                   {filteredDecks.map((deck, key) => (
                     <DeckCard
-                      className="col-6 col-sm-4 col-md-3 float-left"
+                      className="col-12 col-sm-12 col-md-6 col-lg-4 float-left"
                       deck={deck}
                       key={key}
                     />
