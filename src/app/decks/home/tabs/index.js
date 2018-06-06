@@ -1,5 +1,5 @@
 import CardsTab from "./CardsTab";
-import DescriptionTab from "./DescriptionTab";
+import OverviewTab from "./OverviewTab";
 import SettingsTab from "./SettingsTab";
 
-export { CardsTab, DescriptionTab, SettingsTab };
+export { CardsTab, OverviewTab, SettingsTab };
