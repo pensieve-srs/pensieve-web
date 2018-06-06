@@ -5,6 +5,7 @@ import ReactDOM from "react-dom";
 import "./index.css";
 
 import "primer-markdown/build/build.css";
+import "primer-blankslate/build/build.css";
 
 import App from "./app/App";
 import registerServiceWorker from "./registerServiceWorker";

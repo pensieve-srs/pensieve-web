@@ -5657,6 +5657,12 @@ pretty-format@^20.0.3:
     ansi-regex "^2.1.1"
     ansi-styles "^3.0.0"
 
+primer-blankslate@^1.4.6:
+  version "1.4.6"
+  resolved "https://registry.yarnpkg.com/primer-blankslate/-/primer-blankslate-1.4.6.tgz#cfc710965ca507c158d4d3426b9019ba283d538b"
+  dependencies:
+    primer-support "4.5.3"
+
 primer-markdown@^3.7.6:
   version "3.7.6"
   resolved "https://registry.yarnpkg.com/primer-markdown/-/primer-markdown-3.7.6.tgz#80f617908b4c4fd71ba9e007112d8de0e120b985"

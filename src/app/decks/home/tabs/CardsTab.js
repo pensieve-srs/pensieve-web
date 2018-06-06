@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Header, Label, Tab } from "semantic-ui-react";
+import { Header, Label, Tab, Button } from "semantic-ui-react";
 
 import { Octicon } from "../../../../components";
 import CardItem from "../CardItem";
@@ -16,22 +16,18 @@ const CardTab = ({ count }) => (
   </div>
 );
 
-const EmptyView = ({ title, description, emoji = "✌️" }) => (
-  <Tab.Pane>
-    <div className="text-center ml-auto mr-auto my-5">
-      <div className="text-center">
-        <div className="row">
-          <div className="col-md-6 offset-md-3">
-            <Header size="large">
-              {emoji} Add cards to your decks
-              <Header.Subheader className="text-secondary" style={{ lineHeight: "1.4em" }}>
-                Decks are made of related notes. Start adding cards to your deck by clicking 'Add
-                Card +'
-              </Header.Subheader>
-            </Header>
-          </div>
-        </div>
-      </div>
+const EmptyView = ({ title, description, emoji = "✌️", onShowModal }) => (
+  <Tab.Pane padded="very">
+    <div className="blankslate blankslate-spacious">
+      <Header size="large">
+        {emoji} Add cards to your decks
+        <Header.Subheader className="text-secondary" style={{ lineHeight: "1.4em" }}>
+          Decks are made of related notes. Start adding cards to your deck by clicking 'Add Card +'
+        </Header.Subheader>
+      </Header>
+      <Button primary onClick={onShowModal} value={MODAL_TYPES.ADD_ITEM}>
+        Add Cards +
+      </Button>
     </div>
   </Tab.Pane>
 );
@@ -83,7 +79,7 @@ class CardsTab extends Component {
     const { showModalType, selectedCard } = this.state;
 
     if (cards.length === 0) {
-      return <EmptyView />;
+      return <EmptyView onShowModal={this.props.onShowModal} />;
     }
 
     return (
