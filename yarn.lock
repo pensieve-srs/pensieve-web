@@ -5657,6 +5657,16 @@ pretty-format@^20.0.3:
     ansi-regex "^2.1.1"
     ansi-styles "^3.0.0"
 
+primer-markdown@^3.7.6:
+  version "3.7.6"
+  resolved "https://registry.yarnpkg.com/primer-markdown/-/primer-markdown-3.7.6.tgz#80f617908b4c4fd71ba9e007112d8de0e120b985"
+  dependencies:
+    primer-support "4.5.3"
+
+primer-support@4.5.3:
+  version "4.5.3"
+  resolved "https://registry.yarnpkg.com/primer-support/-/primer-support-4.5.3.tgz#da51d88d165b46e609591d3a3025e537592afcdb"
+
 private@^0.1.6, private@^0.1.7, private@^0.1.8:
   version "0.1.8"
   resolved "https://registry.yarnpkg.com/private/-/private-0.1.8.tgz#2381edb3689f7a53d653190060fcf822d2f368ff"

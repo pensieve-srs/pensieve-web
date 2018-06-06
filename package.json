@@ -15,6 +15,7 @@
     "moment": "^2.19.4",
     "octicons": "^7.3.0",
     "pluralize": "^7.0.0",
+    "primer-markdown": "^3.7.6",
     "query-string": "^5.0.1",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
