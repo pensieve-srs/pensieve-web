@@ -7,7 +7,7 @@ import * as api from "../deckActions";
 import * as cardApi from "../../cards/cardActions";
 import withErrors from "../../../helpers/withErrors";
 import { ProgressBar } from "../../../components";
-import { SettingsTab, CardsTab, DescriptionTab } from "./tabs";
+import { SettingsTab, CardsTab, OverviewTab } from "./tabs";
 
 import {
   AddCardModal,
@@ -18,9 +18,9 @@ import {
 
 import "./DeckHome.css";
 
-const Tagline = ({ tagline }) =>
-  tagline ? (
-    <p className="text-secondary h5 font-weight-light mb-2">{tagline}</p>
+const Subheader = ({ description }) =>
+  description ? (
+    <p className="text-secondary h5 font-weight-light mb-2">{description}</p>
   ) : (
     <p className="text-secondary h5 font-italic font-weight-light mb-2">No description provided</p>
   );
@@ -134,7 +134,7 @@ class DeckHome extends Component {
                 >
                   {isLoading ? <span className="text-secondary">Loading info...</span> : deck.title}
                 </h1>
-                <Tagline tagline={deck.tagline} />
+                <Subheader description={deck.description} />
                 {deck.tags &&
                   deck.tags.map(tag => (
                     <Label key={tag._id} className="mb-2">
@@ -223,8 +223,8 @@ class DeckHome extends Component {
                 className="w-100"
                 panes={[
                   {
-                    menuItem: DescriptionTab.MenuItem(),
-                    render: () => <DescriptionTab deck={deck} />,
+                    menuItem: OverviewTab.MenuItem(),
+                    render: () => <OverviewTab deck={deck} />,
                   },
                   {
                     menuItem: CardsTab.MenuItem(cards),

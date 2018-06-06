@@ -53,7 +53,7 @@ class SettingsTab extends Component {
   };
 
   render() {
-    const { deck: { title, description, tagline = "", tags = [] }, options } = this.state;
+    const { deck: { title, description, notes = "", tags = [] }, options } = this.state;
 
     const values = tags.map(el => el._id || el);
 
@@ -75,11 +75,11 @@ class SettingsTab extends Component {
               />
             </Form.Field>
             <Form.Field>
-              <label>Tagline</label>
+              <label>Description</label>
               <Input
-                value={tagline}
+                value={description}
                 onChange={this.onChange}
-                name="tagline"
+                name="description"
                 placeholder="Add a short description for this deck..."
               />
             </Form.Field>
@@ -100,14 +100,14 @@ class SettingsTab extends Component {
               />
             </Form.Field>
             <Form.Field>
-              <label>Description</label>
+              <label>Notes</label>
               <TextArea
                 onChange={this.onChange}
-                value={description}
-                name="description"
+                value={notes}
+                name="notes"
                 autoHeight
                 rows={5}
-                placeholder="Add a deck description..."
+                placeholder="Add additional notes for the deck..."
               />
             </Form.Field>
             <Form.Field className="mt-4">

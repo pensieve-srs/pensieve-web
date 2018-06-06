@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { Button, Form, Input, TextArea, Segment, Dropdown } from "semantic-ui-react";
+import { Button, Form, Input, Segment, Dropdown } from "semantic-ui-react";
 
 import withErrors from "../../../helpers/withErrors";
 
@@ -66,9 +66,9 @@ class DeckNew extends Component {
     return (
       <div className="container mt-4">
         <div className="row">
-          <div className="col-sm-8 offset-sm-2 col-md-8 offset-md-2">
+          <div className="col-sm-8 offset-sm-2 col-md-8 offset-md-2 col-lg-6 offset-lg-3">
             <Segment>
-              <h1 className="h4 mb-3 text-center font-weight-bold">Create a new study deck</h1>
+              <h1 className="h4 mb-3 text-center font-weight-bold">Create a new deck</h1>
               <Form>
                 <Form.Field required>
                   <label>Deck title</label>
@@ -81,12 +81,11 @@ class DeckNew extends Component {
                 </Form.Field>
                 <Form.Field>
                   <label>Deck description</label>
-                  <TextArea
+                  <Input
                     value={description}
                     onChange={this.onChange}
                     name="description"
-                    autoHeight
-                    placeholder="Add a deck description..."
+                    placeholder="Add a short description for this deck..."
                   />
                 </Form.Field>
                 <Form.Field>
