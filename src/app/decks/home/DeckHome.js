@@ -229,7 +229,12 @@ class DeckHome extends Component {
                   {
                     menuItem: CardsTab.MenuItem(cards),
                     render: () => (
-                      <CardsTab cards={cards} deck={deck} onUpdate={this.onUpdateCards} />
+                      <CardsTab
+                        cards={cards}
+                        deck={deck}
+                        onUpdate={this.onUpdateCards}
+                        onShowModal={this.onShowModal}
+                      />
                     ),
                   },
                   {
