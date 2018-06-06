@@ -44,7 +44,7 @@ class DeckCard extends Component<Props> {
                 <Header className="m-0" as="h4">
                   <Header.Content className="pl-1">
                     {deck.title}
-                    <Header.Subheader>{deck.tagline}</Header.Subheader>
+                    <Header.Subheader>{deck.description}</Header.Subheader>
                   </Header.Content>
                 </Header>
                 {deck.tags && (
