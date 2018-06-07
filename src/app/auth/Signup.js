@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import queryString from "query-string";
 import { Link } from "react-router-dom";
 import { Button, Form, Input } from "semantic-ui-react";
 import cookie from "js-cookie";
@@ -10,9 +11,14 @@ import * as api from "./authActions";
 import { logSignupEvent } from "../../helpers/GoogleAnalytics";
 
 class Signup extends Component {
-  state = { email: "", password: "", name: "" };
+  state = { email: "", password: "", name: "", invite: "" };
 
   componentWillMount() {
+    const { location } = this.props;
+    const params = queryString.parse(location.search);
+    if (params.invite) {
+      this.setState({ invite: params.invite });
+    }
     if (cookie.get("token")) {
       this.props.history.push("/");
     }
@@ -40,17 +46,19 @@ class Signup extends Component {
   };
 
   render() {
+    const { name, email, invite } = this.state;
     return (
       <div className="signup-page">
         <div className="container mt-5">
           <div className="row">
-            <div className="col-sm-8 offset-sm-2 col-md-6 offset-md-3">
+            <div className="col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-6 offset-lg-3">
               <h1 className="h4 mb-3 text-center">Create an account</h1>
               <Form>
                 <div className="border rounded p-3 mb-3">
                   <Form.Field>
                     <label style={{ fontWeight: "bold", fontSize: "1.2em" }}>Invite phrase</label>
                     <Input
+                      value={invite}
                       placeholder={`eg. ethanol mongeese guiro`}
                       onChange={this.onChange}
                       name="invite"
@@ -68,21 +76,24 @@ class Signup extends Component {
                 <Form.Field>
                   <label>Name</label>
                   <Input
+                    value={name}
                     onChange={this.onChange}
                     name="name"
                     type="text"
                     required
                     placeholder="What should we call you?"
+                    autoComplete="name"
                   />
                 </Form.Field>
                 <Form.Field>
                   <label>Email</label>
                   <Input
+                    value={email}
                     onChange={this.onChange}
                     name="email"
                     type="email"
                     placeholder="you@your-domain.com"
-                    autoComplete="username"
+                    autoComplete="email"
                   />
                 </Form.Field>
                 <Form.Field>
