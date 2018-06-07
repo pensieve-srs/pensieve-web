@@ -49,7 +49,7 @@ class Login extends Component {
       <div className="login-page">
         <div className="container mt-5">
           <div className="row">
-            <div className="col-sm-8 offset-sm-2 col-md-6 offset-md-3">
+            <div className="col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-6 offset-lg-3">
               <h1 className="h4 mb-3 text-center">Login to your account</h1>
               <Form>
                 <Form.Field>
