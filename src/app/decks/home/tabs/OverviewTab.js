@@ -1,6 +1,6 @@
 import React from "react";
 import marked from "marked";
-import { Tab, Header, Divider } from "semantic-ui-react";
+import { Icon, Tab, Header, Label } from "semantic-ui-react";
 
 import { Octicon } from "../../../../components";
 
@@ -8,8 +8,9 @@ const OverviewTab = ({ deck, emoji = "✌️" }) => (
   <Tab.Pane padded="very">
     {deck.notes ? (
       <div>
-        <Header>Notes</Header>
-        <Divider />
+        <Label className="rounded-0" attached="top">
+          <Icon name="book" />Notes
+        </Label>
         <div className="markdown-body" dangerouslySetInnerHTML={{ __html: marked(deck.notes) }} />
       </div>
     ) : (
