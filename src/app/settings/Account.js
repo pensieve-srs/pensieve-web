@@ -108,8 +108,8 @@ class Account extends Component {
         <Segment className="mt-5" color="red" padded>
           <Header>Delete your account</Header>
           <p>
-            Do you wish to delete your account? This is permament and all your data will be
-            permanently erased?
+            Do you wish to delete your account? This is permanent and all your data will be
+            irreversibly erased.
           </p>
           <Button negative onClick={this.onShowModal} basic value={MODAL_TYPES.DELETE_USER}>
             Delete
