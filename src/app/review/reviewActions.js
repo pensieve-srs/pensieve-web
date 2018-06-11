@@ -1,16 +1,13 @@
-import axios from "axios";
-import cookie from "js-cookie";
-
-const config = { headers: { Authorization: cookie.get("token") } };
+import axios from "../../helpers/authAxios";
 
 export const fetchSession = sessionId => {
-  return axios.get(`/api/sessions/${sessionId}`, config);
+  return axios.get(`/api/sessions/${sessionId}`);
 };
 
 export const reviewCard = ({ cardId, value }) => {
-  return axios.post(`/api/cards/${cardId}/review`, { cardId, value }, config);
+  return axios.post(`/api/cards/${cardId}/review`, { cardId, value });
 };
 
 export const createSession = (sessionType, deckId) => {
-  return axios.post("/api/sessions", { type: sessionType, deck: deckId }, config);
+  return axios.post("/api/sessions", { type: sessionType, deck: deckId });
 };
