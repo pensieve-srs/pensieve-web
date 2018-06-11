@@ -1,5 +1,5 @@
 import cookie from "js-cookie";
-import decode from "jwt-decode";
+import jwt from "jsonwebtoken";
 
 const isAuthenticated = () => {
   const token = cookie.get("token");
@@ -10,7 +10,7 @@ const isAuthenticated = () => {
 
   // checks if token is malformed
   try {
-    decode(token);
+    jwt.decode(token);
   } catch (error) {
     cookie.remove("token");
     cookie.remove("user");
