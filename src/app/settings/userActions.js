@@ -1,26 +1,17 @@
-import axios from "axios";
-import cookie from "js-cookie";
+import axios from "../../helpers/authAxios";
 
 export const fetchUser = () => {
-  const config = { headers: { Authorization: cookie.get("token") } };
-
-  return axios.get("/api/users/profile", config);
+  return axios.get("/api/users/profile");
 };
 
 export const editUser = user => {
-  const config = { headers: { Authorization: cookie.get("token") } };
-
-  return axios.put("/api/users/profile", user, config);
+  return axios.put("/api/users/profile", user);
 };
 
 export const deleteUser = () => {
-  const config = { headers: { Authorization: cookie.get("token") } };
-
-  return axios.delete("/api/users/profile", config);
+  return axios.delete("/api/users/profile");
 };
 
 export const updatePassword = body => {
-  const config = { headers: { Authorization: cookie.get("token") } };
-
-  return axios.put("/api/users/profile/security", body, config);
+  return axios.put("/api/users/profile/security", body);
 };

@@ -1,26 +1,18 @@
 import React, { Component } from "react";
-import cookie from "js-cookie";
-import PropTypes from "prop-types";
+import { Redirect } from "react-router-dom";
+import isAuthenticated from "../../helpers/isAuthenticated";
 
 const ReqAuth = ComposedComponent => {
   class Authentication extends Component {
-    componentWillMount() {
-      const token = cookie.get("token");
-      if (!token) {
-        this.props.history.push("/");
-      }
-    }
-
     render() {
+      if (!isAuthenticated()) {
+        return <Redirect to="/" />;
+      }
       return <ComposedComponent {...this.props} />;
     }
   }
 
   return Authentication;
-};
-
-ReqAuth.propTypes = {
-  history: PropTypes.object.isRequired,
 };
 
 export default ReqAuth;

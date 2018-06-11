@@ -5,6 +5,7 @@ import { Button, Form, Input } from "semantic-ui-react";
 import cookie from "js-cookie";
 
 import withErrors from "../../helpers/withErrors";
+import isAuthenticated from "../../helpers/isAuthenticated";
 
 import * as api from "./authActions";
 
@@ -19,7 +20,7 @@ class Signup extends Component {
     if (params.invite) {
       this.setState({ invite: params.invite });
     }
-    if (cookie.get("token")) {
+    if (isAuthenticated()) {
       this.props.history.push("/");
     }
   }
@@ -32,7 +33,7 @@ class Signup extends Component {
     api.signupUser({ email, password, name, invite }).then(
       response => {
         logSignupEvent(response.data.user._id);
-        cookie.set("token", response.data.token);
+        cookie.set("token", response.headers.authorization);
         cookie.set("user", response.data.user);
 
         this.props.history.push("/decks");
