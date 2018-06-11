@@ -7,13 +7,7 @@ import withErrors from "../../helpers/withErrors";
 import * as api from "./authActions";
 
 class Login extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = { email: "", password: "" };
-    this.onChange = this.onChange.bind(this);
-    this.onSubmit = this.onSubmit.bind(this);
-  }
+  state = { email: "", password: "" };
 
   componentWillMount() {
     if (cookie.get("token")) {
@@ -21,17 +15,17 @@ class Login extends Component {
     }
   }
 
-  onChange(event) {
+  onChange = event => {
     const { name, value } = event.target;
     this.setState(() => ({ [name]: value }));
-  }
+  };
 
-  onSubmit(event) {
+  onSubmit = event => {
     event.preventDefault();
     const { email, password } = this.state;
     api.loginUser(email, password).then(
       response => {
-        cookie.set("token", response.data.token);
+        cookie.set("token", response.headers.authorization);
         cookie.set("user", response.data.user);
 
         this.props.history.push("/decks");
@@ -42,7 +36,7 @@ class Login extends Component {
         }
       },
     );
-  }
+  };
 
   render() {
     return (

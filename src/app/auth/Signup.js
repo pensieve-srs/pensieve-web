@@ -32,7 +32,7 @@ class Signup extends Component {
     api.signupUser({ email, password, name, invite }).then(
       response => {
         logSignupEvent(response.data.user._id);
-        cookie.set("token", response.data.token);
+        cookie.set("token", response.headers.authorization);
         cookie.set("user", response.data.user);
 
         this.props.history.push("/decks");
