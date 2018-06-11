@@ -54,6 +54,7 @@ class DeckNew extends Component {
     api.createDeck({ title, description, tags: selectedTags }).then(response => {
       this.props.history.push(`/decks/${response.data._id}`);
     });
+    this.setState(state => ({ title: "", description: "",  selectedTags: []}));
   };
 
   createTag = value => {
