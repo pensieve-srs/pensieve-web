@@ -3,6 +3,7 @@ import { Button, Form } from "semantic-ui-react";
 import cookie from "js-cookie";
 
 import withErrors from "../../helpers/withErrors";
+import isAuthenticated from "../../helpers/isAuthenticated";
 
 import * as api from "./authActions";
 
@@ -10,7 +11,7 @@ class Login extends Component {
   state = { email: "", password: "" };
 
   componentWillMount() {
-    if (cookie.get("token")) {
+    if (isAuthenticated()) {
       this.props.history.push("/");
     }
   }

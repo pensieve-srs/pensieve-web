@@ -7,13 +7,14 @@ import { Image, Dropdown } from "semantic-ui-react";
 import gravatar from "gravatar";
 
 import Octicon from "./Octicon";
+import isAuthenticated from "../helpers/isAuthenticated";
 
 import "./NavBar.css";
 
 class NavBar extends Component {
   render() {
     const { className } = this.props;
-    const authenticated = Boolean(cookie.get("token"));
+    const authenticated = isAuthenticated();
     const user = cookie.get("user");
 
     const email = user ? JSON.parse(user).email : "";
