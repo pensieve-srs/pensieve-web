@@ -218,7 +218,7 @@ class DeckHome extends Component {
                 </Dropdown.Menu>
               </Dropdown>
             </div>
-            <div className="col-lg-10 offset-lg-1 my-3">
+            <div className="deck-tabs col-lg-10 offset-lg-1 my-3">
               <Tab
                 className="w-100"
                 panes={[
