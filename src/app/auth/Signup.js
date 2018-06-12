@@ -1,8 +1,10 @@
 import React, { Component } from "react";
+import cx from "classnames";
+import cookie from "js-cookie";
+import debounce from "debounce";
 import queryString from "query-string";
 import { Link } from "react-router-dom";
 import { Button, Form, Input } from "semantic-ui-react";
-import cookie from "js-cookie";
 
 import withErrors from "../../helpers/withErrors";
 import isAuthenticated from "../../helpers/isAuthenticated";
@@ -10,9 +12,22 @@ import isAuthenticated from "../../helpers/isAuthenticated";
 import * as api from "./authActions";
 
 import { logSignupEvent } from "../../helpers/GoogleAnalytics";
+import FieldError from "./FieldError";
 
 class Signup extends Component {
-  state = { email: "", password: "", name: "", invite: "" };
+  state = {
+    email: "",
+    password: "",
+    name: "",
+    invite: "",
+    errors: {
+      email: undefined,
+      password: undefined,
+      name: undefined,
+      invite: undefined,
+      form: undefined,
+    },
+  };
 
   componentWillMount() {
     const { location } = this.props;
@@ -25,7 +40,12 @@ class Signup extends Component {
     }
   }
 
-  onChange = e => this.setState({ [e.target.name]: e.target.value });
+  onBlur = event => this.validateFields(event.target.name, event.target.value);
+
+  onChange = event => {
+    const { name, value } = event.target;
+    this.setState(() => ({ [name]: value }), () => this.debounceValidateFeilds(name, value));
+  };
 
   onSubmit = event => {
     event.preventDefault();
@@ -46,8 +66,49 @@ class Signup extends Component {
     );
   };
 
+  validateEmail = email => {
+    const isValid = email.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i);
+    return !isValid ? "Please enter a valid email." : undefined;
+  };
+
+  validateName = name => {
+    const isValid = name.length > 0;
+    return !isValid ? "Please provide your first and last name." : undefined;
+  };
+
+  validatePassword = password => {
+    const isValid = password.length >= 8;
+    return !isValid
+      ? "Short passwords are easy to guess. Try one with at least 8 characters."
+      : undefined;
+  };
+
+  debounceValidateFeilds = (name, value) => debounce(this.validateFields(name, value), 500);
+
+  validateFields = (fieldName, value) => {
+    switch (fieldName) {
+      case "email":
+        this.setState(({ errors }) => ({
+          errors: { ...errors, email: this.validateEmail(value) },
+        }));
+        break;
+      case "name":
+        this.setState(({ errors }) => ({
+          errors: { ...errors, name: this.validateName(value) },
+        }));
+        break;
+      case "password":
+        this.setState(({ errors }) => ({
+          errors: { ...errors, password: this.validatePassword(value) },
+        }));
+        break;
+      default:
+        break;
+    }
+  };
+
   render() {
-    const { name, email, invite } = this.state;
+    const { name, email, invite, errors } = this.state;
     return (
       <div className="signup-page">
         <div className="container mt-5">
@@ -75,37 +136,46 @@ class Signup extends Component {
                   </Form.Field>
                 </div>
                 <Form.Field>
-                  <label>Name</label>
-                  <Input
+                  <label>Full name</label>
+                  <input
                     value={name}
+                    onBlur={this.onBlur}
                     onChange={this.onChange}
                     name="name"
                     type="text"
                     required
-                    placeholder="What should we call you?"
                     autoComplete="name"
+                    placeholder="What should we call you?"
+                    className={cx({ "border-danger": errors.name })}
                   />
+                  {errors.name && <FieldError label={errors.name} />}
                 </Form.Field>
                 <Form.Field>
                   <label>Email</label>
-                  <Input
+                  <input
                     value={email}
+                    onBlur={this.onBlur}
                     onChange={this.onChange}
                     name="email"
                     type="email"
-                    placeholder="you@your-domain.com"
                     autoComplete="email"
+                    placeholder="you@your-domain.com"
+                    className={cx({ "border-danger": errors.email })}
                   />
+                  {errors.email && <FieldError label={errors.email} />}
                 </Form.Field>
                 <Form.Field>
                   <label>Password</label>
-                  <Input
+                  <input
+                    onBlur={this.onBlur}
                     onChange={this.onChange}
                     name="password"
                     type="password"
-                    placeholder="Shh! Keep this a secret."
                     autoComplete="current-password"
+                    placeholder="Shh! Keep this a secret."
+                    className={cx({ "border-danger": errors.password })}
                   />
+                  {errors.password && <FieldError label={errors.password} />}
                 </Form.Field>
                 <Button className="mt-4" onClick={this.onSubmit} type="submit" primary fluid>
                   Join

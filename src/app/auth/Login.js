@@ -7,8 +7,7 @@ import debounce from "debounce";
 import isAuthenticated from "../../helpers/isAuthenticated";
 
 import * as api from "./authActions";
-
-const FieldError = ({ label }) => <span className="d-block text-danger mt-1">{label}</span>;
+import FieldError from "./FieldError";
 
 class Login extends Component {
   state = {
@@ -22,6 +21,8 @@ class Login extends Component {
       this.props.history.push("/");
     }
   }
+
+  onBlur = event => this.validateFields(event.target.name, event.target.value);
 
   onChange = event => {
     const { name, value } = event.target;
@@ -93,26 +94,26 @@ class Login extends Component {
                   <Message error content={errors.form} />
                   <label>Email</label>
                   <input
+                    onBlur={this.onBlur}
                     onChange={this.onChange}
-                    onBlur={() => this.validateFields("email", this.state.email)}
-                    className={cx({ "border-danger": errors.email })}
                     name="email"
                     type="email"
-                    placeholder="you@your-domain.com"
                     autoComplete="username"
+                    placeholder="you@your-domain.com"
+                    className={cx({ "border-danger": errors.email })}
                   />
                   {errors.email && <FieldError label={errors.email} />}
                 </Form.Field>
                 <Form.Field>
                   <label>Password</label>
                   <input
+                    onBlur={this.onBlur}
                     onChange={this.onChange}
-                    onBlur={() => this.validateFields("password", this.state.password)}
-                    className={cx({ "border-danger": errors.password })}
                     name="password"
                     type="password"
-                    placeholder="Shh! Keep this a secret."
                     autoComplete="current-password"
+                    placeholder="Shh! Keep this a secret."
+                    className={cx({ "border-danger": errors.password })}
                   />
                   {errors.password && <FieldError label={errors.password} />}
                 </Form.Field>
