@@ -1,14 +1,21 @@
 import React, { Component } from "react";
-import { Button, Form } from "semantic-ui-react";
+import cx from "classnames";
+import { Button, Form, Message } from "semantic-ui-react";
 import cookie from "js-cookie";
+import debounce from "debounce";
 
-import withErrors from "../../helpers/withErrors";
 import isAuthenticated from "../../helpers/isAuthenticated";
 
 import * as api from "./authActions";
 
+const FieldError = ({ label }) => <span className="d-block text-danger mt-1">{label}</span>;
+
 class Login extends Component {
-  state = { email: "", password: "" };
+  state = {
+    email: "",
+    password: "",
+    errors: { email: undefined, password: undefined, form: undefined },
+  };
 
   componentWillMount() {
     if (isAuthenticated()) {
@@ -18,12 +25,13 @@ class Login extends Component {
 
   onChange = event => {
     const { name, value } = event.target;
-    this.setState(() => ({ [name]: value }));
+    this.setState(() => ({ [name]: value }), () => this.debounceValidateFeilds(name, value));
   };
 
   onSubmit = event => {
     event.preventDefault();
     const { email, password } = this.state;
+
     api.loginUser(email, password).then(
       response => {
         cookie.set("token", response.headers.authorization);
@@ -31,41 +39,82 @@ class Login extends Component {
 
         this.props.history.push("/decks");
       },
-      error => {
-        if (error.response && error.response.status === 400) {
-          this.props.onError("Oops, it does not look like that is a valid username or password.");
-        }
-      },
+      error => this.handleError(error),
     );
   };
 
+  handleError = error => {
+    const isInvalidUser = error.response && error.response.status === 400;
+    const message = isInvalidUser ? "These credentials do not match our records." : undefined;
+    this.setState({ errors: { ...this.state.errors, form: message } });
+  };
+
+  validateEmail = email => {
+    const isValid = email.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i);
+    return !isValid ? "Please enter a valid email." : undefined;
+  };
+
+  validatePassword = password => {
+    const isValid = password.length >= 8;
+    return !isValid
+      ? "Short passwords are easy to guess. Try one with at least 8 characters."
+      : undefined;
+  };
+
+  debounceValidateFeilds = (name, value) => debounce(this.validateFields(name, value), 500);
+
+  validateFields = (fieldName, value) => {
+    switch (fieldName) {
+      case "email":
+        this.setState(({ errors }) => ({
+          errors: { ...errors, email: this.validateEmail(value) },
+        }));
+        break;
+      case "password":
+        this.setState(({ errors }) => ({
+          errors: { ...errors, password: this.validatePassword(value) },
+        }));
+        break;
+      default:
+        break;
+    }
+  };
+
   render() {
+    const { errors } = this.state;
     return (
       <div className="login-page">
         <div className="container mt-5">
           <div className="row">
             <div className="col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-6 offset-lg-3">
               <h1 className="h4 mb-3 text-center">Login to your account</h1>
-              <Form>
+              <Form error={!!errors.form}>
                 <Form.Field>
+                  <Message error content={errors.form} />
                   <label>Email</label>
                   <input
                     onChange={this.onChange}
+                    onBlur={() => this.validateFields("email", this.state.email)}
+                    className={cx({ "border-danger": errors.email })}
                     name="email"
                     type="email"
                     placeholder="you@your-domain.com"
                     autoComplete="username"
                   />
+                  {errors.email && <FieldError label={errors.email} />}
                 </Form.Field>
                 <Form.Field>
                   <label>Password</label>
                   <input
                     onChange={this.onChange}
+                    onBlur={() => this.validateFields("password", this.state.password)}
+                    className={cx({ "border-danger": errors.password })}
                     name="password"
                     type="password"
                     placeholder="Shh! Keep this a secret."
                     autoComplete="current-password"
                   />
+                  {errors.password && <FieldError label={errors.password} />}
                 </Form.Field>
                 <Button onClick={this.onSubmit} type="submit" primary fluid>
                   Login
@@ -85,4 +134,4 @@ class Login extends Component {
   }
 }
 
-export default withErrors(Login);
+export default Login;
