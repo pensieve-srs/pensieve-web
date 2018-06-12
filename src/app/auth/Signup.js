@@ -4,14 +4,14 @@ import cookie from "js-cookie";
 import debounce from "debounce";
 import queryString from "query-string";
 import { Link } from "react-router-dom";
-import { Button, Form, Input } from "semantic-ui-react";
+import { Button, Form, Message } from "semantic-ui-react";
 
 import withErrors from "../../helpers/withErrors";
 import isAuthenticated from "../../helpers/isAuthenticated";
 
 import * as api from "./authActions";
+import * as GA from "../../helpers/GoogleAnalytics";
 
-import { logSignupEvent } from "../../helpers/GoogleAnalytics";
 import FieldError from "./FieldError";
 
 class Signup extends Component {
@@ -44,26 +44,47 @@ class Signup extends Component {
 
   onChange = event => {
     const { name, value } = event.target;
-    this.setState(() => ({ [name]: value }), () => this.debounceValidateFeilds(name, value));
+    this.setState(() => ({ [name]: value }), () => this.debounceValidateFields(name, value));
   };
 
   onSubmit = event => {
     event.preventDefault();
     const { email, password, name, invite } = this.state;
-    api.signupUser({ email, password, name, invite }).then(
-      response => {
-        logSignupEvent(response.data.user._id);
-        cookie.set("token", response.headers.authorization);
-        cookie.set("user", response.data.user);
 
-        this.props.history.push("/decks");
+    this.setState(
+      {
+        errors: {
+          ...this.state.errors,
+          email: this.validateEmail(email),
+          password: this.validatePassword(password),
+          name: this.validateName(name),
+          invite: this.validateInvite(invite),
+        },
       },
-      error => {
-        if (error.response.status === 400) {
-          this.props.onError("Oops, it does not look like that is a valid sign up");
-        }
-      },
+      () => this.signupUser({ email, password, name, invite }),
     );
+  };
+
+  signupUser = ({ email, password, name, invite }) => {
+    const { errors } = this.state;
+    if (!errors.email && !errors.password && !errors.name && !errors.invite) {
+      api.signupUser({ email, password, name, invite }).then(
+        response => {
+          GA.logSignupEvent(response.data.user._id);
+          cookie.set("token", response.headers.authorization);
+          cookie.set("upenser", response.data.user);
+
+          this.props.history.push("/decks");
+        },
+        error => this.handleError(error),
+      );
+    }
+  };
+
+  handleError = error => {
+    const isInvalidSignup = error.response && error.response.status === 400;
+    const message = isInvalidSignup ? "Unable to create an account with these fields" : undefined;
+    this.setState({ errors: { ...this.state.errors, form: message } });
   };
 
   validateEmail = email => {
@@ -76,6 +97,11 @@ class Signup extends Component {
     return !isValid ? "Please provide your first and last name." : undefined;
   };
 
+  validateInvite = invite => {
+    const isValid = invite.length > 0;
+    return !isValid ? "Please provide a valid invite phrase" : undefined;
+  };
+
   validatePassword = password => {
     const isValid = password.length >= 8;
     return !isValid
@@ -83,7 +109,7 @@ class Signup extends Component {
       : undefined;
   };
 
-  debounceValidateFeilds = (name, value) => debounce(this.validateFields(name, value), 500);
+  debounceValidateFields = (name, value) => debounce(this.validateFields(name, value), 500);
 
   validateFields = (fieldName, value) => {
     switch (fieldName) {
@@ -102,6 +128,11 @@ class Signup extends Component {
           errors: { ...errors, password: this.validatePassword(value) },
         }));
         break;
+      case "invite":
+        this.setState(({ errors }) => ({
+          errors: { ...errors, invite: this.validateInvite(value) },
+        }));
+        break;
       default:
         break;
     }
@@ -115,24 +146,29 @@ class Signup extends Component {
           <div className="row">
             <div className="col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-6 offset-lg-3">
               <h1 className="h4 mb-3 text-center">Create an account</h1>
-              <Form>
+              <Form error={!!errors.form}>
+                <Message error content={errors.form} />
                 <div className="border rounded p-3 mb-3">
                   <Form.Field>
                     <label style={{ fontWeight: "bold", fontSize: "1.2em" }}>Invite phrase</label>
-                    <Input
+                    <input
                       value={invite}
-                      placeholder={`eg. ethanol mongeese guiro`}
+                      onBlur={this.onBlur}
                       onChange={this.onChange}
+                      className={cx({ "border-danger": errors.invite })}
+                      placeholder="eg. ethanol mongeese guiro"
                       name="invite"
                       type="text"
                       size="large"
+                      required
                       autoFocus
                       focus
                     />
-                    <small className="text-secondary">
+                    <small className="text-secondary" style={{ fontSize: "12px" }}>
                       An invite code is required to join. Get an invite by signing up for early
                       access.
                     </small>
+                    {errors.invite && <FieldError label={errors.invite} />}
                   </Form.Field>
                 </div>
                 <Form.Field>
@@ -143,10 +179,10 @@ class Signup extends Component {
                     onChange={this.onChange}
                     name="name"
                     type="text"
-                    required
                     autoComplete="name"
                     placeholder="What should we call you?"
                     className={cx({ "border-danger": errors.name })}
+                    required
                   />
                   {errors.name && <FieldError label={errors.name} />}
                 </Form.Field>
@@ -161,6 +197,7 @@ class Signup extends Component {
                     autoComplete="email"
                     placeholder="you@your-domain.com"
                     className={cx({ "border-danger": errors.email })}
+                    required
                   />
                   {errors.email && <FieldError label={errors.email} />}
                 </Form.Field>
@@ -175,6 +212,9 @@ class Signup extends Component {
                     placeholder="Shh! Keep this a secret."
                     className={cx({ "border-danger": errors.password })}
                   />
+                  <small className="text-secondary" style={{ fontSize: "12px" }}>
+                    Use at least one letter, one numeral, and eight characters.
+                  </small>
                   {errors.password && <FieldError label={errors.password} />}
                 </Form.Field>
                 <Button className="mt-4" onClick={this.onSubmit} type="submit" primary fluid>

@@ -26,22 +26,38 @@ class Login extends Component {
 
   onChange = event => {
     const { name, value } = event.target;
-    this.setState(() => ({ [name]: value }), () => this.debounceValidateFeilds(name, value));
+    this.setState(() => ({ [name]: value }), () => this.debounceValidateFields(name, value));
   };
 
   onSubmit = event => {
     event.preventDefault();
     const { email, password } = this.state;
 
-    api.loginUser(email, password).then(
-      response => {
-        cookie.set("token", response.headers.authorization);
-        cookie.set("user", response.data.user);
-
-        this.props.history.push("/decks");
+    this.setState(
+      {
+        errors: {
+          ...this.state.errors,
+          email: this.validateEmail(email),
+          password: this.validatePassword(password),
+        },
       },
-      error => this.handleError(error),
+      () => this.loginUser(email, password),
     );
+  };
+
+  loginUser = (email, password) => {
+    const { errors } = this.state;
+    if (!errors.email && !errors.password) {
+      api.loginUser(email, password).then(
+        response => {
+          cookie.set("token", response.headers.authorization);
+          cookie.set("user", response.data.user);
+
+          this.props.history.push("/decks");
+        },
+        error => this.handleError(error),
+      );
+    }
   };
 
   handleError = error => {
@@ -62,7 +78,7 @@ class Login extends Component {
       : undefined;
   };
 
-  debounceValidateFeilds = (name, value) => debounce(this.validateFields(name, value), 500);
+  debounceValidateFields = (name, value) => debounce(this.validateFields(name, value), 500);
 
   validateFields = (fieldName, value) => {
     switch (fieldName) {
@@ -90,8 +106,8 @@ class Login extends Component {
             <div className="col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-6 offset-lg-3">
               <h1 className="h4 mb-3 text-center">Login to your account</h1>
               <Form error={!!errors.form}>
+                <Message error content={errors.form} />
                 <Form.Field>
-                  <Message error content={errors.form} />
                   <label>Email</label>
                   <input
                     onBlur={this.onBlur}
@@ -101,6 +117,8 @@ class Login extends Component {
                     autoComplete="username"
                     placeholder="you@your-domain.com"
                     className={cx({ "border-danger": errors.email })}
+                    autoFocus
+                    required
                   />
                   {errors.email && <FieldError label={errors.email} />}
                 </Form.Field>
@@ -114,6 +132,7 @@ class Login extends Component {
                     autoComplete="current-password"
                     placeholder="Shh! Keep this a secret."
                     className={cx({ "border-danger": errors.password })}
+                    required
                   />
                   {errors.password && <FieldError label={errors.password} />}
                 </Form.Field>
