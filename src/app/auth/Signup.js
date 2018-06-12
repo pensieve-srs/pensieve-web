@@ -82,8 +82,23 @@ class Signup extends Component {
   };
 
   handleError = error => {
-    const isInvalidSignup = error.response && error.response.status === 400;
-    const message = isInvalidSignup ? "Unable to create an account with these fields" : undefined;
+    const { response } = error;
+    const { data } = response;
+
+    const isInvalidSignup = response && response.status === 400;
+    const isInvalidInvite = data.message === "Invalid invite code";
+    const isUsedInvite = data.message === "Used invite code";
+
+    let message;
+    if (isUsedInvite) {
+      message =
+        "The provided invite phrase has already been used. Please contact us for another one.";
+    } else if (isInvalidInvite) {
+      message = "Please provide a valid invite phrase.";
+    } else if (isInvalidSignup) {
+      message = "Unable to create an account with these fields.";
+    }
+
     this.setState({ errors: { ...this.state.errors, form: message } });
   };
 
@@ -99,7 +114,9 @@ class Signup extends Component {
 
   validateInvite = invite => {
     const isValid = invite.length > 0;
-    return !isValid ? "Please provide a valid invite phrase" : undefined;
+    return !isValid
+      ? "Invitations are required during the early access period. Please provide a valid invite phrase."
+      : undefined;
   };
 
   validatePassword = password => {
@@ -160,9 +177,8 @@ class Signup extends Component {
                       name="invite"
                       type="text"
                       size="large"
-                      required
                       autoFocus
-                      focus
+                      required
                     />
                     <small className="text-secondary" style={{ fontSize: "12px" }}>
                       An invite code is required to join. Get an invite by signing up for early
@@ -238,4 +254,4 @@ class Signup extends Component {
   }
 }
 
-export default withErrors(Signup);
+export default Signup;
