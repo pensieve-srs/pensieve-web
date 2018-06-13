@@ -2,11 +2,9 @@ import React, { Component } from "react";
 import cx from "classnames";
 import cookie from "js-cookie";
 import debounce from "debounce";
-import queryString from "query-string";
 import { Link } from "react-router-dom";
 import { Button, Form, Message } from "semantic-ui-react";
 
-import withErrors from "../../helpers/withErrors";
 import isAuthenticated from "../../helpers/isAuthenticated";
 
 import * as api from "./authActions";
@@ -24,17 +22,11 @@ class Signup extends Component {
       email: undefined,
       password: undefined,
       name: undefined,
-      invite: undefined,
       form: undefined,
     },
   };
 
   componentWillMount() {
-    const { location } = this.props;
-    const params = queryString.parse(location.search);
-    if (params.invite) {
-      this.setState({ invite: params.invite });
-    }
     if (isAuthenticated()) {
       this.props.history.push("/");
     }
@@ -49,7 +41,7 @@ class Signup extends Component {
 
   onSubmit = event => {
     event.preventDefault();
-    const { email, password, name, invite } = this.state;
+    const { email, password, name } = this.state;
 
     this.setState(
       {
@@ -58,10 +50,9 @@ class Signup extends Component {
           email: this.validateEmail(email),
           password: this.validatePassword(password),
           name: this.validateName(name),
-          invite: this.validateInvite(invite),
         },
       },
-      () => this.signupUser({ email, password, name, invite }),
+      () => this.signupUser({ email, password, name }),
     );
   };
 
@@ -82,24 +73,22 @@ class Signup extends Component {
   };
 
   handleError = error => {
-    const { response } = error;
-    const { data } = response;
-
-    const isInvalidSignup = response && response.status === 400;
-    const isInvalidInvite = data.message === "Invalid invite code";
-    const isUsedInvite = data.message === "Used invite code";
-
-    let message;
-    if (isUsedInvite) {
-      message =
-        "The provided invite phrase has already been used. Please contact us for another one.";
-    } else if (isInvalidInvite) {
-      message = "Please provide a valid invite phrase.";
-    } else if (isInvalidSignup) {
-      message = "Unable to create an account with these fields.";
-    }
-
+    const { response = {} } = error;
+    const message = this.getErrorResponse(response.status);
     this.setState({ errors: { ...this.state.errors, form: message } });
+  };
+
+  getErrorResponse = status => {
+    switch (status) {
+      case 409:
+        return "User already exists. Please login instead.";
+      case 400:
+        return "Unable to create an account with these fields.";
+      case 500:
+        return "Something happened to your request. Please try again or contact us.";
+      default:
+        return undefined;
+    }
   };
 
   validateEmail = email => {
@@ -112,21 +101,14 @@ class Signup extends Component {
     return !isValid ? "Please provide your first and last name." : undefined;
   };
 
-  validateInvite = invite => {
-    const isValid = invite.length > 0;
-    return !isValid
-      ? "Invitations are required during the early access period. Please provide a valid invite phrase."
-      : undefined;
-  };
-
   validatePassword = password => {
-    const isValid = password.length >= 8;
+    const isValid = password.match(/(?=.*\d)(?=.*[a-zA-Z]).{8,}/i);
     return !isValid
       ? "Short passwords are easy to guess. Try one with at least 8 characters."
       : undefined;
   };
 
-  debounceValidateFields = (name, value) => debounce(this.validateFields(name, value), 500);
+  debounceValidateFields = (name, value) => debounce(this.validateFields(name, value), 1000);
 
   validateFields = (fieldName, value) => {
     switch (fieldName) {
@@ -145,18 +127,13 @@ class Signup extends Component {
           errors: { ...errors, password: this.validatePassword(value) },
         }));
         break;
-      case "invite":
-        this.setState(({ errors }) => ({
-          errors: { ...errors, invite: this.validateInvite(value) },
-        }));
-        break;
       default:
         break;
     }
   };
 
   render() {
-    const { name, email, invite, errors } = this.state;
+    const { name, email, errors } = this.state;
     return (
       <div className="signup-page">
         <div className="container mt-5">
@@ -165,28 +142,6 @@ class Signup extends Component {
               <h1 className="h4 mb-3 text-center">Create an account</h1>
               <Form error={!!errors.form}>
                 <Message error content={errors.form} />
-                <div className="border rounded p-3 mb-3">
-                  <Form.Field>
-                    <label style={{ fontWeight: "bold", fontSize: "1.2em" }}>Invite phrase</label>
-                    <input
-                      value={invite}
-                      onBlur={this.onBlur}
-                      onChange={this.onChange}
-                      className={cx({ "border-danger": errors.invite })}
-                      placeholder="eg. ethanol mongeese guiro"
-                      name="invite"
-                      type="text"
-                      size="large"
-                      autoFocus
-                      required
-                    />
-                    <small className="text-secondary" style={{ fontSize: "12px" }}>
-                      An invite code is required to join. Get an invite by signing up for early
-                      access.
-                    </small>
-                    {errors.invite && <FieldError label={errors.invite} />}
-                  </Form.Field>
-                </div>
                 <Form.Field>
                   <label>Full name</label>
                   <input

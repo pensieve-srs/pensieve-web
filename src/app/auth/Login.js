@@ -78,7 +78,7 @@ class Login extends Component {
       : undefined;
   };
 
-  debounceValidateFields = (name, value) => debounce(this.validateFields(name, value), 500);
+  debounceValidateFields = (name, value) => debounce(this.validateFields(name, value), 1000);
 
   validateFields = (fieldName, value) => {
     switch (fieldName) {
