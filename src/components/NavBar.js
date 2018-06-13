@@ -49,7 +49,7 @@ class NavBar extends Component {
                   direction="left"
                   trigger={
                     <Image
-                      style={{ height: "36px", width: "36px", margin: "0" }}
+                      style={{ height: "28px", width: "28px", margin: "0" }}
                       src={gravatar.url(email, { d: "retro" })}
                       avatar
                     />

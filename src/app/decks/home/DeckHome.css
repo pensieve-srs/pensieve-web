@@ -16,3 +16,28 @@
 .ui.tabular.menu .active.item .octicon {
   fill: rgba(0, 0, 0, 0.9);
 }
+
+.ui.tabular.menu .item {
+  font-size: 0.8em;
+}
+
+@media (max-width: 768px) {
+  .deck-tabs {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .deck-tabs .ui.bottom {
+    padding-left: 1em;
+    padding-right: 1em;
+    border-radius: 0;
+    border-right: 0;
+    border-left: 0;
+  }
+}
+
+@media (min-width: 768px) {
+  .ui.tabular.menu .item {
+    font-size: 1em;
+  }
+}

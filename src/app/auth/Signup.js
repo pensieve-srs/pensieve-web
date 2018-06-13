@@ -1,111 +1,192 @@
 import React, { Component } from "react";
-import queryString from "query-string";
-import { Link } from "react-router-dom";
-import { Button, Form, Input } from "semantic-ui-react";
+import cx from "classnames";
 import cookie from "js-cookie";
+import debounce from "debounce";
+import { Link } from "react-router-dom";
+import { Button, Form, Message } from "semantic-ui-react";
 
-import withErrors from "../../helpers/withErrors";
 import isAuthenticated from "../../helpers/isAuthenticated";
 
 import * as api from "./authActions";
+import * as GA from "../../helpers/GoogleAnalytics";
 
-import { logSignupEvent } from "../../helpers/GoogleAnalytics";
+import FieldError from "./FieldError";
 
 class Signup extends Component {
-  state = { email: "", password: "", name: "", invite: "" };
+  state = {
+    email: "",
+    password: "",
+    name: "",
+    invite: "",
+    errors: {
+      email: undefined,
+      password: undefined,
+      name: undefined,
+      form: undefined,
+    },
+  };
 
   componentWillMount() {
-    const { location } = this.props;
-    const params = queryString.parse(location.search);
-    if (params.invite) {
-      this.setState({ invite: params.invite });
-    }
     if (isAuthenticated()) {
       this.props.history.push("/");
     }
   }
 
-  onChange = e => this.setState({ [e.target.name]: e.target.value });
+  onBlur = event => this.validateFields(event.target.name, event.target.value);
+
+  onChange = event => {
+    const { name, value } = event.target;
+    this.setState(() => ({ [name]: value }), () => this.debounceValidateFields(name, value));
+  };
 
   onSubmit = event => {
     event.preventDefault();
-    const { email, password, name, invite } = this.state;
-    api.signupUser({ email, password, name, invite }).then(
-      response => {
-        logSignupEvent(response.data.user._id);
-        cookie.set("token", response.headers.authorization);
-        cookie.set("user", response.data.user);
+    const { email, password, name } = this.state;
 
-        this.props.history.push("/decks");
+    this.setState(
+      {
+        errors: {
+          ...this.state.errors,
+          email: this.validateEmail(email),
+          password: this.validatePassword(password),
+          name: this.validateName(name),
+        },
       },
-      error => {
-        if (error.response.status === 400) {
-          this.props.onError("Oops, it does not look like that is a valid sign up");
-        }
-      },
+      () => this.signupUser({ email, password, name }),
     );
   };
 
+  signupUser = ({ email, password, name, invite }) => {
+    const { errors } = this.state;
+    if (!errors.email && !errors.password && !errors.name && !errors.invite) {
+      api.signupUser({ email, password, name, invite }).then(
+        response => {
+          GA.logSignupEvent(response.data.user._id);
+          cookie.set("token", response.headers.authorization);
+          cookie.set("upenser", response.data.user);
+
+          this.props.history.push("/decks");
+        },
+        error => this.handleError(error),
+      );
+    }
+  };
+
+  handleError = error => {
+    const { response = {} } = error;
+    const message = this.getErrorResponse(response.status);
+    this.setState({ errors: { ...this.state.errors, form: message } });
+  };
+
+  getErrorResponse = status => {
+    switch (status) {
+      case 409:
+        return "User already exists. Please login instead.";
+      case 400:
+        return "Unable to create an account with these fields.";
+      case 500:
+        return "Something happened to your request. Please try again or contact us.";
+      default:
+        return undefined;
+    }
+  };
+
+  validateEmail = email => {
+    const isValid = email.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i);
+    return !isValid ? "Please enter a valid email." : undefined;
+  };
+
+  validateName = name => {
+    const isValid = name.length > 0;
+    return !isValid ? "Please provide your first and last name." : undefined;
+  };
+
+  validatePassword = password => {
+    const isValid = password.match(/(?=.*\d)(?=.*[a-zA-Z]).{8,}/i);
+    return !isValid
+      ? "Short passwords are easy to guess. Try one with at least 8 characters."
+      : undefined;
+  };
+
+  debounceValidateFields = (name, value) => debounce(this.validateFields(name, value), 1000);
+
+  validateFields = (fieldName, value) => {
+    switch (fieldName) {
+      case "email":
+        this.setState(({ errors }) => ({
+          errors: { ...errors, email: this.validateEmail(value) },
+        }));
+        break;
+      case "name":
+        this.setState(({ errors }) => ({
+          errors: { ...errors, name: this.validateName(value) },
+        }));
+        break;
+      case "password":
+        this.setState(({ errors }) => ({
+          errors: { ...errors, password: this.validatePassword(value) },
+        }));
+        break;
+      default:
+        break;
+    }
+  };
+
   render() {
-    const { name, email, invite } = this.state;
+    const { name, email, errors } = this.state;
     return (
       <div className="signup-page">
         <div className="container mt-5">
           <div className="row">
             <div className="col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-6 offset-lg-3">
               <h1 className="h4 mb-3 text-center">Create an account</h1>
-              <Form>
-                <div className="border rounded p-3 mb-3">
-                  <Form.Field>
-                    <label style={{ fontWeight: "bold", fontSize: "1.2em" }}>Invite phrase</label>
-                    <Input
-                      value={invite}
-                      placeholder={`eg. ethanol mongeese guiro`}
-                      onChange={this.onChange}
-                      name="invite"
-                      type="text"
-                      size="large"
-                      autoFocus
-                      focus
-                    />
-                    <small className="text-secondary">
-                      An invite code is required to join. Get an invite by signing up for early
-                      access.
-                    </small>
-                  </Form.Field>
-                </div>
+              <Form error={!!errors.form}>
+                <Message error content={errors.form} />
                 <Form.Field>
-                  <label>Name</label>
-                  <Input
+                  <label>Full name</label>
+                  <input
                     value={name}
+                    onBlur={this.onBlur}
                     onChange={this.onChange}
                     name="name"
                     type="text"
-                    required
-                    placeholder="What should we call you?"
                     autoComplete="name"
+                    placeholder="What should we call you?"
+                    className={cx({ "border-danger": errors.name })}
+                    required
                   />
+                  {errors.name && <FieldError label={errors.name} />}
                 </Form.Field>
                 <Form.Field>
                   <label>Email</label>
-                  <Input
+                  <input
                     value={email}
+                    onBlur={this.onBlur}
                     onChange={this.onChange}
                     name="email"
                     type="email"
-                    placeholder="you@your-domain.com"
                     autoComplete="email"
+                    placeholder="you@your-domain.com"
+                    className={cx({ "border-danger": errors.email })}
+                    required
                   />
+                  {errors.email && <FieldError label={errors.email} />}
                 </Form.Field>
                 <Form.Field>
                   <label>Password</label>
-                  <Input
+                  <input
+                    onBlur={this.onBlur}
                     onChange={this.onChange}
                     name="password"
                     type="password"
-                    placeholder="Shh! Keep this a secret."
                     autoComplete="current-password"
+                    placeholder="Shh! Keep this a secret."
+                    className={cx({ "border-danger": errors.password })}
                   />
+                  <small className="text-secondary" style={{ fontSize: "12px" }}>
+                    Use at least one letter, one numeral, and eight characters.
+                  </small>
+                  {errors.password && <FieldError label={errors.password} />}
                 </Form.Field>
                 <Button className="mt-4" onClick={this.onSubmit} type="submit" primary fluid>
                   Join
@@ -128,4 +209,4 @@ class Signup extends Component {
   }
 }
 
-export default withErrors(Signup);
+export default Signup;
