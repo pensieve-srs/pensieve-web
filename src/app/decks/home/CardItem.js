@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import marked from "marked";
 import PropTypes from "prop-types";
 import { withRouter } from "react-router";
 
@@ -44,9 +45,19 @@ class CardItem extends Component {
         />
         <div className="row">
           <div className="col-9 col-sm-10 d-flex flex-column flex-md-row">
-            <span className="col-md-5 py-1">{card.front}</span>
+            <span className="col-md-5 py-1">
+              <div
+                className="markdown-body"
+                dangerouslySetInnerHTML={{ __html: marked(card.front) }}
+                style={{ fontSize: "1em" }}
+              />
+            </span>
             <span className="d-none d-sm-block font-weight-bold col-md-7 mt-2 mt-md-0 py-1">
-              {card.back}
+              <div
+                className="markdown-body"
+                dangerouslySetInnerHTML={{ __html: marked(card.back) }}
+                style={{ fontSize: "1em" }}
+              />
             </span>
           </div>
           <div className="col-3 col-sm-2 pl-0">
