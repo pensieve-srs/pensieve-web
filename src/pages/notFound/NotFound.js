@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 class NotFound extends Component {
   render() {
     return (
-      <div className="container mt-5">
+      <div className="container mt-5 pt-5">
         <div className="col-md-8 offset-md-2 text-center">
           <span style={{ fontSize: "80px" }} className="font-weight-bold">
             404

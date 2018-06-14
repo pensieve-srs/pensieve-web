@@ -7,6 +7,7 @@ import * as api from "../deckActions";
 import * as cardApi from "../../cards/cardActions";
 import withErrors from "../../../helpers/withErrors";
 import { ProgressBar } from "../../../components";
+import { NotFound } from "../../../pages";
 import { SettingsTab, CardsTab, OverviewTab } from "./tabs";
 
 import {
@@ -116,12 +117,17 @@ class DeckHome extends Component {
     const { response = {} } = error;
     const errorMessage =
       errors[response.status] || "Unable to fulfill request. Please try a valid url or go back.";
+    this.setState({ isError: true });
     this.props.onError(errorMessage);
   };
 
   render() {
-    const { deck, cards, showModalType, isLoading } = this.state;
+    const { deck, cards, showModalType, isLoading, isError } = this.state;
     const numExpiredCards = cards.filter(card => card.recallRate < 0.5).length;
+
+    if (isError) {
+      return <NotFound />;
+    }
 
     return (
       <div className="deck-home mt-4">
