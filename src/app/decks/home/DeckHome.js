@@ -7,6 +7,7 @@ import * as api from "../deckActions";
 import * as cardApi from "../../cards/cardActions";
 import withErrors from "../../../helpers/withErrors";
 import { ProgressBar } from "../../../components";
+import { NotFound } from "../../../pages";
 import { SettingsTab, CardsTab, OverviewTab } from "./tabs";
 
 import {
@@ -17,6 +18,12 @@ import {
 } from "../../../components/modals";
 
 import "./DeckHome.css";
+
+const errors = {
+  400: "Unable to fulfill request. Please try a valid url or go back.",
+  403: "Unable to fulfill request. You might not have access to this deck.",
+  500: "Something happened to your request. Please try again or contact us.",
+};
 
 const Subheader = ({ description }) =>
   description ? (
@@ -61,15 +68,21 @@ class DeckHome extends Component {
   };
 
   fetchDeck = deckId => {
-    api.fetchDeck(deckId).then(response => {
-      this.setState({ deck: response.data, isLoading: false });
-    });
+    api.fetchDeck(deckId).then(
+      response => {
+        this.setState({ deck: response.data, isLoading: false });
+      },
+      error => this.handleError(error),
+    );
   };
 
   fetchCards = deckId => {
-    cardApi.fetchCards(deckId).then(response => {
-      this.setState({ cards: response.data, isLoading: false });
-    });
+    cardApi.fetchCards(deckId).then(
+      response => {
+        this.setState({ cards: response.data, isLoading: false });
+      },
+      error => this.handleError(error),
+    );
   };
 
   editDeck = deck => {
@@ -100,9 +113,21 @@ class DeckHome extends Component {
     });
   };
 
+  handleError = error => {
+    const { response = {} } = error;
+    const errorMessage =
+      errors[response.status] || "Unable to fulfill request. Please try a valid url or go back.";
+    this.setState({ isError: true });
+    this.props.onError(errorMessage);
+  };
+
   render() {
-    const { deck, cards, showModalType, isLoading } = this.state;
+    const { deck, cards, showModalType, isLoading, isError } = this.state;
     const numExpiredCards = cards.filter(card => card.recallRate < 0.5).length;
+
+    if (isError) {
+      return <NotFound />;
+    }
 
     return (
       <div className="deck-home mt-4">
