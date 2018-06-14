@@ -18,6 +18,12 @@ import {
 
 import "./DeckHome.css";
 
+const errors = {
+  400: "Unable to fulfill request. Please try a valid url or go back.",
+  403: "Unable to fulfill request. You might not have access to this deck.",
+  500: "Something happened to your request. Please try again or contact us.",
+};
+
 const Subheader = ({ description }) =>
   description ? (
     <p className="text-secondary h5 font-weight-light mb-2">{description}</p>
@@ -61,15 +67,21 @@ class DeckHome extends Component {
   };
 
   fetchDeck = deckId => {
-    api.fetchDeck(deckId).then(response => {
-      this.setState({ deck: response.data, isLoading: false });
-    });
+    api.fetchDeck(deckId).then(
+      response => {
+        this.setState({ deck: response.data, isLoading: false });
+      },
+      error => this.handleError(error),
+    );
   };
 
   fetchCards = deckId => {
-    cardApi.fetchCards(deckId).then(response => {
-      this.setState({ cards: response.data, isLoading: false });
-    });
+    cardApi.fetchCards(deckId).then(
+      response => {
+        this.setState({ cards: response.data, isLoading: false });
+      },
+      error => this.handleError(error),
+    );
   };
 
   editDeck = deck => {
@@ -98,6 +110,13 @@ class DeckHome extends Component {
     api.deleteDeck(deckId).then(response => {
       this.props.history.push(`/decks`);
     });
+  };
+
+  handleError = error => {
+    const { response = {} } = error;
+    const errorMessage =
+      errors[response.status] || "Unable to fulfill request. Please try a valid url or go back.";
+    this.props.onError(errorMessage);
   };
 
   render() {

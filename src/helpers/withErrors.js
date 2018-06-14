@@ -34,17 +34,17 @@ const withErrors = (ComposedComponent: ElementType) => {
     onError = (message: string) => this.setState({ open: true, message });
 
     render() {
-      const { open, message } = this.state;
+      const { open, message = "" } = this.state;
       return (
         <Fragment>
           {open &&
-          message.length > 0 && (
-            <FlashMessage
-              onDismiss={this.onDismiss}
-              className="App-flashMessage"
-              message={message}
-            />
-          )}
+            message.length > 0 && (
+              <FlashMessage
+                onDismiss={this.onDismiss}
+                className="App-flashMessage"
+                message={message}
+              />
+            )}
           <ComposedComponent {...this.props} onError={this.onError} />
         </Fragment>
       );

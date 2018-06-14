@@ -12,6 +12,12 @@ import * as GA from "../../helpers/GoogleAnalytics";
 
 import FieldError from "./FieldError";
 
+const errors = {
+  409: "User already exists. Please login instead.",
+  400: "Unable to create an account with these fields.",
+  500: "Something happened to your request. Please try again or contact us.",
+};
+
 class Signup extends Component {
   state = {
     email: "",
@@ -63,7 +69,7 @@ class Signup extends Component {
         response => {
           GA.logSignupEvent(response.data.user._id);
           cookie.set("token", response.headers.authorization);
-          cookie.set("upenser", response.data.user);
+          cookie.set("user", response.data.user);
 
           this.props.history.push("/decks");
         },
@@ -74,21 +80,8 @@ class Signup extends Component {
 
   handleError = error => {
     const { response = {} } = error;
-    const message = this.getErrorResponse(response.status);
+    const message = errors[response.status];
     this.setState({ errors: { ...this.state.errors, form: message } });
-  };
-
-  getErrorResponse = status => {
-    switch (status) {
-      case 409:
-        return "User already exists. Please login instead.";
-      case 400:
-        return "Unable to create an account with these fields.";
-      case 500:
-        return "Something happened to your request. Please try again or contact us.";
-      default:
-        return undefined;
-    }
   };
 
   validateEmail = email => {
