@@ -45,10 +45,6 @@ class Settings extends Component {
                 <Menu.Item active={page === PAGE.ACCOUNT} link href="#account">
                   <Icon name="settings" />Account profile
                 </Menu.Item>
-                <Menu.Item active={page === PAGE.NOTIFS} link href="#notifications">
-                  <Icon name="inbox" />
-                  Notifications
-                </Menu.Item>
                 <Menu.Item active={page === PAGE.SECURITY} link href="#security">
                   <Icon name="setting" />
                   Security

@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import marked from "marked";
 import { Dropdown, Divider, Label, Modal, Popup, Icon, Button } from "semantic-ui-react";
 
 import { DeleteCardModal, EditCardModal, ResetCardModal, MODAL_TYPES } from "./index";
@@ -103,7 +104,11 @@ class CardModal extends Component {
           </div>
           <div className="clearfix">
             <div className="px-3 py-5">
-              <span>{card.front}</span>
+              <span
+                className="markdown-body"
+                dangerouslySetInnerHTML={{ __html: marked(card.front) }}
+                style={{ fontSize: "1em" }}
+              />
             </div>
             <Label className="float-right" basic>
               Front
@@ -112,7 +117,11 @@ class CardModal extends Component {
           <Divider />
           <div className="clearfix">
             <div className="px-3 py-5">
-              <span>{card.back}</span>
+              <span
+                className="markdown-body"
+                dangerouslySetInnerHTML={{ __html: marked(card.back) }}
+                style={{ fontSize: "1em" }}
+              />
             </div>
             <Label className="float-right" basic>
               Back

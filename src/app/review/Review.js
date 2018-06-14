@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import marked from "marked";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import {
@@ -174,6 +175,9 @@ class Review extends Component {
     const card = cards[index];
     const { deck } = card;
     const cardContent = showFront ? card.front : card.back;
+    const isMultiLine = /\n/.test(cardContent);
+
+    console.log("isMultiLine", isMultiLine);
 
     return (
       <div className="review-container mt-4">
@@ -226,9 +230,14 @@ class Review extends Component {
                   {deck.title}
                 </Label>
                 <Label attached="bottom right">{showFront ? "Front" : "Back"}</Label>
-                <div className="my-5 mx-3 d-flex align-items-center" style={{ flex: 1 }}>
-                  <Header as="h2" className="text-center">
-                    {isLoading ? "Loading cards..." : cardContent}
+                <div className="my-5 mx-3 d-flex align-items-center w-100" style={{ flex: 1 }}>
+                  <Header as="h2" className={isMultiLine ? "text-left w-100" : "text-center w-100"}>
+                    <div
+                      className="markdown-body"
+                      dangerouslySetInnerHTML={{
+                        __html: marked(isLoading ? "Loading cards..." : cardContent),
+                      }}
+                    />
                   </Header>
                 </div>
                 {!showFront &&
