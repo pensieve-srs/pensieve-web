@@ -86,7 +86,8 @@ class DeckHome extends Component {
   };
 
   editDeck = deck => {
-    api.editDeck(deck).then(response => {
+    const tags = deck.tags.map(el => el._id || el);
+    api.editDeck({ ...deck, tags }).then(response => {
       this.setState({ deck: response.data });
     });
   };

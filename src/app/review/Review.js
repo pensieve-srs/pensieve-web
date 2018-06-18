@@ -177,8 +177,6 @@ class Review extends Component {
     const cardContent = showFront ? card.front : card.back;
     const isMultiLine = /\n/.test(cardContent);
 
-    console.log("isMultiLine", isMultiLine);
-
     return (
       <div className="review-container mt-4">
         <DeleteCardModal
