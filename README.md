@@ -11,9 +11,39 @@ This project contains the web application for Pensieve providing the interface t
 Clone this project and update path accordingly:
 
 ```sh
-$ git clone git@github.com:pensieve-srs/pensieve-web.git
-$ cd pensieve-web/
+git clone git@github.com:pensieve-srs/pensieve-web.git
+cd pensieve-web/
 ```
+
+Install the dependencies:
+
+```sh
+yarn install
+```
+
+Note: if you don't have `yarn` installed, feel free to use `npm`.
+
+Copy the `.env.example` and update the variables to your settings:
+
+```sh
+cp .env.example .env.development.local
+```
+
+Make sure you have an API server running, either locally or on a server. The
+API server repository is here:
+[https://github.com/pensieve-srs/pensieve-api](https://github.com/pensieve-srs/pensieve-api).
+The default server url is `localhost:5000` but feel free to modify.
+
+Finally, run the app in development mode:
+
+```sh
+yarn start
+```
+
+Open [http://localhost:3000/](http://localhost:3000/) to view it in the browser.
+
+Go to [http://localhost:3000/signup](http://localhost:3000/signup) to create an
+account and get started.
 
 ## Contributing
 
