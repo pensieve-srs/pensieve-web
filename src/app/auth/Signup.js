@@ -42,7 +42,7 @@ class Signup extends Component {
 
   onChange = event => {
     const { name, value } = event.target;
-    this.setState(() => ({ [name]: value }), () => this.debounceValidateFields(name, value));
+    this.setState(() => ({ [name]: value }), () => this.state.errors[name] && this.debounceValidateFields(name, value));
   };
 
   onSubmit = event => {
@@ -95,10 +95,18 @@ class Signup extends Component {
   };
 
   validatePassword = password => {
-    const isValid = password.match(/(?=.*\d)(?=.*[a-zA-Z]).{8,}/i);
-    return !isValid
-      ? "Short passwords are easy to guess. Try one with at least 8 characters."
-      : undefined;
+    const minLength = 8;
+    const hasOneDigit = /(?=.*\d)/;
+    const hasOneLetter = /(?=.*[a-zA-Z])/i;
+    if (password.length < minLength) {
+      return "Use at least 8 characters. Short passwords are easy to guess.";
+    } else if (!hasOneDigit.test(password)) {
+      return "Use at least 1 number in your password.";
+    } else if (!hasOneLetter.test(password)) {
+      return "Use at least 1 letter in your password.";
+    } else {
+      return;
+    }
   };
 
   debounceValidateFields = (name, value) => debounce(this.validateFields(name, value), 1000);
