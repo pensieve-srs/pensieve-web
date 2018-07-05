@@ -9,6 +9,11 @@ import isAuthenticated from "../../helpers/isAuthenticated";
 import * as api from "./authActions";
 import FieldError from "./FieldError";
 
+const errors = {
+  400: "These credentials do not match our records.",
+  500: "Something happened to your request. Please try again or contact us.",
+};
+
 class Login extends Component {
   state = {
     email: "",
@@ -61,8 +66,8 @@ class Login extends Component {
   };
 
   handleError = error => {
-    const isInvalidUser = error.response && error.response.status === 400;
-    const message = isInvalidUser ? "These credentials do not match our records." : undefined;
+    const { response = {} } = error;
+    const message = errors[response.status];
     this.setState({ errors: { ...this.state.errors, form: message } });
   };
 
