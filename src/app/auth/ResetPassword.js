@@ -61,7 +61,7 @@ class ResetPassword extends Component {
     if (!errors.newPassword && !errors.verifyPassword) {
       api.resetPassword({ token, newPassword, verifyPassword }).then(
         response => {
-          this.setState({ isSuccess: true });
+          this.setState({ isSuccess: true, errors: { ...this.state.errors, form: "" } });
         },
         error => this.handleError(error),
       );
