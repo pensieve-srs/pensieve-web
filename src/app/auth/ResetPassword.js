@@ -20,6 +20,7 @@ class ResetPassword extends Component {
     verifyPassword: "",
     resetToken: "",
     errors: { newPassword: undefined, verifyPassword: undefined, form: undefined },
+    isSuccess: false,
   };
 
   componentWillMount() {
@@ -60,7 +61,7 @@ class ResetPassword extends Component {
     if (!errors.newPassword && !errors.verifyPassword) {
       api.resetPassword({ token, newPassword, verifyPassword }).then(
         response => {
-          console.log("response", response);
+          this.setState({ isSuccess: true });
         },
         error => this.handleError(error),
       );
@@ -109,14 +110,15 @@ class ResetPassword extends Component {
   };
 
   render() {
-    const { errors } = this.state;
+    const { errors, isSuccess } = this.state;
     return (
-      <div className="login-page">
+      <div className="reset-page">
         <div className="container mt-5">
           <div className="row">
             <div className="col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-6 offset-lg-3">
               <h1 className="h4 mb-3 text-center">Reset Password</h1>
-              <Form error={!!errors.form}>
+              <Form error={!!errors.form} success={isSuccess}>
+                <Message success content="Thank you! Your password has been reset." />
                 <Message error content={errors.form} />
                 <Form.Field>
                   <input hidden type="email" autoComplete="username" />
