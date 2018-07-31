@@ -12,27 +12,24 @@ class Landing extends Component {
     return (
       <div className="landing-page">
         <div className="landing-hero py-5 px-2">
-          <Container textAlign="center">
-            <div className="pb-5 mb-5 mt-3">
-              <Header inverted className="mb-4">
-                <Header.Content style={{ fontSize: "34px", lineHeight: "1em" }}>
-                  Improve your memory
+          <Container textAlign="left" className="d-flex">
+            <div className="my-auto w-100">
+              <Header inverted className="mb-5">
+                <Header.Content style={{ fontSize: "32px", lineHeight: "1em" }}>
+                  Spaced Repetition Flashcards
                 </Header.Content>
                 <Header.Subheader
-                  className="my-3 mx-auto"
+                  className="my-3"
                   as="h2"
-                  style={{ maxWidth: "550px", fontSize: "18px" }}
+                  style={{ maxWidth: "500px", fontSize: "22px" }}
                 >
-                  Pensieve uses smarter flashcards with spaced repetition to help you conquer your
-                  memory
+                  A scheduling tool for smarter flashcards to keep your memories sharp.
                 </Header.Subheader>
               </Header>
-              <div className="text-center d-table mr-auto ml-auto">
-                <BetaListForm inverted />
-              </div>
+              <BetaListForm inverted />
             </div>
             <Responsive minWidth={768}>
-              <div style={{ marginBottom: "-300px" }}>
+              <div className="ml-5" style={{ marginRight: "-150px" }}>
                 <Image centered src={require("./web_mobile.png")} />
               </div>
             </Responsive>
@@ -52,7 +49,7 @@ class Landing extends Component {
                   When you are learning, 80% of what you hear, read, and write will be forgotten
                   tomorrow. Practice and repetition will help you remember anything you want to
                   learn. Practice too soon though and you have wasted your time. Practice too late
-                  and you've forgotten the material and have to relearn it. {" "}
+                  and you've forgotten the material and have to relearn it.{" "}
                   <strong>
                     With Pensieve, you review at the perfect time so you spend less effort to learn
                     what you want to remember.
