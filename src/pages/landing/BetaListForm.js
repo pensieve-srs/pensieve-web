@@ -13,7 +13,7 @@ class BetaListForm extends Component {
         {!this.state.showCTA ? (
           <Button
             onClick={() => this.setState({ showCTA: true })}
-            className={cx({ "btn-light": inverted })}
+            className={cx("btn-cta", { "btn-light": inverted })}
             size="large"
             primary={!inverted}
           >
@@ -36,7 +36,7 @@ class BetaListForm extends Component {
                 onChange={e => this.setState({ email: e.target.value })}
                 value={this.state.email}
                 name="EMAIL"
-                className="email"
+                className="email rounded-0"
                 id="mce-EMAIL"
                 label="Sign up for the beta with your email"
                 placeholder="Email address"
@@ -50,7 +50,7 @@ class BetaListForm extends Component {
                   value=""
                 />
               </div>
-              <div className="d-flex align-items-end ml-2">
+              <div className="d-flex align-items-end ml-1">
                 <Button
                   className={cx({ "btn-light": inverted })}
                   type="submit"

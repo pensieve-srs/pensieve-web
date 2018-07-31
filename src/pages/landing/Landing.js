@@ -12,49 +12,48 @@ class Landing extends Component {
     return (
       <div className="landing-page">
         <div className="landing-hero py-5 px-2">
-          <Container textAlign="left" className="d-flex">
-            <div className="my-auto w-100">
+          <Container textAlign="left" className="d-flex flex-column flex-md-row">
+            <div className="hero-text my-auto col-md-5 mr-5 py-5">
               <Header inverted className="mb-5">
                 <Header.Content style={{ fontSize: "32px", lineHeight: "1em" }}>
                   Spaced Repetition Flashcards
                 </Header.Content>
-                <Header.Subheader
-                  className="my-3"
-                  as="h2"
-                  style={{ maxWidth: "500px", fontSize: "22px" }}
-                >
-                  A scheduling tool for smarter flashcards to keep your memories sharp.
+                <Header.Subheader className="my-3" as="h2" style={{ fontSize: "22px" }}>
+                  A scheduling tool for smarter flashcards to keep your memories sharp
                 </Header.Subheader>
               </Header>
               <BetaListForm inverted />
             </div>
-            <Responsive minWidth={768}>
-              <div className="ml-5" style={{ marginRight: "-150px" }}>
-                <Image centered src={require("./web_mobile.png")} />
-              </div>
+            <Responsive minWidth={768} className="col-md-7" style={{ minWidth: "1000px" }}>
+              <Image centered src={require("./web_mobile.png")} />
             </Responsive>
             <Responsive className="text-center" maxWidth={767}>
-              <Image style={{ marginBottom: "-270px" }} centered src={require("./mobile.png")} />
+              <Image
+                centered
+                style={{ marginBottom: "-270px", maxWidth: "300px" }}
+                src={require("./mobile.png")}
+              />
             </Responsive>
           </Container>
         </div>
-        <div className="landing-howItWorks bg-white py-5">
-          <div className="container py-5 my-4">
-            <div className="row">
-              <div className="col-sm-10 offset-sm-1 col-md-8 offset-md-2">
-                <Header as="h2" textAlign="center" size="large" className="mb-4">
+        <div className="landing-howItWorks bg-white">
+          <div className="container">
+            <div className="row d-flex flex-column flex-md-row align-content-center">
+              <div className="info-text col-md-5 py-4">
+                <Header as="h2" size="large" className="text-uppercase mb-2 text-blue">
                   Use it or lose it
                 </Header>
-                <p className="lead text-dark text-center">
-                  When you are learning, 80% of what you hear, read, and write will be forgotten
-                  tomorrow. Practice and repetition will help you remember anything you want to
-                  learn. Practice too soon though and you have wasted your time. Practice too late
-                  and you've forgotten the material and have to relearn it.{" "}
-                  <strong>
-                    With Pensieve, you review at the perfect time so you spend less effort to learn
-                    what you want to remember.
-                  </strong>
+                <p className="lead text-dark">
+                  80% of what you hear, read, and write will be forgotten tomorrow. Repetition will
+                  help you remember anything you want to learn.{" "}
+                  <span className="font-weight-medium">
+                    Pensieve allows you to practice at the perfect time so you spend less effort to
+                    learn what you want.
+                  </span>
                 </p>
+              </div>
+              <div className="col-md-7 my-auto">
+                <Image centered src={require("./graph.png")} />
               </div>
             </div>
           </div>
@@ -97,8 +96,8 @@ class Landing extends Component {
                 </Header>
                 <p className="lead text-dark mx-2 text-center">
                   Pensieve is for developers, language learners, and book readers that are tired of
-                  forgetting information after just learning it. Pensieve takes the frustration out
-                  of remembering so you hold on to critical information longer.
+                  forgetting information after just learning it. Pensieve gives you control of your
+                  memory so you hold on to critical information longer.
                 </p>
                 <h4 className="text-center text-dark mt-5 pt-3 mb-3">
                   Improve your memory for free
