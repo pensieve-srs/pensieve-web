@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Container, Grid, Header, Image, Label, Responsive } from "semantic-ui-react";
+import { Container, Grid, Header, Image, Responsive } from "semantic-ui-react";
 
 import BetaListForm from "./BetaListForm";
 
@@ -38,7 +38,7 @@ class Landing extends Component {
             </Responsive>
           </Container>
         </div>
-        <div className="landing-howItWorks border bg-white border-bottom py-5">
+        <div className="landing-howItWorks bg-white py-5">
           <div className="container py-5 my-4">
             <div className="row">
               <div className="col-sm-10 offset-sm-1 col-md-8 offset-md-2">
@@ -59,66 +59,46 @@ class Landing extends Component {
             </div>
           </div>
         </div>
-        <div className="landing-box py-5">
-          <div className="container my-5 py-3">
-            <Header as="h2" textAlign="center" size="large" className="mb-4">
-              How it works
-            </Header>
+        <div className="landing-box">
+          <div className="container">
             <Grid columns={3} padded relaxed stackable>
               <Grid.Row>
                 <Grid.Column>
-                  <Header as="h3" className="mb-2">
-                    <Label color="grey" size="large" className="ml-0 mr-2">
-                      1
-                    </Label>Create your cards
-                  </Header>
-                  <p className="text-secondary">
-                    Collect the information you want to learn and input them in our system as
-                    flashcards. We keep these organized for you and will predict the card strength
-                    in your memory over time.
-                  </p>
+                  <div className="border-box p-3 mx-3">
+                    <Header as="h3" className="text-uppercase">
+                      Supplement your learning
+                    </Header>
+                  </div>
                 </Grid.Column>
                 <Grid.Column>
-                  <Header as="h3" className="mb-2">
-                    <Label color="grey" size="large" className="ml-0 mr-2">
-                      2
-                    </Label>Get notified
-                  </Header>
-                  <p className="text-secondary">
-                    Your recall ability of these cards will decrease constantly as you start to
-                    forget them. We will estimate the best time to review them and let you know when
-                    you should study them again.
-                  </p>
+                  <div className="border-box p-3 mx-3">
+                    <Header as="h3" className="text-uppercase">
+                      Boost your professional expertise
+                    </Header>
+                  </div>
                 </Grid.Column>
                 <Grid.Column>
-                  <Header as="h3" className="mb-2">
-                    <Label color="grey" size="large" className="ml-0 mr-2">
-                      3
-                    </Label>Review your cards
-                  </Header>
-                  <p className="text-secondary m-0">
-                    Once your cards expired, you will need to study them again, telling us how well
-                    you remember them. The harder a card is to remember, the sooner you will see it
-                    again.
-                  </p>
+                  <div className="border-box p-3 mx-3">
+                    <Header as="h3" className="text-uppercase">
+                      Keep your memories sharp
+                    </Header>
+                  </div>
                 </Grid.Column>
               </Grid.Row>
             </Grid>
           </div>
         </div>
-        <div className="landing-info border py-5">
-          <div className="container py-5">
+        <div className="landing-info">
+          <div className="container">
             <div className="row">
               <div className="col-sm-10 offset-sm-1 col-md-8 offset-md-2">
-                <Header as="h2" textAlign="center" size="large" className="mb-4">
-                  Pensieve is for people who want to learn better
+                <Header as="h2" textAlign="center" size="large" className="mb-2">
+                  For people who want to learn better
                 </Header>
                 <p className="lead text-dark mx-2 text-center">
-                  Pensieve is for students, language learners, and lifelong learners that are tired
-                  of forgetting information after just learning it. It is for people that don't have
-                  time to review their notes everyday. It can be used for anything you want to
-                  remember: <strong>languages</strong>, <strong>medical terms</strong>,{" "}
-                  <strong>books</strong>, or even <strong>friend's names</strong>.
+                  Pensieve is for developers, language learners, and book readers that are tired of
+                  forgetting information after just learning it. Pensieve takes the frustration out
+                  of remembering so you hold on to critical information longer.
                 </p>
                 <h4 className="text-center text-dark mt-5 pt-3 mb-3">
                   Improve your memory for free

@@ -7,9 +7,11 @@
   text-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
 }
 
-.landing-page .nav-link {
-  color: white;
-  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
+.navbar-landing .nav-link {
+  color: white !important;
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.05);
+  text-transform: uppercase;
+  font-size: 12px;
 }
 
 .landing-hero {
@@ -69,9 +71,6 @@
   width: 525px !important;
 }
 
-.landing-info {
-  background: #ffffff;
-}
 .landing-howItWorks strong,
 .landing-info strong {
   font-weight: 600;
@@ -80,16 +79,31 @@
   padding: 10px 15px;
 }
 
+.landing-box {
+  background: #e4efff;
+  padding: 115px 0;
+}
+
+.landing-box .border-box {
+  border: 5px solid #0365d6;
+  height: 240px;
+}
+
+.landing-box .border-box .ui.header {
+  color: #0365d6 !important;
+  font-size: 24px;
+}
+
+.landing-info .ui.header {
+  color: #0365d6 !important;
+}
+
+.landing-info {
+  background: #ffffff;
+  padding: 115px 0;
+}
 .landing-info .lead {
+  font-size: 1.5em;
   line-height: 1.8em;
-}
-
-.landing-footer {
-  background: #1574fb;
-  color: white !important;
-}
-
-.landing-footer a {
-  color: white;
-  text-decoration: underline;
+  font-weight: 300;
 }
