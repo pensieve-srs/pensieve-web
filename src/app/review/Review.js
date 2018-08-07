@@ -74,7 +74,7 @@ class Review extends Component {
     isLoading: true,
   };
 
-  componentWillMount = () => {
+  componentDidMount = () => {
     const { sessionId } = this.props.match.params;
 
     if (sessionId) {

@@ -4,10 +4,9 @@ import debounce from "debounce";
 import queryString from "query-string";
 import { Button, Form, Message } from "semantic-ui-react";
 
-import isAuthenticated from "../../helpers/isAuthenticated";
-
 import * as api from "./authActions";
 import FieldError from "./FieldError";
+import handleErrors from "../../helpers/handleErrors";
 
 const errors = {
   400: "These credentials do not match our records.",
@@ -18,18 +17,15 @@ class ResetPassword extends Component {
   state = {
     newPassword: "",
     verifyPassword: "",
-    resetToken: "",
     errors: { newPassword: undefined, verifyPassword: undefined, form: undefined },
     isSuccess: false,
   };
 
-  componentWillMount() {
-    if (isAuthenticated()) {
-      this.props.history.push("/");
-    }
+  constructor(props) {
+    super(props);
     const { token } = queryString.parse(this.props.location.search);
-    if (token) {
-      this.setState({ resetToken: token });
+    if (!token) {
+      this.props.history.push('/');
     }
   }
 
@@ -42,7 +38,8 @@ class ResetPassword extends Component {
 
   onSubmit = event => {
     event.preventDefault();
-    const { resetToken, newPassword, verifyPassword } = this.state;
+    const { newPassword, verifyPassword } = this.state;
+    const { token: resetToken } = queryString.parse(this.props.location.search);
 
     this.setState(
       {
@@ -68,11 +65,7 @@ class ResetPassword extends Component {
     }
   };
 
-  handleError = error => {
-    const { response = {} } = error;
-    const message = errors[response.status];
-    this.setState({ errors: { ...this.state.errors, form: message } });
-  };
+  handleError = error => this.setState({ errors: { ...this.state.errors, form: handleErrors(error, errors) } });
 
   validatePassword = password => {
     const isValid = password.length >= 8;

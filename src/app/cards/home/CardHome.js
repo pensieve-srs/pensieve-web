@@ -39,7 +39,7 @@ class CardHome extends Component {
     showModalType: undefined,
   };
 
-  componentWillMount() {
+  componentDidMount() {
     const { cardId } = this.props.match.params;
 
     if (cardId) {

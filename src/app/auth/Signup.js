@@ -5,12 +5,11 @@ import debounce from "debounce";
 import { Link } from "react-router-dom";
 import { Button, Form, Message } from "semantic-ui-react";
 
-import isAuthenticated from "../../helpers/isAuthenticated";
-
 import * as api from "./authActions";
 import * as GA from "../../helpers/GoogleAnalytics";
 
 import FieldError from "./FieldError";
+import handleErrors from "../../helpers/handleErrors";
 
 const errors = {
   409: "User already exists. Please login instead.",
@@ -31,12 +30,6 @@ class Signup extends Component {
       form: undefined,
     },
   };
-
-  componentWillMount() {
-    if (isAuthenticated()) {
-      this.props.history.push("/");
-    }
-  }
 
   onBlur = event => this.validateFields(event.target.name, event.target.value);
 
@@ -78,11 +71,7 @@ class Signup extends Component {
     }
   };
 
-  handleError = error => {
-    const { response = {} } = error;
-    const message = errors[response.status];
-    this.setState({ errors: { ...this.state.errors, form: message } });
-  };
+  handleError = error => this.setState({ errors: { ...this.state.errors, form: handleErrors(error, errors) } });
 
   validateEmail = email => {
     const isValid = email.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i);

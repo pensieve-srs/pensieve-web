@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 
 import { Landing, NotFound, ComingSoon } from "../pages";
-import { Signup, Login, Logout, ReqAuth, ResetPassword } from "./auth";
+import { Signup, Login, Logout, ReqAuth, ResetPassword, AlreadyAuth } from "./auth";
 import { Decks, DeckHome, DeckNew } from "./decks";
 import Settings from "./settings/Settings";
 import CardHome from "./cards/home/CardHome";
@@ -24,10 +24,10 @@ class App extends Component {
             <Route path="/" component={GoogleAnalytics} />
             <Switch>
               <Route exact path="/" component={Landing} />
-              <Route path="/login" component={Login} />
+              <Route path="/login" component={AlreadyAuth(Login)} />
               <Route path="/logout" component={Logout} />
-              <Route path="/signup" component={Signup} />
-              <Route path="/reset-password" component={ResetPassword} />
+              <Route path="/signup" component={AlreadyAuth(Signup)} />
+              <Route path="/reset-password" component={AlreadyAuth(ResetPassword)} />
 
               <Route path="/settings" component={ReqAuth(Settings)} />
               <Route exact path="/decks" component={ReqAuth(Decks)} />

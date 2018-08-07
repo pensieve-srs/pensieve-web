@@ -49,7 +49,7 @@ type State = {
 class Decks extends Component<Props, State> {
   state = { decks: [], filter: "", isLoading: true };
 
-  componentWillMount = () => {
+  componentDidMount = () => {
     this.fetchDecks();
   };
 

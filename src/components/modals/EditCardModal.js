@@ -5,9 +5,9 @@ import { Button, Form, Modal, TextArea, Input } from "semantic-ui-react";
 class EditCardModal extends Component {
   state = { card: this.props.card };
 
-  componentWillUpdate(nextProps) {
-    if (this.props.card !== nextProps.card) {
-      this.setState({ card: nextProps.card });
+  componentDidUpdate(prevProps) {
+    if (this.props.card !== prevProps.card) {
+      this.setState({ card: this.props.card });
     }
   }
 
