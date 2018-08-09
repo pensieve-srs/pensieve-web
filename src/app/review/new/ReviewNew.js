@@ -7,7 +7,7 @@ import withErrors from "../../../helpers/withErrors";
 import * as api from "../reviewActions";
 
 class ReviewNew extends Component {
-  componentWillMount() {
+  componentDidMount() {
     const { deckId } = queryString.parse(this.props.location.search);
 
     this.createSession(deckId);

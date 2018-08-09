@@ -8,7 +8,7 @@ import * as api from "./userActions";
 class Account extends Component {
   state = { user: { name: "", email: "", prefs: {} }, showModalType: undefined };
 
-  componentWillMount = () => {
+  componentDidMount = () => {
     this.fetchUser();
   };
 

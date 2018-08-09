@@ -15,8 +15,9 @@ const withErrors = (ComposedComponent: ElementType) => {
   class ErrorHandler extends Component<Props, State> {
     state = { open: false, message: "" };
 
-    componentWillMount() {
-      axios.interceptors.response.use(null, error => {
+    constructor(props: any) {
+      super(props);
+      this._resInterceptor = axios.interceptors.response.use(null, error => {
         if (error.response && error.response.status === 401) {
           cookie.remove("token");
           cookie.remove("user");
@@ -27,6 +28,10 @@ const withErrors = (ComposedComponent: ElementType) => {
           return Promise.reject(error);
         }
       });
+    }
+    
+    componentWillUnmount() {
+      axios.interceptors.response.eject(this._resInterceptor);
     }
 
     onDismiss = () => this.setState({ open: false, message: "" });

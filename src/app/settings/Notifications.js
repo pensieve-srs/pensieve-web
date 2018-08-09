@@ -6,7 +6,7 @@ import * as api from "./userActions";
 class Notifications extends Component {
   state = { prefs: {} };
 
-  componentWillMount() {
+  componentDidMount() {
     this.fetchUser();
   }
 

@@ -7,13 +7,8 @@ import { DeleteCardModal, EditCardModal, ResetCardModal, MODAL_TYPES } from "./i
 import ProgressBar from "../ProgressBar";
 
 class CardModal extends Component {
-  state = { card: this.props.card, showModalType: undefined };
+  state = { showModalType: undefined };
 
-  componentWillUpdate(nextProps) {
-    if (this.props.card !== nextProps.card) {
-      this.setState({ card: nextProps.card });
-    }
-  }
   onCloseModal = () => this.setState({ showModalType: undefined });
 
   onShowModal = (event, data) => this.setState({ showModalType: data.value });
@@ -34,8 +29,8 @@ class CardModal extends Component {
   };
 
   render() {
-    const { open, deck, onClose, onPrev, onNext } = this.props;
-    const { card, showModalType } = this.state;
+    const { card, open, deck, onClose, onPrev, onNext } = this.props;
+    const { showModalType } = this.state;
 
     return (
       <Modal size="tiny" open={open} onClose={onClose} className="position-relative">

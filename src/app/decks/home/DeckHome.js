@@ -18,6 +18,7 @@ import {
 } from "../../../components/modals";
 
 import "./DeckHome.css";
+import handleErrors from "../../../helpers/handleErrors";
 
 const errors = {
   400: "Unable to fulfill request. Please try a valid url or go back.",
@@ -41,7 +42,7 @@ class DeckHome extends Component {
     isLoading: true,
   };
 
-  componentWillMount() {
+  componentDidMount() {
     const { deckId } = this.props.match.params;
 
     if (deckId) {
@@ -114,13 +115,7 @@ class DeckHome extends Component {
     });
   };
 
-  handleError = error => {
-    const { response = {} } = error;
-    const errorMessage =
-      errors[response.status] || "Unable to fulfill request. Please try a valid url or go back.";
-    this.setState({ isError: true });
-    this.props.onError(errorMessage);
-  };
+  handleError = error => this.setState({ errors: { ...this.state.errors, form: handleErrors(error, errors) } });
 
   render() {
     const { deck, cards, showModalType, isLoading, isError } = this.state;

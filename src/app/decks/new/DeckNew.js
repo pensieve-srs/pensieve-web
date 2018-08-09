@@ -15,7 +15,7 @@ class DeckNew extends Component {
     selectedTags: [],
   };
 
-  componentWillMount() {
+  componentDidMount() {
     this.fetchTags();
   }
 

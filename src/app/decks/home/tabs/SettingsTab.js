@@ -8,15 +8,13 @@ import * as tagApi from "../../tagActions";
 class SettingsTab extends Component {
   state = { deck: this.props.deck, options: [] };
 
-  componentWillMount() {
+  componentDidMount() {
     this.fetchTags();
   }
 
-  componentWillUpdate(nextProps) {
-    if (this.props.deck !== nextProps.deck) {
-      this.setState({ deck: nextProps.deck });
-    }
-  }
+  // There is currently no way to reach the Settings tab for another
+  // deck from this component so resetting the deck state when the
+  // deck prop changes isn't necessary.
 
   onSubmit = () => this.props.onSubmit(this.state.deck);
 
