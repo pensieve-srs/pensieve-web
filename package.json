@@ -10,7 +10,7 @@
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
     "flow-bin": "^0.74.0",
-    "gravatar": "^1.6.0",
+    "gravatar": "^1.8.1",
     "js-cookie": "^2.2.0",
     "jsonwebtoken": "^8.3.0",
     "marked": "^0.4.0",
