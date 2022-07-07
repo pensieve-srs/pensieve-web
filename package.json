@@ -14,7 +14,7 @@
     "js-cookie": "^2.2.0",
     "jsonwebtoken": "^8.3.0",
     "marked": "^0.4.0",
-    "moment": "^2.22.2",
+    "moment": "^2.29.4",
     "octicons": "^7.3.0",
     "pluralize": "^7.0.0",
     "primer-blankslate": "^1.4.6",
@@ -24,7 +24,7 @@
     "react-dom": "^16.4.0",
     "react-ga": "^2.5.3",
     "react-router-dom": "^4.3.1",
-    "react-scripts": "^1.1.4",
+    "react-scripts": "^2.0.0",
     "react-test-renderer": "^16.4.0",
     "recharts": "^1.0.0-beta.10",
     "semantic-ui-react": "^0.80.1"
