@@ -14,7 +14,7 @@
     "js-cookie": "^2.2.0",
     "jsonwebtoken": "^8.3.0",
     "marked": "^0.4.0",
-    "moment": "^2.22.2",
+    "moment": "^2.29.4",
     "octicons": "^7.3.0",
     "pluralize": "^7.0.0",
     "primer-blankslate": "^1.4.6",
